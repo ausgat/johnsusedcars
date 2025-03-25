@@ -89,6 +89,11 @@ public class FrmMain extends javax.swing.JFrame {
         mnuManage.add(mniInventories);
 
         mniCars.setText("Cars…");
+        mniCars.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniCarsActionPerformed(evt);
+            }
+        });
         mnuManage.add(mniCars);
 
         mniFinancing.setText("Customers…");
@@ -124,6 +129,15 @@ public class FrmMain extends javax.swing.JFrame {
     private void mniFinancingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniFinancingActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mniFinancingActionPerformed
+
+    private void mniCarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniCarsActionPerformed
+        FrmListCars frame = new FrmListCars();
+        frame.setVisible(true);
+        jcdContainer.add(frame);
+        try {
+            frame.setSelected(true);
+        } catch (java.beans.PropertyVetoException e) {}
+    }//GEN-LAST:event_mniCarsActionPerformed
 
     /**
      * @param args the command line arguments

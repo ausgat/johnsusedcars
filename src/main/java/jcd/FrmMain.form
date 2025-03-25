@@ -66,6 +66,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cars&#x2026;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniCarsActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mniFinancing">
               <Properties>
