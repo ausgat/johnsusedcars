@@ -1,6 +1,7 @@
 # John's Used Cars
 
-This is Group 9's project for COSC 3318-01: Data Base Management Systems.
+This is Group 9's project for COSC 3318-01: Data Base Management Systems. It is
+based on [Professor Van Vung Pham's tutorials](https://www.youtube.com/playlist?list=PLxyOsIbHSrxkAbUOm6C1CJyD-zIf5cbsO).
 
 ## Getting Started
 
