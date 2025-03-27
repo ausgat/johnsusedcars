@@ -3,12 +3,14 @@ jcd/FrmMain$2.class
 jcd/FrmLogin.class
 jcd/FrmMain$4.class
 jcd/FrmSellCar.class
+jcd/FrmMain$5.class
 bo/Customer.class
 jcd/FrmMain.class
 jcd/FrmMain$1.class
 utils/SQLUtil.class
 jcd/FrmFinanceCar.class
 bo/Car.class
+utils/GlobalData.class
 bo/Sale.class
 bo/Inventory.class
 bo/Salesperson.class

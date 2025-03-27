@@ -4,6 +4,15 @@
  */
 package jcd;
 
+import java.beans.PropertyVetoException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JInternalFrame;
+import utils.GlobalData;
+
 /**
  *
  * @author ausgat
@@ -13,8 +22,52 @@ public class FrmMain extends javax.swing.JFrame {
     /**
      * Creates new form FrmMain
      */
+    
+    FrmLogin frmLogin = new FrmLogin();
+    FrmListCars frmListCars = new FrmListCars();
+    FrmSellCar frmSellCar = new FrmSellCar();
+    Map<String, JInternalFrame> forms = new HashMap<>();
     public FrmMain() {
         initComponents();
+
+        forms.put("frmLogin", frmLogin);
+        forms.put("frmListCars", frmListCars);
+        forms.put("frmSellCar", frmSellCar);
+        
+        forms.values().forEach((frm)->{
+            jdpContainer.add(frm);
+        });
+    }
+    
+    private void showForm(String name) {
+        showForm(name, false);
+    }
+    
+    private void showForm(String name, boolean checkLogin) {
+        if (checkLogin && GlobalData.sp == null) {
+            showForm("frmLogin", false);
+        } else {
+            JInternalFrame form = forms.get(name);
+            if (form.isClosed()) {
+                try {
+                    form = forms.get(name).getClass().getDeclaredConstructor().newInstance();
+                    forms.put(name, form);
+                    jdpContainer.add(form);
+                } catch (InstantiationException | IllegalAccessException |
+                        NoSuchMethodException | SecurityException |
+                        IllegalArgumentException |
+                        InvocationTargetException ex) {
+                    Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            form.setVisible(true);
+            try {
+                form.setSelected(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
@@ -26,7 +79,7 @@ public class FrmMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jcdContainer = new javax.swing.JDesktopPane();
+        jdpContainer = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mniLogIn = new javax.swing.JMenuItem();
@@ -44,22 +97,27 @@ public class FrmMain extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jcdContainerLayout = new javax.swing.GroupLayout(jcdContainer);
-        jcdContainer.setLayout(jcdContainerLayout);
-        jcdContainerLayout.setHorizontalGroup(
-            jcdContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jdpContainerLayout = new javax.swing.GroupLayout(jdpContainer);
+        jdpContainer.setLayout(jdpContainerLayout);
+        jdpContainerLayout.setHorizontalGroup(
+            jdpContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 720, Short.MAX_VALUE)
         );
-        jcdContainerLayout.setVerticalGroup(
-            jcdContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jdpContainerLayout.setVerticalGroup(
+            jdpContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 463, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jcdContainer, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jdpContainer, java.awt.BorderLayout.CENTER);
 
         mnuFile.setText("File");
 
         mniLogIn.setText("Log In…");
+        mniLogIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniLogInActionPerformed(evt);
+            }
+        });
         mnuFile.add(mniLogIn);
 
         mniLogOut.setText("Log Out…");
@@ -131,13 +189,12 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_mniFinancingActionPerformed
 
     private void mniCarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniCarsActionPerformed
-        FrmListCars frame = new FrmListCars();
-        frame.setVisible(true);
-        jcdContainer.add(frame);
-        try {
-            frame.setSelected(true);
-        } catch (java.beans.PropertyVetoException e) {}
+        showForm("frmListCars", true);
     }//GEN-LAST:event_mniCarsActionPerformed
+
+    private void mniLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLogInActionPerformed
+        showForm("frmLogin", false);
+    }//GEN-LAST:event_mniLogInActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,7 +234,7 @@ public class FrmMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JDesktopPane jcdContainer;
+    private javax.swing.JDesktopPane jdpContainer;
     private javax.swing.JMenuItem mniCars;
     private javax.swing.JMenuItem mniCopy;
     private javax.swing.JMenuItem mniCut;

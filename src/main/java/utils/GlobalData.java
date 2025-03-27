@@ -1,0 +1,16 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package utils;
+
+import bo.Salesperson;
+
+/**
+ *
+ * @author ausgat
+ */
+public class GlobalData {
+    
+    public static Salesperson sp = null;
+}
