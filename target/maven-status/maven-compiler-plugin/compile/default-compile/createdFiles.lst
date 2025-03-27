@@ -13,6 +13,8 @@ bo/Car.class
 utils/GlobalData.class
 bo/Sale.class
 bo/Inventory.class
+jcd/FrmLogin$1.class
 bo/Salesperson.class
 jcd/FrmListCars.class
+dao/SalespersonHandler.class
 jcd/FrmMain$3.class

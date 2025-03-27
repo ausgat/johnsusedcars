@@ -4,6 +4,11 @@
  */
 package jcd;
 
+import bo.Salesperson;
+import dao.SalespersonHandler;
+import javax.swing.JOptionPane;
+import utils.GlobalData;
+
 /**
  *
  * @author ausgat
@@ -40,6 +45,11 @@ public class FrmLogin extends javax.swing.JInternalFrame {
         txtPassword.setText("jPasswordField1");
 
         btnLogIn.setText("Log In");
+        btnLogIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogInActionPerformed(evt);
+            }
+        });
 
         btnLoginCancel.setText("Cancel");
 
@@ -84,6 +94,23 @@ public class FrmLogin extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
+        String username = txtUsername.getText();
+        String password = new String(txtPassword.getPassword());
+        
+        System.out.println("Login clicked");
+        
+        Salesperson sp = new SalespersonHandler().login(username, password);
+        if (sp != null) {
+            System.out.println("Salesperson found");
+            GlobalData.sp = sp;
+            this.dispose();
+        } else {
+            System.out.println("Salesperson NOT found");
+            JOptionPane.showMessageDialog(this, "Incorrect username or password.");
+        }
+    }//GEN-LAST:event_btnLogInActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
