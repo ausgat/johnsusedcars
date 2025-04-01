@@ -26,7 +26,7 @@ public class SalespersonHandler {
     public Salesperson login(String username, String password) {
         Salesperson sp = null;
         String sqlQuery = String.format(
-            "SELECT * FROM Salesperson WHERE sName='%s'", username);
+            "SELECT * FROM Salesperson WHERE sEmail='%s'", username);
         ResultSet rs = sqlUtil.executeQuery(sqlQuery);
         try {
             while (rs.next()) {

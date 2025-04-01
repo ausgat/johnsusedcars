@@ -4,31 +4,43 @@
  */
 package bo;
 
+import java.util.Vector;
+
 /**
  *
  * @author ausgat
  */
 public class Car {
     
-    private String vin;
+    private int vin;
     private String make;
     private String model;
     private int year;
-    private double price;
+    private int msrp;
 
-    public Car(String vin, String make, String model, int year, double price) {
+    public Car(int vin, String make, String model, int year, int msrp) {
         this.vin = vin;
         this.make = make;
         this.model = model;
         this.year = year;
-        this.price = price;
+        this.msrp = msrp;
     }
 
-    public String getVin() {
+public Vector getRow() {
+        Vector vec = new Vector();
+        vec.add(this.vin);
+        vec.add(this.make);
+        vec.add(this.model);
+        vec.add(this.year);
+        vec.add(this.msrp);
+        return vec;
+    }
+
+    public int getVin() {
         return vin;
     }
 
-    public void setVin(String vin) {
+    public void setVin(int vin) {
         this.vin = vin;
     }
 
@@ -56,12 +68,12 @@ public class Car {
         this.year = year;
     }
 
-    public double getPrice() {
-        return price;
+    public double getMsrp() {
+        return msrp;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setMsrp(int msrp) {
+        this.msrp = msrp;
     }
     
     
