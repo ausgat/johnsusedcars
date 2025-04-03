@@ -14,6 +14,22 @@ you need to do is set up the database. To do that...
    localhost:3306
 3. Run src/main/resources/juc.sql in MySQLWorkbench to create the database
 
+## Structure
+
+- src/main/java
+  - bo: Java object equivalents to database relations (e.g. Car and Salesperson)
+  - dao: Handlers for database tables (e.g. CarHandler and SalespersonHandler)
+  - jcd: Swing forms
+  - utils: General utility functions (e.g. connecting to database and running
+    (queries)
+
+General flow:
+
+1. Create a handler object, like CarHandler ch = CarHandler.new()
+2. Call a method from the handler to run a SQL command (e.g. ch.getCars() will
+   return a list of Car objects with each car relation's attributes as
+   properties)
+
 ## Contributors
 
 - Austin Gatchell
