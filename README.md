@@ -9,9 +9,9 @@ This project is written in Java using the Netbeans IDE and assumes you followed
 the instructions for the class on Blackboard. If you open it in Netbeans, all
 you need to do is set up the database. To do that...
 
-1. Run a SQL server in MAMP, making sure the MySQL port is set to 8889
+1. Run a SQL server in MAMP, making sure the MySQL port is set to 3306
 2. Open MySQLWorkbench and connect to the server, which should be on
-   localhost:8889
+   localhost:3306
 3. Run src/main/resources/juc.sql in MySQLWorkbench to create the database
 
 ## Contributors
