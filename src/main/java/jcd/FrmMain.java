@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package jcd;
 
 import java.beans.PropertyVetoException;
@@ -14,46 +10,84 @@ import javax.swing.JInternalFrame;
 import utils.GlobalData;
 
 /**
- *
- * @author ausgat
+ * Swing form for the main window containing all the other windows
  */
 public class FrmMain extends javax.swing.JFrame {
 
     /**
      * Creates new form FrmMain
      */
+
+    // Create instances of each form we will need (e.g. login form, car list
+    // form, etc.)
+    // NOTE: This will not show the forms yet
+    private FrmLogin frmLogin = new FrmLogin();
+    private FrmListCars frmListCars = new FrmListCars();
+    private FrmSellCar frmSellCar = new FrmSellCar();
+    private FrmAddCar frmAddCar = new FrmAddCar();
+
+    /**
+     * Hashmap containing all the forms we'll be using. Key is a string
+     * containing the name of the form, value is the form object as instantiated
+     * above.
+     */
+    private Map<String, JInternalFrame> forms = new HashMap<>();
     
-    FrmLogin frmLogin = new FrmLogin();
-    FrmListCars frmListCars = new FrmListCars();
-    FrmSellCar frmSellCar = new FrmSellCar();
-    FrmAddCar frmAddCar = new FrmAddCar();
-    Map<String, JInternalFrame> forms = new HashMap<>();
     public FrmMain() {
+        // Basic Swing stuff
         initComponents();
 
+        // Give a name to each form and add it to our hashmap
         forms.put("frmLogin", frmLogin);
         forms.put("frmListCars", frmListCars);
         forms.put("frmSellCar", frmSellCar);
         forms.put("frmAddCar", frmAddCar);
         
+        // For each form we created, add it to the form container in the main
+        // window (NOTE: This still won't show the forms yet)
         forms.values().forEach((frm)->{
             jdpContainer.add(frm);
         });
     }
     
+    /**
+     * Show a form without first checking if a Salesperson is logged in
+     * @param name The name of the form
+     */
     private void showForm(String name) {
         showForm(name, false);
     }
     
+    /**
+     * Show a named form, checking whether a Salesperson is logged in if desired
+     * 
+     * @param name The name of the form
+     * @param checkLogin Whether to check if a Salesperson is logged in
+     */
     private void showForm(String name, boolean checkLogin) {
+
+        // If the global variable sp (Salesperson) is null, nobody is logged in
         if (checkLogin && GlobalData.sp == null) {
+            // Do not pass go, do not collect $200--show the login form
             showForm("frmLogin", false);
+
+        // We're here because either we're not checking for a login OR
+        // sp != null (we're actually logged in)
         } else {
+            // Get the form from our map of forms based on the given name
             JInternalFrame form = forms.get(name);
+
+            // If the form exists but had been closed at some point, we have to
+            // recreate it
             if (form != null && form.isClosed()) {
                 try {
+                    // Get the class of the closed form and make a new instance
                     form = forms.get(name).getClass().getDeclaredConstructor().newInstance();
+
+                    // Replace the closed form in our map with the new one
                     forms.put(name, form);
+
+                    // Add the new form to our main window
                     jdpContainer.add(form);
                 } catch (InstantiationException | IllegalAccessException |
                         NoSuchMethodException | SecurityException |
@@ -63,8 +97,12 @@ public class FrmMain extends javax.swing.JFrame {
                 }
             }
             
+            // Some way or another we have the form we need--make it visible
+            // (NOTE: This finally shows the form)
             form.setVisible(true);
+
             try {
+                // Try to select the form (bring it to the front)
                 form.setSelected(true);
             } catch (PropertyVetoException ex) {
                 Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
@@ -171,14 +209,17 @@ public class FrmMain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Called when the "List Cars" menu item is clicked
     private void mniListCarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListCarsActionPerformed
         showForm("frmListCars", true);
     }//GEN-LAST:event_mniListCarsActionPerformed
 
+    // Called when the "Log In" menu item is clicked
     private void mniLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLogInActionPerformed
         showForm("frmLogin", false);
     }//GEN-LAST:event_mniLogInActionPerformed
 
+    // Called when the "Add Car" menu item is clicked
     private void mniAddCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddCarActionPerformed
         showForm("frmAddCar", true);
     }//GEN-LAST:event_mniAddCarActionPerformed

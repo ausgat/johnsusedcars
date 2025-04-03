@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package bo;
 
 import java.util.Vector;
 
 /**
+ * Class representing the Car relation in the database
  *
- * @author ausgat
  */
 public class Car {
     
@@ -26,7 +22,14 @@ public class Car {
         this.msrp = msrp;
     }
 
-public Vector getRow() {
+    /**
+     * Get all the attributes of the relation (mainly for use with
+     * DefaultTableModel)
+     * 
+     * @return A vector list containing the rows, in order
+     * @see javax.swing.table.DefaultTableModel
+     */
+    public Vector getRow() {
         Vector vec = new Vector();
         vec.add(this.vin);
         vec.add(this.make);

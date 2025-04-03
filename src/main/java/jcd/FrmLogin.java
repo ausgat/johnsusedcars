@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package jcd;
 
 import bo.Salesperson;
@@ -10,8 +6,7 @@ import javax.swing.JOptionPane;
 import utils.GlobalData;
 
 /**
- *
- * @author ausgat
+ * Swing form for logging in
  */
 public class FrmLogin extends javax.swing.JInternalFrame {
 
@@ -95,19 +90,25 @@ public class FrmLogin extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Called when the log in button is pressed
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
+        // Get the username and password from the textboxes
         String username = txtUsername.getText();
         String password = new String(txtPassword.getPassword());
-        
-        System.out.println("Login clicked");
-        
+
+        // Create a new Salesperson object using SalespersonHandler (null if not
+        // found
         Salesperson sp = new SalespersonHandler().login(username, password);
+
         if (sp != null) {
-            System.out.println("Salesperson found");
+            // Set the global salesperson object to the one found in the
+            // database, based on the username and password given
             GlobalData.sp = sp;
+
+            // Close this login window
             this.dispose();
         } else {
-            System.out.println("Salesperson NOT found");
+            // No user found or password incorrect
             JOptionPane.showMessageDialog(this, "Incorrect username or password.");
         }
     }//GEN-LAST:event_btnLogInActionPerformed

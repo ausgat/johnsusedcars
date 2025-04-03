@@ -1,15 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package jcd;
 
 import dao.CarHandler;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author ausgat
+ * Swing form for adding new cars to the database
  */
 public class FrmAddCar extends javax.swing.JInternalFrame {
 
@@ -147,14 +142,23 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Called when the "Add" button is pressed
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // Get all the user input from the relevant textboxes and put them in
+        // variables
         int vin = Integer.parseInt(txtVin.getText());
         String make = txtMake.getText();
         String model = txtModel.getText();
         int year = Integer.parseInt(txtYear.getText());
         int msrp = Integer.parseInt(txtMsrp.getText());
+
+        // Use CarHandler to add a new car to the database using the data
+        // gathered above and store the return value (-1 on failure, anything
+        // else on success)
         int ret = new CarHandler().addCar(vin, make, model, year, msrp);
+
         if (ret == -1) {
+            // Pop up a message letting the user know a car failed to be added
             JOptionPane.showMessageDialog(this, "Failed to add car");
         } else {
             // Clear the form

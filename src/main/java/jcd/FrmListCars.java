@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
-
 package jcd;
 
 import bo.Car;
@@ -14,11 +9,11 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author ausgat
+ * Swing form for the car list
  */
 public class FrmListCars extends javax.swing.JInternalFrame {
 
+    // The CarHandler we'll be using a lot
     CarHandler ch = new CarHandler();
     
     /** Creates new form FrmListCars */
@@ -183,11 +178,21 @@ public class FrmListCars extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Fill the car table (tblCars) with all the Car relations in the database
+     */
     public void populateCars() {
+
+        // Use the CarHandler to return a list of cars from the database as
+        // Car objects
         List<Car> cars = ch.getCars();
+
+        // Magic DefaultTableModel code for working with Swing JTable objects
+        // (no need to understand; just copy and paste)
         String[] columns = new String[] { "VIN", "Make", "Model", "Year", "MSRP" };
         DefaultTableModel tblModel = new DefaultTableModel(columns, 0);
         cars.forEach((car)->{
+            // For each row from the database, add it to the car table
             tblModel.addRow(car.getRow());
         });
         tblCars.setModel(tblModel);

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package utils;
 
 import java.sql.Connection;
@@ -14,7 +10,8 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author ausgat
+ * Utility methods for interacting with the SQL database
+ * 
  */
 public class SQLUtil {
     
@@ -26,6 +23,7 @@ public class SQLUtil {
         String username = "root";
         String password = "root";
 
+        // Try to connect to the database with the information given above
         try {
             con = DriverManager.getConnection(url, username, password);
             stm = con.createStatement();
@@ -50,6 +48,12 @@ public class SQLUtil {
         }
     }
     
+    /**
+     * Executes a SQL command given as a string (modifies the database).
+     * 
+     * @param cmd The SQL query string
+     * @return An integer of how many rows were affected
+     */
     public int executeUpdate(String cmd) {
         try {
             return this.stm.executeUpdate(cmd);
@@ -60,6 +64,12 @@ public class SQLUtil {
         return -1;
     }
     
+    /**
+     * Executes a SQL query given as a string (gets rows from the database).
+     * 
+     * @param cmd The SQL query string
+     * @return A ResultSet containing the relevant rows
+     */
     public ResultSet executeQuery(String cmd) {
         try {
             return this.stm.executeQuery(cmd);

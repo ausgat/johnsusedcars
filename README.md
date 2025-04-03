@@ -17,11 +17,12 @@ you need to do is set up the database. To do that...
 ## Structure
 
 - src/main/java
-  - bo: Java object equivalents to database relations (e.g. Car and Salesperson)
-  - dao: Handlers for database tables (e.g. CarHandler and SalespersonHandler)
-  - jcd: Swing forms
+  - bo: Java classes representing database relations (e.g. Car and Salesperson)
+  - dao: Classes that interact directly with the database (e.g. CarHandler and
+    SalespersonHandler)
+  - jcd: Main application files, including Swing-based GUI forms
   - utils: General utility functions (e.g. connecting to database and running
-    (queries)
+    queries)
 
 General flow:
 
@@ -29,6 +30,13 @@ General flow:
 2. Call a method from the handler to run a SQL command (e.g. ch.getCars() will
    return a list of Car objects with each car relation's attributes as
    properties)
+
+## Tips
+
+- NetBeans handles a lot of the code for Swing form generation (Java files
+  starting with "Frm"). When you edit the code for those forms, don't be alarmed
+  if NetBeans prevents you from editing certain sections (grayed out). It can be
+  kind of funky sometimes.
 
 ## Contributors
 
