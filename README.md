@@ -40,5 +40,5 @@ General flow:
 
 ## Contributors
 
-- Austin Gatchell
+- Austin Gatchell <ahg015@shsu.edu>
 - Please add your name here if you're a contributor!
