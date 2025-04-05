@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import utils.GlobalData;
 
@@ -160,6 +161,11 @@ public class FrmMain extends javax.swing.JFrame {
         mnuFile.add(mniLogIn);
 
         mniLogOut.setText("Log Out…");
+        mniLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniLogOutActionPerformed(evt);
+            }
+        });
         mnuFile.add(mniLogOut);
 
         jMenuBar1.add(mnuFile);
@@ -223,6 +229,16 @@ public class FrmMain extends javax.swing.JFrame {
     private void mniAddCarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddCarActionPerformed
         showForm("frmAddCar", true);
     }//GEN-LAST:event_mniAddCarActionPerformed
+
+    private void mniLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLogOutActionPerformed
+        // Close all windows
+        for (Map.Entry<String, JInternalFrame> formSet : forms.entrySet()) {
+            formSet.getValue().dispose();
+        }
+        
+        // Set salesperson to null
+        GlobalData.sp = null;
+    }//GEN-LAST:event_mniLogOutActionPerformed
 
     /**
      * @param args the command line arguments

@@ -15,6 +15,9 @@ public class FrmLogin extends javax.swing.JInternalFrame {
      */
     public FrmLogin() {
         initComponents();
+        
+        // Set the default button (clicked when you press enter)
+        this.getRootPane().setDefaultButton(btnLogIn);
     }
 
     /**
@@ -37,8 +40,6 @@ public class FrmLogin extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Password:");
 
-        txtPassword.setText("jPasswordField1");
-
         btnLogIn.setText("Log In");
         btnLogIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -47,6 +48,11 @@ public class FrmLogin extends javax.swing.JInternalFrame {
         });
 
         btnLoginCancel.setText("Cancel");
+        btnLoginCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,6 +118,10 @@ public class FrmLogin extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Incorrect username or password.");
         }
     }//GEN-LAST:event_btnLogInActionPerformed
+
+    private void btnLoginCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnLoginCancelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
