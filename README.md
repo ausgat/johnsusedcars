@@ -40,5 +40,6 @@ General flow:
 
 ## Contributors
 
+- Joshua Smith <jds209@shsu.edu>
 - Austin Gatchell <ahg015@shsu.edu>
 - Please add your name here if you're a contributor!
