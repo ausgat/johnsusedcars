@@ -41,5 +41,8 @@ General flow:
 ## Contributors
 
 - Joshua Smith <jds209@shsu.edu>
+- Nicholas Offerle <njo012@shsu.edu>
 - Austin Gatchell <ahg015@shsu.edu>
+- Cody Grubbs <cag177@shsu.edu>
+- Cherise Matthew <cam283@shsu.edu>
 - Please add your name here if you're a contributor!
