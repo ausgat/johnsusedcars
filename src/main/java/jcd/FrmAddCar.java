@@ -42,12 +42,19 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         cboStatus = new javax.swing.JComboBox<>();
 
+        setClosable(true);
+
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel5.setPreferredSize(new java.awt.Dimension(576, 34));
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnCancel);
 
         btnAdd.setText("Add");
@@ -172,6 +179,10 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
             this.dispose();
         }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -34,8 +34,8 @@ public class FrmListCars extends javax.swing.JInternalFrame {
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtVin = new javax.swing.JTextField();
@@ -49,8 +49,11 @@ public class FrmListCars extends javax.swing.JInternalFrame {
         txtMsrp = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         cboStatus = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCars = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        btnReload = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -66,11 +69,11 @@ public class FrmListCars extends javax.swing.JInternalFrame {
         jPanel5.setPreferredSize(new java.awt.Dimension(576, 34));
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        jButton3.setText("Delete...");
-        jPanel5.add(jButton3);
+        btnDelete.setText("Delete...");
+        jPanel5.add(btnDelete);
 
-        jButton2.setText("Save");
-        jPanel5.add(jButton2);
+        btnUpdate.setText("Update");
+        jPanel5.add(btnUpdate);
 
         jPanel1.add(jPanel5, java.awt.BorderLayout.SOUTH);
 
@@ -116,7 +119,7 @@ public class FrmListCars extends javax.swing.JInternalFrame {
                             .addComponent(txtYear)
                             .addComponent(txtModel)
                             .addComponent(txtMsrp)
-                            .addComponent(cboStatus, 0, 693, Short.MAX_VALUE)
+                            .addComponent(cboStatus, 0, 699, Short.MAX_VALUE)
                             .addComponent(txtVin)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -158,6 +161,8 @@ public class FrmListCars extends javax.swing.JInternalFrame {
 
         jSplitPane1.setRightComponent(jPanel1);
 
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
         tblCars.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -171,12 +176,31 @@ public class FrmListCars extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(tblCars);
 
-        jSplitPane1.setLeftComponent(jScrollPane1);
+        jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jPanel7.setPreferredSize(new java.awt.Dimension(576, 34));
+        jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        btnReload.setText("Reload");
+        btnReload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReloadActionPerformed(evt);
+            }
+        });
+        jPanel7.add(btnReload);
+
+        jPanel2.add(jPanel7, java.awt.BorderLayout.NORTH);
+
+        jSplitPane1.setTopComponent(jPanel2);
 
         getContentPane().add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
+        populateCars();
+    }//GEN-LAST:event_btnReloadActionPerformed
 
     /**
      * Fill the car table (tblCars) with all the Car relations in the database
@@ -199,9 +223,10 @@ public class FrmListCars extends javax.swing.JInternalFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnReload;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cboStatus;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -209,8 +234,10 @@ public class FrmListCars extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable tblCars;
