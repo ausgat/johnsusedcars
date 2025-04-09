@@ -41,4 +41,5 @@ General flow:
 ## Contributors
 
 - Austin Gatchell <ahg015@shsu.edu>
+- Cody Grubbs <cag177@shsu.edu>
 - Please add your name here if you're a contributor!
