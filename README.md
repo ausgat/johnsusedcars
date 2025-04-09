@@ -39,6 +39,8 @@ General flow:
   kind of funky sometimes.
 
 ## Contributors
+
+- Joshua Smith <jds209@shsu.edu>
 - Nicholas Offerle <njo012@shsu.edu>
 - Austin Gatchell <ahg015@shsu.edu>
 - Cody Grubbs <cag177@shsu.edu>
