@@ -39,7 +39,7 @@ General flow:
   kind of funky sometimes.
 
 ## Contributors
-
+- Nicholas Offerle <njo012@shsu.edu>
 - Austin Gatchell <ahg015@shsu.edu>
 - Cody Grubbs <cag177@shsu.edu>
 - Please add your name here if you're a contributor!
