@@ -46,6 +46,21 @@ public class CarHandler {
     }
 
     /**
+     * Delete a car from the database using the given VIN
+     * 
+     * @param vin   The VIN number of the car
+     * @return Number of rows affected
+     */
+    public int deleteCar(int vin) {
+        String cmdTemplate = "DELETE FROM Car WHERE vin = %d";
+        String cmd = String.format(cmdTemplate, vin);
+
+        sqlUtil.executeUpdate(cmd);
+        
+        return 0;
+    }
+    
+    /**
      * Get a list of all the Car relations in the database
      * 
      * @return List of all the Car relations

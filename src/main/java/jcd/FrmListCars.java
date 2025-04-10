@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -70,6 +71,11 @@ public class FrmListCars extends javax.swing.JInternalFrame {
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnDelete.setText("Delete...");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnDelete);
 
         btnUpdate.setText("Update");
@@ -159,7 +165,7 @@ public class FrmListCars extends javax.swing.JInternalFrame {
 
         jPanel1.add(jPanel6, java.awt.BorderLayout.CENTER);
 
-        jSplitPane1.setRightComponent(jPanel1);
+        jSplitPane1.setBottomComponent(jPanel1);
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
@@ -201,6 +207,34 @@ public class FrmListCars extends javax.swing.JInternalFrame {
     private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
         populateCars();
     }//GEN-LAST:event_btnReloadActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // Get the index of the selected row
+        int selectedRow = tblCars.getSelectedRow();
+        
+        // If a row is actually selected (that is, not -1)
+        if (selectedRow != -1) {
+
+            // Get the VIN number from the first column (0) of the selected row
+            int vin = (int)tblCars.getValueAt(selectedRow, 0);
+
+            // Show a dialog and put the result in res
+            int res = JOptionPane.showConfirmDialog(this,
+                String.format("Are you sure you want to delete the car with VIN %d?", vin));
+            
+            // If the user clicked OK
+            if (res == JOptionPane.OK_OPTION) {
+                // Delete the selected car
+                ch.deleteCar(vin);
+                
+                // Reload the list
+                populateCars();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Please select a car to delete.");
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * Fill the car table (tblCars) with all the Car relations in the database
