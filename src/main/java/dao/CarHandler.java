@@ -55,9 +55,55 @@ public class CarHandler {
         String cmdTemplate = "DELETE FROM Car WHERE vin = %d";
         String cmd = String.format(cmdTemplate, vin);
 
-        sqlUtil.executeUpdate(cmd);
+        return sqlUtil.executeUpdate(cmd);
+    }
+
+    /**
+     * Update a car by VIN with the given values
+     * 
+     * @param vin   VIN number of the car to update
+     * @param make  Car's make
+     * @param model Car's model
+     * @param year  Car's year
+     * @param msrp  Car's MSRP
+     * @return Number of rows affected
+     */
+    public int updateCar(int vin, String make, String model, int year, int msrp) {
+        String cmdTemplate = "UPDATE Car SET Make='%s', Model='%s', Year=%d, MSRP=%d WHERE VIN=%d;";
+        String cmd = String.format(cmdTemplate, make, model, year, msrp, vin);
+        return sqlUtil.executeUpdate(cmd);
+    }
+    
+    /**
+     * Find a car by its VIN
+     * 
+     * @param vin The VIN of the desired car
+     * @return A Car object if found, null otherwise
+     */
+    public Car findCar(int vin) {
+        Car foundCar = null;
         
-        return 0;
+        String cmdTemplate =
+                "SELECT Vin, Make, Model, Year, MSRP FROM Car WHERE Vin = %d";
+        String cmd = String.format(cmdTemplate, vin);
+        
+        ResultSet rs = sqlUtil.executeQuery(cmd);
+        
+        try {
+            if (rs.next()) {
+                // Get each relevant attribute from the relation
+                String make =  rs.getString("Make");
+                String model = rs.getString("Model");
+                int year = rs.getInt("Year");
+                int msrp = rs.getInt("MSRP");
+                
+                foundCar = new Car(vin, make, model, year, msrp);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CarHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return foundCar;
     }
     
     /**

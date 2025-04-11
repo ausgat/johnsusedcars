@@ -71,7 +71,7 @@ public class Car {
         this.year = year;
     }
 
-    public double getMsrp() {
+    public int getMsrp() {
         return msrp;
     }
 
