@@ -29,7 +29,8 @@ foreign key (Vin) references Car(Vin)
 
 create table Salesperson(
 sUsername varchar(250) primary key,
-sPassword varchar(100)
+sPassword varchar(100),
+sName varchar(50),
 sPhone int,
 sEmail varchar(250)
 );
