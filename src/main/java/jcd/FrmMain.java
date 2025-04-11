@@ -125,14 +125,22 @@ public class FrmMain extends javax.swing.JFrame {
         mnuFile = new javax.swing.JMenu();
         mniLogIn = new javax.swing.JMenuItem();
         mniLogOut = new javax.swing.JMenuItem();
-        mnuEdit = new javax.swing.JMenu();
-        mniCut = new javax.swing.JMenuItem();
-        mniCopy = new javax.swing.JMenuItem();
-        mniPaste = new javax.swing.JMenuItem();
         mnuManage = new javax.swing.JMenu();
         mnuCars = new javax.swing.JMenu();
         mniListCars = new javax.swing.JMenuItem();
         mniAddCar = new javax.swing.JMenuItem();
+        mnuCustomers = new javax.swing.JMenu();
+        mniListCustomers = new javax.swing.JMenuItem();
+        mniAddCustomer = new javax.swing.JMenuItem();
+        mnuInventory = new javax.swing.JMenu();
+        mniListInventories = new javax.swing.JMenuItem();
+        mniAddInventory = new javax.swing.JMenuItem();
+        mnuSales = new javax.swing.JMenu();
+        mniListSales = new javax.swing.JMenuItem();
+        mniAddSale = new javax.swing.JMenuItem();
+        mnuStaff = new javax.swing.JMenu();
+        mniListStaff = new javax.swing.JMenuItem();
+        mniAddStaff = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1200, 800));
@@ -170,22 +178,6 @@ public class FrmMain extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuFile);
 
-        mnuEdit.setText("Edit");
-
-        mniCut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.META_DOWN_MASK));
-        mniCut.setText("Cut");
-        mnuEdit.add(mniCut);
-
-        mniCopy.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.META_DOWN_MASK));
-        mniCopy.setText("Copy");
-        mnuEdit.add(mniCopy);
-
-        mniPaste.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.META_DOWN_MASK));
-        mniPaste.setText("Paste");
-        mnuEdit.add(mniPaste);
-
-        jMenuBar1.add(mnuEdit);
-
         mnuManage.setText("Manage");
 
         mnuCars.setText("Cars");
@@ -198,7 +190,7 @@ public class FrmMain extends javax.swing.JFrame {
         });
         mnuCars.add(mniListCars);
 
-        mniAddCar.setText("Add Car...");
+        mniAddCar.setText("Add...");
         mniAddCar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniAddCarActionPerformed(evt);
@@ -207,6 +199,86 @@ public class FrmMain extends javax.swing.JFrame {
         mnuCars.add(mniAddCar);
 
         mnuManage.add(mnuCars);
+
+        mnuCustomers.setText("Customers");
+
+        mniListCustomers.setText("List…");
+        mniListCustomers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniListCustomersActionPerformed(evt);
+            }
+        });
+        mnuCustomers.add(mniListCustomers);
+
+        mniAddCustomer.setText("Add...");
+        mniAddCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniAddCustomerActionPerformed(evt);
+            }
+        });
+        mnuCustomers.add(mniAddCustomer);
+
+        mnuManage.add(mnuCustomers);
+
+        mnuInventory.setText("Inventory");
+
+        mniListInventories.setText("List…");
+        mniListInventories.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniListInventoriesActionPerformed(evt);
+            }
+        });
+        mnuInventory.add(mniListInventories);
+
+        mniAddInventory.setText("Add...");
+        mniAddInventory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniAddInventoryActionPerformed(evt);
+            }
+        });
+        mnuInventory.add(mniAddInventory);
+
+        mnuManage.add(mnuInventory);
+
+        mnuSales.setText("Sales");
+
+        mniListSales.setText("List…");
+        mniListSales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniListSalesActionPerformed(evt);
+            }
+        });
+        mnuSales.add(mniListSales);
+
+        mniAddSale.setText("Add...");
+        mniAddSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniAddSaleActionPerformed(evt);
+            }
+        });
+        mnuSales.add(mniAddSale);
+
+        mnuManage.add(mnuSales);
+
+        mnuStaff.setText("Staff");
+
+        mniListStaff.setText("List…");
+        mniListStaff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniListStaffActionPerformed(evt);
+            }
+        });
+        mnuStaff.add(mniListStaff);
+
+        mniAddStaff.setText("Add...");
+        mniAddStaff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniAddStaffActionPerformed(evt);
+            }
+        });
+        mnuStaff.add(mniAddStaff);
+
+        mnuManage.add(mnuStaff);
 
         jMenuBar1.add(mnuManage);
 
@@ -239,6 +311,38 @@ public class FrmMain extends javax.swing.JFrame {
         // Set salesperson to null
         GlobalData.sp = null;
     }//GEN-LAST:event_mniLogOutActionPerformed
+
+    private void mniListCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListCustomersActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniListCustomersActionPerformed
+
+    private void mniAddCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddCustomerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniAddCustomerActionPerformed
+
+    private void mniListInventoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListInventoriesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniListInventoriesActionPerformed
+
+    private void mniAddInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddInventoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniAddInventoryActionPerformed
+
+    private void mniListSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListSalesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniListSalesActionPerformed
+
+    private void mniAddSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddSaleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniAddSaleActionPerformed
+
+    private void mniListStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListStaffActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniListStaffActionPerformed
+
+    private void mniAddStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddStaffActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mniAddStaffActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,15 +383,23 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JDesktopPane jdpContainer;
     private javax.swing.JMenuItem mniAddCar;
-    private javax.swing.JMenuItem mniCopy;
-    private javax.swing.JMenuItem mniCut;
+    private javax.swing.JMenuItem mniAddCustomer;
+    private javax.swing.JMenuItem mniAddInventory;
+    private javax.swing.JMenuItem mniAddSale;
+    private javax.swing.JMenuItem mniAddStaff;
     private javax.swing.JMenuItem mniListCars;
+    private javax.swing.JMenuItem mniListCustomers;
+    private javax.swing.JMenuItem mniListInventories;
+    private javax.swing.JMenuItem mniListSales;
+    private javax.swing.JMenuItem mniListStaff;
     private javax.swing.JMenuItem mniLogIn;
     private javax.swing.JMenuItem mniLogOut;
-    private javax.swing.JMenuItem mniPaste;
     private javax.swing.JMenu mnuCars;
-    private javax.swing.JMenu mnuEdit;
+    private javax.swing.JMenu mnuCustomers;
     private javax.swing.JMenu mnuFile;
+    private javax.swing.JMenu mnuInventory;
     private javax.swing.JMenu mnuManage;
+    private javax.swing.JMenu mnuSales;
+    private javax.swing.JMenu mnuStaff;
     // End of variables declaration//GEN-END:variables
 }
