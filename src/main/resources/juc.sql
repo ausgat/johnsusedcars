@@ -28,8 +28,8 @@ foreign key (Vin) references Car(Vin)
 );
 
 create table Salesperson(
-SalespersonID int primary key,
-sName varchar(100),
+sUsername varchar(250) primary key,
+sPassword varchar(100)
 sPhone int,
 sEmail varchar(250)
 );
@@ -38,9 +38,9 @@ create table Sale(
 sID int primary key,
 sDate date,
 sPrice int,
-SalespersonID int,
+sUsername varchar(250),
 Vin int,
-foreign key (SalespersonID) references Salesperson(SalespersonID),
+foreign key (sUsername) references Salesperson(sUsername),
 foreign key (Vin) references Car(Vin)
 );
 
