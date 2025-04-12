@@ -36,7 +36,7 @@ public class SalespersonHandler {
         // The query string, made using String.format() to insert the given
         // username into the string
         String query = String.format(
-            "SELECT * FROM Salesperson WHERE sEmail='%s'", username);
+            "SELECT * FROM Salesperson WHERE sUsername='%s' and sPassword = '%s' ",username, password);
 
         // The results from the database
         ResultSet rs = sqlUtil.executeQuery(query);
