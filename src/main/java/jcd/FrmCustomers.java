@@ -24,7 +24,7 @@ public class FrmCustomers extends javax.swing.JInternalFrame {
         List<Customer> customer = new CustomerHandler().getCustomers();
          Customer[] customers = new Customer[0];
         ComboBoxModel cbxModel = new DefaultComboBoxModel(customer.toArray(customers));
-        cbxCustomer.setModel(cbxModel);
+        //cbxCustomer.setModel(cbxModel);
     }
     public FrmCustomers() {
         initComponents();
@@ -117,7 +117,7 @@ public class FrmCustomers extends javax.swing.JInternalFrame {
                     .addComponent(cName)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))

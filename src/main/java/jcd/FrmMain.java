@@ -26,6 +26,8 @@ public class FrmMain extends javax.swing.JFrame {
     private FrmListCars frmListCars = new FrmListCars();
     private FrmCustomers frmSellCar = new FrmCustomers();
     private FrmAddCar frmAddCar = new FrmAddCar();
+    private FrmListSales frmListSales = new FrmListSales();
+    private FrmMakeSale frmMakeSale = new FrmMakeSale();
 
     /**
      * Hashmap containing all the forms we'll be using. Key is a string
@@ -43,6 +45,8 @@ public class FrmMain extends javax.swing.JFrame {
         forms.put("frmListCars", frmListCars);
         forms.put("frmSellCar", frmSellCar);
         forms.put("frmAddCar", frmAddCar);
+        forms.put("frmListSales", frmListSales);
+        forms.put("frmMakeSale", frmMakeSale);
         
         // For each form we created, add it to the form container in the main
         // window (NOTE: This still won't show the forms yet)
@@ -143,7 +147,6 @@ public class FrmMain extends javax.swing.JFrame {
         mniAddStaff = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 800));
 
         javax.swing.GroupLayout jdpContainerLayout = new javax.swing.GroupLayout(jdpContainer);
         jdpContainer.setLayout(jdpContainerLayout);
@@ -250,7 +253,7 @@ public class FrmMain extends javax.swing.JFrame {
         });
         mnuSales.add(mniListSales);
 
-        mniAddSale.setText("Add...");
+        mniAddSale.setText("Make Sale...");
         mniAddSale.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniAddSaleActionPerformed(evt);
@@ -329,11 +332,11 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_mniAddInventoryActionPerformed
 
     private void mniListSalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListSalesActionPerformed
-        // TODO add your handling code here:
+        showForm("frmListSales", true);
     }//GEN-LAST:event_mniListSalesActionPerformed
 
     private void mniAddSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddSaleActionPerformed
-        // TODO add your handling code here:
+        showForm("frmMakeSale", true);
     }//GEN-LAST:event_mniAddSaleActionPerformed
 
     private void mniListStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListStaffActionPerformed

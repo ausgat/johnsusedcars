@@ -1,7 +1,7 @@
 package jcd;
 
-import bo.Car;
-import dao.CarHandler;
+import bo.Sale;
+import dao.SaleHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,17 +10,16 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Swing form for the car list
+ * Swing form for the sale list
  */
-public class FrmListCars extends javax.swing.JInternalFrame {
+public class FrmListSales extends javax.swing.JInternalFrame {
 
-    // The CarHandler we'll be using a lot
-    CarHandler ch = new CarHandler();
+    SaleHandler sh = new SaleHandler();
     
-    /** Creates new form FrmListCars */
-    public FrmListCars() {
+    /** Creates new form FrmListSales */
+    public FrmListSales() {
         initComponents();
-        populateCars();
+        populateSales();
     }
 
     /** This method is called from within the constructor to
@@ -33,7 +32,7 @@ public class FrmListCars extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblCars = new javax.swing.JTable();
+        tblSales = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         btnReload = new javax.swing.JButton();
@@ -46,21 +45,21 @@ public class FrmListCars extends javax.swing.JInternalFrame {
         setClosable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Cars");
+        setTitle("Sales");
 
-        tblCars.setModel(new javax.swing.table.DefaultTableModel(
+        tblSales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "VIN", "Make", "Model", "Year", "MSRP", "Status"
+
             }
         ));
-        tblCars.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(tblCars);
+        tblSales.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(tblSales);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -101,12 +100,12 @@ public class FrmListCars extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
-        populateCars();
+        populateSales();
     }//GEN-LAST:event_btnReloadActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // Get the index of the selected row
-        int selectedRow = tblCars.getSelectedRow();
+        /*int selectedRow = tblCars.getSelectedRow();
 
         // If a row is actually selected (that is, not -1)
         if (selectedRow != -1) {
@@ -114,9 +113,9 @@ public class FrmListCars extends javax.swing.JInternalFrame {
             // Get the VIN number from the first column (0) of the selected row
             int vin = (int)tblCars.getValueAt(selectedRow, 0);
 
-            Car car = ch.findCar(vin);
+            Sale sale = sh.findSale(id);
 
-            if (car != null) {
+            if (sale != null) {
                 DlgUpdateCar dlg = new DlgUpdateCar(null, true);
                 dlg.setCar(car);
                 dlg.setVisible(true);
@@ -124,55 +123,49 @@ public class FrmListCars extends javax.swing.JInternalFrame {
                     this.populateCars();
                 }
             }
-        }
+        }*/
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // Get the index of the selected row
-        int selectedRow = tblCars.getSelectedRow();
+        int selectedRow = tblSales.getSelectedRow();
 
         // If a row is actually selected (that is, not -1)
         if (selectedRow != -1) {
 
-            // Get the VIN number from the first column (0) of the selected row
-            int vin = (int)tblCars.getValueAt(selectedRow, 0);
+            // Get the ID from the first column (0) of the selected row
+            int id = (int)tblSales.getValueAt(selectedRow, 0);
 
             // Show a dialog and put the result in res
             int res = JOptionPane.showConfirmDialog(this,
-                String.format("Are you sure you want to delete the car with VIN %d?", vin));
+                String.format("Are you sure you want to delete the sale with ID %d?", id));
 
             // If the user clicked OK
             if (res == JOptionPane.OK_OPTION) {
-                // Delete the selected car
-                ch.deleteCar(vin);
+                sh.deleteSale(id);
 
                 // Reload the list
-                populateCars();
+                populateSales();
             }
         } else {
             JOptionPane.showMessageDialog(this,
-                "Please select a car to delete.");
+                "Please select a sale to delete.");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
-     * Fill the car table (tblCars) with all the Car relations in the database
+     * Fill the sale table (tblSales) with all the Sale relations in the database
      */
-    public void populateCars() {
+    public void populateSales() {
 
-        // Use the CarHandler to return a list of cars from the database as
-        // Car objects
-        List<Car> cars = ch.getCars();
+        List<Sale> sales = sh.getSales();
 
-        // Magic DefaultTableModel code for working with Swing JTable objects
-        // (no need to understand; just copy and paste)
-        String[] columns = new String[] { "VIN", "Make", "Model", "Year", "MSRP" };
+        String[] columns = new String[] { "ID", "Date", "Price", "Salesperson", "Car" };
         DefaultTableModel tblModel = new DefaultTableModel(columns, 0);
-        cars.forEach((car)->{
-            // For each row from the database, add it to the car table
-            tblModel.addRow(car.getRow());
+        sales.forEach((sale)->{
+            tblModel.addRow(sale.getRow());
         });
-        tblCars.setModel(tblModel);
+        tblSales.setModel(tblModel);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -185,7 +178,7 @@ public class FrmListCars extends javax.swing.JInternalFrame {
     private javax.swing.Box.Filler filler4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblCars;
+    private javax.swing.JTable tblSales;
     // End of variables declaration//GEN-END:variables
 
 }
