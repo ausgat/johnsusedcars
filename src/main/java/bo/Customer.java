@@ -9,14 +9,12 @@ public class Customer {
     private int id;
     private String name;
     private String phone;
-    private String address;
     private String email;
 
-    public Customer(int id, String name, String phone, String address, String email) {
+    public Customer(int id, String name, String phone, String email) {
         this.id = id;
         this.name = name;
         this.phone = phone;
-        this.address = address;
         this.email = email;
     }
 
@@ -42,14 +40,6 @@ public class Customer {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getEmail() {

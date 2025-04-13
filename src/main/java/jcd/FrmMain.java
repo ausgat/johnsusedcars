@@ -24,7 +24,7 @@ public class FrmMain extends javax.swing.JFrame {
     // NOTE: This will not show the forms yet
     private FrmLogin frmLogin = new FrmLogin();
     private FrmListCars frmListCars = new FrmListCars();
-    private FrmSellCar frmSellCar = new FrmSellCar();
+    private FrmCustomers frmSellCar = new FrmCustomers();
     private FrmAddCar frmAddCar = new FrmAddCar();
 
     /**
