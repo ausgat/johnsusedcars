@@ -4,17 +4,31 @@
  */
 package jcd;
 
+import bo.Car;
+import bo.Salesperson;
+import dao.CarHandler;
+import dao.SaleHandler;
+import dao.SalespersonHandler;
+import java.time.LocalDate;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Austin Gatchell <ahg015@shsu.edu>
  */
 public class FrmMakeSale extends javax.swing.JInternalFrame {
 
+    SaleHandler sh = new SaleHandler();
+    
     /**
      * Creates new form FrmMakeSale
      */
     public FrmMakeSale() {
         initComponents();
+        
+        txtDate.setText(LocalDate.now().toString());
+        populateSalespeople();
+        populateCars();
     }
 
     /**
@@ -53,15 +67,11 @@ public class FrmMakeSale extends javax.swing.JInternalFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Date of sale:");
 
-        cbxSalesperson.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Salesperson:");
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Car sold:");
-
-        cbxCar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Financing"));
 
@@ -114,9 +124,14 @@ public class FrmMakeSale extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        txtPrice.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        txtPrice.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0"))));
 
         btnMakeSale.setText("Make Sale");
+        btnMakeSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMakeSaleActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Cancel");
 
@@ -184,12 +199,43 @@ public class FrmMakeSale extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnMakeSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMakeSaleActionPerformed
+        LocalDate date = LocalDate.parse(txtDate.getText());
+        int price = Integer.parseInt(txtPrice.getText());
+        int salespersonId = ((Salesperson)cbxSalesperson.getSelectedItem()).getId();
+        int vin = ((Car)cbxCar.getSelectedItem()).getVin();
+        
+        int ret = sh.addSale(date, price, salespersonId, vin);
+
+        if (ret == -1) {
+            JOptionPane.showMessageDialog(this, "Failed to make sale");
+        } else {
+            txtPrice.setText(null);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnMakeSaleActionPerformed
+
+    private void populateSalespeople() {
+        SalespersonHandler sh = new SalespersonHandler();
+        cbxSalesperson.removeAllItems();
+        sh.getSalespeople().forEach((sp) -> {
+            cbxSalesperson.addItem(sp);
+        });
+    }
+    
+    private void populateCars() {
+        CarHandler ch = new CarHandler();
+        cbxCar.removeAllItems();        
+        ch.getCars().forEach((car) -> {
+            cbxCar.addItem(car);
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnMakeSale;
-    private javax.swing.JComboBox<String> cbxCar;
-    private javax.swing.JComboBox<String> cbxSalesperson;
+    private javax.swing.JComboBox<Car> cbxCar;
+    private javax.swing.JComboBox<Salesperson> cbxSalesperson;
     private javax.swing.JCheckBox chbFinancing;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

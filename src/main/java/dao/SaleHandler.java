@@ -3,6 +3,7 @@ package dao;
 import bo.Sale;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +34,13 @@ public class SaleHandler {
      * @return Number of rows affected
      */
     public int addSale(LocalDate date, int price, int salespersonId, int vin) {
-        String cmdTemplate = "INSERT INTO Sale (sDate, sPrice, SalespersonID, Vin) VALUES(%tyyyy-MM-dd, %d, %d, %d);";
-
+        String cmdTemplate = "INSERT INTO Sale (sDate, sPrice, SalespersonID, Vin) VALUES('%s', %d, %d, %d);";
+        
         // Add the values to the string template with String.format (this will
         // fill the template with the given data for each of the %d's and %s's,
         // in order)
-        String cmd = String.format(cmdTemplate, date, price, salespersonId, vin);
+        String cmd = String.format(cmdTemplate, date.toString(), price,
+                salespersonId, vin);
 
         // Run the SQL command and return its value
         return sqlUtil.executeUpdate(cmd);

@@ -3,6 +3,8 @@ package dao;
 import bo.Salesperson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.SQLUtil;
@@ -60,5 +62,45 @@ public class SalespersonHandler {
         
         // Return the relation, if found
         return sp;
+    }
+
+    /**
+     * Get a list of all the Salesperson relations in the database
+     * 
+     * @return List of all the Salesperson relations
+     */
+    public List<Salesperson> getSalespeople() {
+        List<Salesperson> results = new ArrayList<Salesperson>();
+
+        // Put the query in a string
+        String cmd = "SELECT * FROM Salesperson;";
+
+        // Run the query (you could also just put the string directly in the
+        // query, but putting it in a string might make things easier to expand
+        // on later)
+        ResultSet rs = sqlUtil.executeQuery(cmd);
+            
+        try {
+            // Go to the next row (will continue until there are no more rows
+            // and rs.next() returns false)
+            while (rs.next()) {
+                // Get each relevant attribute from the relation
+                int id = rs.getInt("SalespersonID");
+                String name =  rs.getString("sName");
+                String phone = rs.getString("sPhone");
+                String email = rs.getString("sEmail");
+
+                // Create a new Salesperson object from the relation data
+                Salesperson sp = new Salesperson(id, name, phone, email);
+
+                // Add the newly-created Salesperson object to the list
+                results.add(sp);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SalespersonHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // Return the list of Salesperson objects
+        return results;
     }
 }

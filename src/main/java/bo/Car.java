@@ -79,5 +79,13 @@ public class Car {
         this.msrp = msrp;
     }
     
-    
+    /**
+     * Useful function when you need to represent a Car as a human-readable
+     * string (e.g. in a list or combo box)
+     * @return A human-readable string representation of a Car
+     */
+    @Override
+    public String toString() {
+        return String.format("%s %s %s (%s)", year, make, model, vin);
+    }
 }
