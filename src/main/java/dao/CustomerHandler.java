@@ -25,19 +25,33 @@ public class CustomerHandler {
         // Create a new SQLUtil to maintain a connection to the database
         sqlUtil = new SQLUtil();
     }
+    public int addCustomer(int id, String name, String phone, String email){
+        String cmdTemplate = "insert into Customer(cID, cName, cPhone, cEmail) values ('%d', '%s', %s, %s)";
+        String ctmStr = String.format(cmdTemplate, id, name, phone, email);
+        return sqlUtil.executeUpdate(ctmStr);
+    }
+    public int deleteCustomer(int id){
+        String ctm = String.format("delete from Customer where cID = %d", id);
+        return sqlUtil.executeUpdate(ctm);
+    }
+    public int updateStudent(int id, String name, String phone, String email){
+        String cmdTemplate = "update Customer set cName = '%s', cPhone = '%s', cEmail = '%s' where cID = %d";
+        String ctmStr = String.format(cmdTemplate, id, name, phone, email);
+        return sqlUtil.executeUpdate(ctmStr);
+    }
     public List<Customer>getCustomers(){
         List<Customer> results = new ArrayList<>();
-        String cmd = "select cID, cName, cPhone, cEmail from Customer";
-        ResultSet rs = sqlUtil.executeQuery(cmd);
+        String cmd = "select * from Customer";
+        ResultSet rsCustomer = sqlUtil.executeQuery(cmd);
         try {
-            while(rs.next()){
-                int id = rs.getInt("cID");
-                String name = rs.getString("cName");
-                String phone = rs.getString("cPhone");
-                String email = rs.getString("cEmail");
+            while(rsCustomer.next()){
+                int id = rsCustomer.getInt("cID");
+                String name = rsCustomer.getString("cName");
+                String phone = rsCustomer.getString("cPhone");
+                String email = rsCustomer.getString("cEmail");
                 
-                Customer c = new Customer(id, name, phone, email);
-                results.add(c);
+                Customer sc = new Customer(id, name, phone, email);
+                results.add(sc);
             }
                 
         } catch (SQLException ex) {

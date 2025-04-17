@@ -22,17 +22,18 @@ public class FrmMain extends javax.swing.JFrame {
     // Create instances of each form we will need (e.g. login form, car list
     // form, etc.)
     // NOTE: This will not show the forms yet
-    private FrmLogin frmLogin = new FrmLogin();
-    private FrmListCars frmListCars = new FrmListCars();
-    private FrmCustomers frmSellCar = new FrmCustomers();
-    private FrmAddCar frmAddCar = new FrmAddCar();
+     FrmLogin frmLogin = new FrmLogin();
+     FrmListCars frmListCars = new FrmListCars();
+     FrmAddCustomers frmSellCar = new FrmAddCustomers();
+     FrmAddCar frmAddCar = new FrmAddCar();
+     FrmAddCustomers frmAddCustomer = new FrmAddCustomers();
 
     /**
      * Hashmap containing all the forms we'll be using. Key is a string
      * containing the name of the form, value is the form object as instantiated
      * above.
      */
-    private Map<String, JInternalFrame> forms = new HashMap<>();
+     Map<String, JInternalFrame> forms = new HashMap<>();
     
     public FrmMain() {
         // Basic Swing stuff
@@ -43,6 +44,7 @@ public class FrmMain extends javax.swing.JFrame {
         forms.put("frmListCars", frmListCars);
         forms.put("frmSellCar", frmSellCar);
         forms.put("frmAddCar", frmAddCar);
+        forms.put("frmAddCustomer", frmAddCustomer);
         
         // For each form we created, add it to the form container in the main
         // window (NOTE: This still won't show the forms yet)
@@ -313,11 +315,11 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_mniLogOutActionPerformed
 
     private void mniListCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListCustomersActionPerformed
-        // TODO add your handling code here:
+       // TODO add your handling code here:
     }//GEN-LAST:event_mniListCustomersActionPerformed
 
     private void mniAddCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddCustomerActionPerformed
-        // TODO add your handling code here:
+       showForm("frmAddCustomer"); // TODO add your handling code here:
     }//GEN-LAST:event_mniAddCustomerActionPerformed
 
     private void mniListInventoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListInventoriesActionPerformed
