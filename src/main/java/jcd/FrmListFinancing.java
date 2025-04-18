@@ -123,25 +123,26 @@ public class FrmListFinancing extends javax.swing.JInternalFrame {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // Get the index of the selected row
-        /*int selectedRow = tblCars.getSelectedRow();
+        int selectedRow = tblFinancing.getSelectedRow();
 
         // If a row is actually selected (that is, not -1)
         if (selectedRow != -1) {
 
-            // Get the VIN number from the first column (0) of the selected row
-            int vin = (int)tblCars.getValueAt(selectedRow, 0);
+            // Get the keys from the first two columns of the selected row
+            int cid = (int)tblFinancing.getValueAt(selectedRow, 0);
+            int sid = (int)tblFinancing.getValueAt(selectedRow, 1);
 
-            Sale sale = sh.findSale(id);
+            Financing fin = fh.findFinancing(cid, sid);
 
-            if (sale != null) {
-                DlgUpdateCar dlg = new DlgUpdateCar(null, true);
-                dlg.setCar(car);
+            if (fin != null) {
+                DlgUpdateFinancing dlg = new DlgUpdateFinancing(null, true);
+                dlg.setFinancing(fin);
                 dlg.setVisible(true);
                 if (dlg.getReturnStatus() == DlgUpdateCar.RET_OK) {
-                    this.populateCars();
+                    this.populateFinancing();
                 }
             }
-        }*/
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed

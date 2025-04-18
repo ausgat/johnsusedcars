@@ -10,10 +10,10 @@ public class Financing {
     
     private int cid;
     private int sid;
-    private double monthlyPayment;
-    private double interestRate;
+    private int monthlyPayment;
+    private int interestRate;
 
-    public Financing(int cid, int sid, double monthlyPayment, double interestRate) {
+    public Financing(int cid, int sid, int interestRate, int monthlyPayment) {
         this.cid = cid;
         this.sid = sid;
         this.monthlyPayment = monthlyPayment;
@@ -36,24 +36,24 @@ public class Financing {
         this.sid = sid;
     }
 
-    public Financing(double monthlyPayment, double interestRate) {
+    public Financing(int monthlyPayment, int interestRate) {
         this.monthlyPayment = monthlyPayment;
         this.interestRate = interestRate;
     }
 
-    public double getMonthlyPayment() {
+    public int getMonthlyPayment() {
         return monthlyPayment;
     }
 
-    public void setMonthlyPayment(double monthlyPayment) {
+    public void setMonthlyPayment(int monthlyPayment) {
         this.monthlyPayment = monthlyPayment;
     }
 
-    public double getInterestRate() {
+    public int getInterestRate() {
         return interestRate;
     }
 
-    public void setInterestRate(double interestRate) {
+    public void setInterestRate(int interestRate) {
         this.interestRate = interestRate;
     }
 
