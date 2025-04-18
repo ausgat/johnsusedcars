@@ -109,7 +109,7 @@ public class FrmLogin extends javax.swing.JInternalFrame {
         if (sp != null) {
             // Set the global salesperson object to the one found in the
             // database, based on the username and password given
-            GlobalData.sp = sp;
+            GlobalData.setSalesperson(sp);
 
             // Close this login window
             this.dispose();

@@ -42,6 +42,9 @@ public class FrmMain extends javax.swing.JFrame {
         // Basic Swing stuff
         initComponents();
 
+        // Set the global login label
+        GlobalData.setLoginLabel(lblLogin);
+        
         // Give a name to each form and add it to our hashmap
         forms.put("frmLogin", frmLogin);
         forms.put("frmListCars", frmListCars);
@@ -79,7 +82,7 @@ public class FrmMain extends javax.swing.JFrame {
     private void showForm(String name, boolean checkLogin) {
 
         // If the global variable sp (Salesperson) is null, nobody is logged in
-        if (checkLogin && GlobalData.sp == null) {
+        if (checkLogin && GlobalData.getSalesperson() == null) {
             // Do not pass go, do not collect $200--show the login form
             showForm("frmLogin", false);
 
@@ -131,6 +134,10 @@ public class FrmMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        lblLogin = new javax.swing.JLabel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         jdpContainer = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
@@ -156,6 +163,16 @@ public class FrmMain extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(720, 24));
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel1.add(filler1);
+
+        lblLogin.setText("Not logged in");
+        jPanel1.add(lblLogin);
+        jPanel1.add(filler2);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
+
         javax.swing.GroupLayout jdpContainerLayout = new javax.swing.GroupLayout(jdpContainer);
         jdpContainer.setLayout(jdpContainerLayout);
         jdpContainerLayout.setHorizontalGroup(
@@ -164,7 +181,7 @@ public class FrmMain extends javax.swing.JFrame {
         );
         jdpContainerLayout.setVerticalGroup(
             jdpContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 463, Short.MAX_VALUE)
+            .addGap(0, 439, Short.MAX_VALUE)
         );
 
         getContentPane().add(jdpContainer, java.awt.BorderLayout.CENTER);
@@ -328,7 +345,7 @@ public class FrmMain extends javax.swing.JFrame {
         }
         
         // Set salesperson to null
-        GlobalData.sp = null;
+        GlobalData.setSalesperson(null);
     }//GEN-LAST:event_mniLogOutActionPerformed
 
     private void mniListCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListCustomersActionPerformed
@@ -403,8 +420,12 @@ public class FrmMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JDesktopPane jdpContainer;
+    private javax.swing.JLabel lblLogin;
     private javax.swing.JMenuItem mniAddCar;
     private javax.swing.JMenuItem mniAddCustomer;
     private javax.swing.JMenuItem mniAddInventory;
