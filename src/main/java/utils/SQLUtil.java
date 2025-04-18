@@ -72,7 +72,10 @@ public class SQLUtil {
      */
     public int executeUpdateWithGenKey(String cmd) {
         try {
-            return this.stm.executeUpdate(cmd, Statement.RETURN_GENERATED_KEYS);
+            this.stm.execute(cmd, Statement.RETURN_GENERATED_KEYS);
+            ResultSet rs = this.stm.getGeneratedKeys();
+            if (rs.next())
+                return rs.getInt(1);
         } catch (SQLException ex) {
             Logger.getLogger(SQLUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
