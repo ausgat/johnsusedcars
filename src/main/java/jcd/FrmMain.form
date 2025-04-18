@@ -139,7 +139,7 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="mniListStaff">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="List&#x2026;"/>
+                    <Property name="text" type="java.lang.String" value="Manage Staff..."/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniListStaffActionPerformed"/>
@@ -147,7 +147,7 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="mniAddStaff">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Add..."/>
+                    <Property name="text" type="java.lang.String" value="Add Staff..."/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniAddStaffActionPerformed"/>

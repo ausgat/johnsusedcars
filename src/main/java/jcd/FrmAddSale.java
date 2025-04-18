@@ -19,14 +19,14 @@ import javax.swing.JOptionPane;
  *
  * @author Austin Gatchell <ahg015@shsu.edu>
  */
-public class FrmMakeSale extends javax.swing.JInternalFrame {
+public class FrmAddSale extends javax.swing.JInternalFrame {
 
     SaleHandler sh = new SaleHandler();
     
     /**
      * Creates new form FrmMakeSale
      */
-    public FrmMakeSale() {
+    public FrmAddSale() {
         initComponents();
         
         txtDate.setText(LocalDate.now().toString());

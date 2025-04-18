@@ -24,12 +24,13 @@ public class FrmMain extends javax.swing.JFrame {
     // NOTE: This will not show the forms yet
     FrmLogin frmLogin = new FrmLogin();
     FrmListCars frmListCars = new FrmListCars();
-    FrmMakeSale frmSellCar = new FrmMakeSale();
+    FrmAddSale frmSellCar = new FrmAddSale();
     FrmAddCar frmAddCar = new FrmAddCar();
     FrmAddCustomers frmAddCustomer = new FrmAddCustomers();
     FrmListSales frmListSales = new FrmListSales();
-    FrmMakeSale frmMakeSale = new FrmMakeSale();
+    FrmAddSale frmMakeSale = new FrmAddSale();
     FrmListFinancing frmListFinancing = new FrmListFinancing();
+    FrmListSalespeople frmListSalespeople = new FrmListSalespeople();
 
     /**
      * Hashmap containing all the forms we'll be using. Key is a string
@@ -54,6 +55,7 @@ public class FrmMain extends javax.swing.JFrame {
         forms.put("frmListSales", frmListSales);
         forms.put("frmMakeSale", frmMakeSale);
         forms.put("frmListFinancing", frmListFinancing);
+        forms.put("frmListSalespeople", frmListSalespeople);
         
         // For each form we created, add it to the form container in the main
         // window (NOTE: This still won't show the forms yet)
@@ -298,7 +300,7 @@ public class FrmMain extends javax.swing.JFrame {
 
         mnuStaff.setText("Staff");
 
-        mniListStaff.setText("List…");
+        mniListStaff.setText("Manage Staff...");
         mniListStaff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniListStaffActionPerformed(evt);
@@ -306,7 +308,7 @@ public class FrmMain extends javax.swing.JFrame {
         });
         mnuStaff.add(mniListStaff);
 
-        mniAddStaff.setText("Add...");
+        mniAddStaff.setText("Add Staff...");
         mniAddStaff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniAddStaffActionPerformed(evt);
@@ -373,7 +375,7 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_mniAddSaleActionPerformed
 
     private void mniListStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListStaffActionPerformed
-        // TODO add your handling code here:
+        showForm("frmListSalespeople", true);
     }//GEN-LAST:event_mniListStaffActionPerformed
 
     private void mniAddStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddStaffActionPerformed

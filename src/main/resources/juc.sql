@@ -44,8 +44,10 @@ sDate date,
 sPrice int,
 SalespersonID int,
 Vin int,
-foreign key (SalespersonID) references Salesperson(SalespersonID),
+foreign key (SalespersonID) references Salesperson(SalespersonID)
+    ON DELETE CASCADE,
 foreign key (Vin) references Car(Vin)
+    ON DELETE CASCADE
 );
 
 create table Financing(
@@ -53,8 +55,10 @@ cID int,
 sID int,
 InterestRate int,
 MonthlyPayment int,
-foreign key (cID) references Customer(cID),
-foreign key (sID) references Sale(sID),
+foreign key (cID) references Customer(cID)
+	ON DELETE CASCADE,
+foreign key (sID) references Sale(sID)
+	ON DELETE CASCADE,
 primary key (cID, sID)
 );
 

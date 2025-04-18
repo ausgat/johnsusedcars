@@ -103,4 +103,17 @@ public class SalespersonHandler {
         // Return the list of Salesperson objects
         return results;
     }
+
+    /**
+     * Delete a salesperson from the database using the given ID
+     * 
+     * @param id   The ID number of the salesperson
+     * @return Number of rows affected
+     */
+    public int deleteSalesperson(int id) {
+        String cmdTemplate = "DELETE FROM Salesperson WHERE SalespersonID = %d";
+        String cmd = String.format(cmdTemplate, id);
+
+        return sqlUtil.executeUpdate(cmd);
+    }
 }

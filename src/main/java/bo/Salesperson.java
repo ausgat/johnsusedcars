@@ -1,5 +1,7 @@
 package bo;
 
+import java.util.Vector;
+
 /**
  * Class representing the Salesperson relation in the database
  *
@@ -48,6 +50,22 @@ public class Salesperson {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    /**
+     * Get all the attributes of the relation (mainly for use with
+     * DefaultTableModel)
+     * 
+     * @return A vector list containing the rows, in order
+     * @see javax.swing.table.DefaultTableModel
+     */
+    public Vector getRow() {
+        Vector vec = new Vector();
+        vec.add(this.id);
+        vec.add(this.name);
+        vec.add(this.phone);
+        vec.add(this.email);
+        return vec;
     }
     
     @Override
