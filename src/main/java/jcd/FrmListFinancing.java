@@ -46,6 +46,23 @@ public class FrmListFinancing extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Loans");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
         tblFinancing.setAutoCreateRowSorter(true);
         tblFinancing.setModel(new javax.swing.table.DefaultTableModel(
@@ -141,7 +158,7 @@ public class FrmListFinancing extends javax.swing.JInternalFrame {
 
             // Show a dialog and put the result in res
             int res = JOptionPane.showConfirmDialog(this,
-                "Are you sure you want to delete the financing?");
+                "Are you sure you want to delete the loan?");
 
             // If the user clicked OK
             if (res == JOptionPane.OK_OPTION) {
@@ -155,6 +172,10 @@ public class FrmListFinancing extends javax.swing.JInternalFrame {
                 "Please select a financing to delete.");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        populateFinancing();
+    }//GEN-LAST:event_formInternalFrameOpened
 
     /**
      * Fill the sale table (tblFinancing) with all the Financing relations in

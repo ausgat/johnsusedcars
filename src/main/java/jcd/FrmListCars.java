@@ -47,6 +47,23 @@ public class FrmListCars extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Cars");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
         tblCars.setAutoCreateRowSorter(true);
         tblCars.setModel(new javax.swing.table.DefaultTableModel(
@@ -157,6 +174,10 @@ public class FrmListCars extends javax.swing.JInternalFrame {
                 "Please select a car to delete.");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        populateCars();
+    }//GEN-LAST:event_formInternalFrameOpened
 
     /**
      * Fill the car table (tblCars) with all the Car relations in the database
