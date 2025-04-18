@@ -45,4 +45,5 @@ General flow:
 - Austin Gatchell <ahg015@shsu.edu>
 - Cody Grubbs <cag177@shsu.edu>
 - Cherise Matthew <cam283@shsu.edu>
+- Breyonna Paul <bsp023@shsu.edu>
 - Please add your name here if you're a contributor!
