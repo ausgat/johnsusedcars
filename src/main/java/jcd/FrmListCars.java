@@ -48,18 +48,21 @@ public class FrmListCars extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Cars");
 
+        tblCars.setAutoCreateRowSorter(true);
         tblCars.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "VIN", "Make", "Model", "Year", "MSRP", "Status"
+
             }
         ));
+        tblCars.setToolTipText("");
         tblCars.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblCars.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblCars);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -167,7 +170,13 @@ public class FrmListCars extends javax.swing.JInternalFrame {
         // Magic DefaultTableModel code for working with Swing JTable objects
         // (no need to understand; just copy and paste)
         String[] columns = new String[] { "VIN", "Make", "Model", "Year", "MSRP" };
-        DefaultTableModel tblModel = new DefaultTableModel(columns, 0);
+        DefaultTableModel tblModel = new DefaultTableModel(columns, 0) {
+            // Make sure none of the cells is editable
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
         cars.forEach((car)->{
             // For each row from the database, add it to the car table
             tblModel.addRow(car.getRow());

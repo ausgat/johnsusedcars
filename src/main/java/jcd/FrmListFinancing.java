@@ -47,6 +47,7 @@ public class FrmListFinancing extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Loans");
 
+        tblFinancing.setAutoCreateRowSorter(true);
         tblFinancing.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -165,7 +166,13 @@ public class FrmListFinancing extends javax.swing.JInternalFrame {
 
         String[] columns = new String[] { "Customer ID", "Sale ID",
             "Interest Rate", "Monthly Payment" };
-        DefaultTableModel tblModel = new DefaultTableModel(columns, 0);
+        DefaultTableModel tblModel = new DefaultTableModel(columns, 0) {
+            // Make sure none of the cells is editable
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
         fins.forEach((f)->{
             tblModel.addRow(f.getRow());
         });

@@ -49,15 +49,16 @@ public class FrmListSalespeople extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Cars");
 
+        tblSalespeople.setAutoCreateRowSorter(true);
         tblSalespeople.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "VIN", "Make", "Model", "Year", "MSRP", "Status"
+
             }
         ));
         tblSalespeople.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -175,7 +176,13 @@ public class FrmListSalespeople extends javax.swing.JInternalFrame {
         // Magic DefaultTableModel code for working with Swing JTable objects
         // (no need to understand; just copy and paste)
         String[] columns = new String[] { "ID", "Name", "Phone", "Email" };
-        DefaultTableModel tblModel = new DefaultTableModel(columns, 0);
+        DefaultTableModel tblModel = new DefaultTableModel(columns, 0) {
+            // Make sure none of the cells is editable
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
         sps.forEach((sp)->{
             // For each row from the database, add it to the salesperson table
             tblModel.addRow(sp.getRow());

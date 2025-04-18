@@ -47,6 +47,7 @@ public class FrmListSales extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Sales");
 
+        tblSales.setAutoCreateRowSorter(true);
         tblSales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -161,7 +162,13 @@ public class FrmListSales extends javax.swing.JInternalFrame {
         List<Sale> sales = sh.getSales();
 
         String[] columns = new String[] { "ID", "Date", "Price", "Salesperson", "Car" };
-        DefaultTableModel tblModel = new DefaultTableModel(columns, 0);
+        DefaultTableModel tblModel = new DefaultTableModel(columns, 0) {
+            // Make sure none of the cells is editable
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
         sales.forEach((sale)->{
             tblModel.addRow(sale.getRow());
         });
