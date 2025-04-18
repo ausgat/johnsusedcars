@@ -49,13 +49,14 @@ foreign key (Vin) references Car(Vin)
 );
 
 create table Financing(
-cID int AUTO_INCREMENT,
+cID int,
+sID int,
 InterestRate int,
 MonthlyPayment int,
-foreign key (cID) references Customer(cID)
+foreign key (cID) references Customer(cID),
+foreign key (sID) references Sale(sID),
+primary key (cID, sID)
 );
-
-USE JohnsUsedCars;
 
 INSERT INTO Customer (cID, cName, cPhone, cEmail) VALUES
     (1, 'Daniel Driver', 5552849, 'danieldriver@googlymail.con'),

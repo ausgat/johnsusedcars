@@ -23,7 +23,7 @@ public class Sale {
         this.vin = vin;
     }
 
-        /**
+    /**
      * Get all the attributes of the relation (mainly for use with
      * DefaultTableModel)
      * 

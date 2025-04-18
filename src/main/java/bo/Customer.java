@@ -49,4 +49,14 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
+    
+    /**
+     * Useful function when you need to represent a Customer as a human-readable
+     * string (e.g. in a list or combo box)
+     * @return A human-readable string representation of a Customer
+     */
+    @Override
+    public String toString() {
+        return String.format("%s, %s, %s", name, phone, email);
+    }
 }

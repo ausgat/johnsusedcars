@@ -29,6 +29,7 @@ public class FrmMain extends javax.swing.JFrame {
     FrmAddCustomers frmAddCustomer = new FrmAddCustomers();
     FrmListSales frmListSales = new FrmListSales();
     FrmMakeSale frmMakeSale = new FrmMakeSale();
+    FrmListFinancing frmListFinancing = new FrmListFinancing();
 
     /**
      * Hashmap containing all the forms we'll be using. Key is a string
@@ -49,6 +50,7 @@ public class FrmMain extends javax.swing.JFrame {
         forms.put("frmAddCustomer", frmAddCustomer);
         forms.put("frmListSales", frmListSales);
         forms.put("frmMakeSale", frmMakeSale);
+        forms.put("frmListFinancing", frmListFinancing);
         
         // For each form we created, add it to the form container in the main
         // window (NOTE: This still won't show the forms yet)
@@ -146,6 +148,7 @@ public class FrmMain extends javax.swing.JFrame {
         mniAddInventory = new javax.swing.JMenuItem();
         mnuSales = new javax.swing.JMenu();
         mniListSales = new javax.swing.JMenuItem();
+        mniListLoans = new javax.swing.JMenuItem();
         mniAddSale = new javax.swing.JMenuItem();
         mnuStaff = new javax.swing.JMenu();
         mniListStaff = new javax.swing.JMenuItem();
@@ -210,7 +213,7 @@ public class FrmMain extends javax.swing.JFrame {
 
         mnuCustomers.setText("Customers");
 
-        mniListCustomers.setText("List…");
+        mniListCustomers.setText("List Customers…");
         mniListCustomers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniListCustomersActionPerformed(evt);
@@ -218,7 +221,7 @@ public class FrmMain extends javax.swing.JFrame {
         });
         mnuCustomers.add(mniListCustomers);
 
-        mniAddCustomer.setText("Add...");
+        mniAddCustomer.setText("Add New Customer...");
         mniAddCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniAddCustomerActionPerformed(evt);
@@ -250,13 +253,21 @@ public class FrmMain extends javax.swing.JFrame {
 
         mnuSales.setText("Sales");
 
-        mniListSales.setText("List…");
+        mniListSales.setText("List Sales…");
         mniListSales.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniListSalesActionPerformed(evt);
             }
         });
         mnuSales.add(mniListSales);
+
+        mniListLoans.setText("List Loans...");
+        mniListLoans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniListLoansActionPerformed(evt);
+            }
+        });
+        mnuSales.add(mniListLoans);
 
         mniAddSale.setText("Make Sale...");
         mniAddSale.addActionListener(new java.awt.event.ActionListener() {
@@ -325,7 +336,7 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_mniListCustomersActionPerformed
 
     private void mniAddCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddCustomerActionPerformed
-       showForm("frmAddCustomer"); // TODO add your handling code here:
+       showForm("frmAddCustomer", true);
     }//GEN-LAST:event_mniAddCustomerActionPerformed
 
     private void mniListInventoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListInventoriesActionPerformed
@@ -351,6 +362,10 @@ public class FrmMain extends javax.swing.JFrame {
     private void mniAddStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddStaffActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mniAddStaffActionPerformed
+
+    private void mniListLoansActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListLoansActionPerformed
+        showForm("frmListFinancing", true);
+    }//GEN-LAST:event_mniListLoansActionPerformed
 
     /**
      * @param args the command line arguments
@@ -398,6 +413,7 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem mniListCars;
     private javax.swing.JMenuItem mniListCustomers;
     private javax.swing.JMenuItem mniListInventories;
+    private javax.swing.JMenuItem mniListLoans;
     private javax.swing.JMenuItem mniListSales;
     private javax.swing.JMenuItem mniListStaff;
     private javax.swing.JMenuItem mniLogIn;

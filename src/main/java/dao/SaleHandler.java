@@ -1,8 +1,11 @@
 package dao;
 
 import bo.Sale;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +46,26 @@ public class SaleHandler {
 
         // Run the SQL command and return its value
         return sqlUtil.executeUpdate(cmd);
+    }
+
+    /**
+     * Create a new Sale relation in the database, returning the sale ID (auto-
+     * incremented in SQL)
+     * 
+     * @param date The date of the sale
+     * @param price The agreed-upon price
+     * @param salespersonId The ID of the salesperson who made the sale
+     * @param vin   The car's VIN number
+     * @return The ID of the new sale
+     */
+    public int addSaleAndGetKey(LocalDate date, int price, int salespersonId,
+            int vin) {
+        String cmdTemplate = "INSERT INTO Sale (sDate, sPrice, SalespersonID, Vin) VALUES('%s', %d, %d, %d);";
+        String cmd = String.format(cmdTemplate, date.toString(), price,
+                salespersonId, vin);
+
+        // Run the SQL command and return its generated key
+        return sqlUtil.executeUpdateWithGenKey(cmd);
     }
 
     /**

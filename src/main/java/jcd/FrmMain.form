@@ -62,7 +62,7 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="mniListCustomers">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="List&#x2026;"/>
+                    <Property name="text" type="java.lang.String" value="List Customers&#x2026;"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniListCustomersActionPerformed"/>
@@ -70,7 +70,7 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="mniAddCustomer">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Add..."/>
+                    <Property name="text" type="java.lang.String" value="Add New Customer..."/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniAddCustomerActionPerformed"/>
@@ -108,10 +108,18 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="mniListSales">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="List&#x2026;"/>
+                    <Property name="text" type="java.lang.String" value="List Sales&#x2026;"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniListSalesActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mniListLoans">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="List Loans..."/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniListLoansActionPerformed"/>
                   </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="mniAddSale">

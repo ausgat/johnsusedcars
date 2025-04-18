@@ -63,6 +63,22 @@ public class SQLUtil {
         
         return -1;
     }
+
+    /**
+     * Executes a SQL command given as a string (modifies the database).
+     * 
+     * @param cmd The SQL query string
+     * @return The key generated
+     */
+    public int executeUpdateWithGenKey(String cmd) {
+        try {
+            return this.stm.executeUpdate(cmd, Statement.RETURN_GENERATED_KEYS);
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return -1;
+    }
     
     /**
      * Executes a SQL query given as a string (gets rows from the database).

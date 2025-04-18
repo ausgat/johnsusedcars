@@ -5,8 +5,11 @@
 package jcd;
 
 import bo.Car;
+import bo.Customer;
 import bo.Salesperson;
 import dao.CarHandler;
+import dao.CustomerHandler;
+import dao.FinancingHandler;
 import dao.SaleHandler;
 import dao.SalespersonHandler;
 import java.time.LocalDate;
@@ -29,6 +32,7 @@ public class FrmMakeSale extends javax.swing.JInternalFrame {
         txtDate.setText(LocalDate.now().toString());
         populateSalespeople();
         populateCars();
+        populateCustomers();
     }
 
     /**
@@ -56,6 +60,8 @@ public class FrmMakeSale extends javax.swing.JInternalFrame {
         txtPrice = new javax.swing.JFormattedTextField();
         btnMakeSale = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        cbxCustomer = new javax.swing.JComboBox<>();
 
         setTitle("Make Sale");
 
@@ -92,7 +98,7 @@ public class FrmMakeSale extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7)
@@ -135,6 +141,9 @@ public class FrmMakeSale extends javax.swing.JInternalFrame {
 
         btnCancel.setText("Cancel");
 
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Customer:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -142,30 +151,32 @@ public class FrmMakeSale extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbxSalesperson, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtDate)
-                                    .addComponent(cbxCar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(52, 52, 52)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtPrice))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnCancel)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(241, 241, 241)
+                                .addComponent(btnCancel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnMakeSale))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnMakeSale)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbxCustomer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbxSalesperson, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtDate)
+                            .addComponent(cbxCar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -187,29 +198,48 @@ public class FrmMakeSale extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxCar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnMakeSale)
                     .addComponent(btnCancel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMakeSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMakeSaleActionPerformed
+        // Get attributes from the UI elements
         LocalDate date = LocalDate.parse(txtDate.getText());
         int price = Integer.parseInt(txtPrice.getText());
         int salespersonId = ((Salesperson)cbxSalesperson.getSelectedItem()).getId();
-        int vin = ((Car)cbxCar.getSelectedItem()).getVin();
+        Car selectedCar = (Car)cbxCar.getSelectedItem();
+        Customer selectedCustomer = (Customer)cbxCustomer.getSelectedItem();
+        int vin = selectedCar.getVin();
         
-        int ret = sh.addSale(date, price, salespersonId, vin);
+        // Create the sale in the database and get the return value
+        int key = sh.addSaleAndGetKey(date, price, salespersonId, vin);
 
-        if (ret == -1) {
+        if (key == -1) {
             JOptionPane.showMessageDialog(this, "Failed to make sale");
         } else {
+            // If financing was selected, add a financing relation referencing
+            // the car and sale
+            if (chbFinancing.isSelected()) {
+                // Get attributes from financing UI
+                int rate = Integer.parseInt(txtInterestRate.getText());
+                int moPayment = Integer.parseInt(txtMonthlyPayment.getText());
+                
+                new FinancingHandler().addFinancing(selectedCustomer.getId(), key,
+                        rate, moPayment);
+            }
+                    
             txtPrice.setText(null);
             this.dispose();
         }
@@ -231,16 +261,26 @@ public class FrmMakeSale extends javax.swing.JInternalFrame {
         });
     }
 
+    private void populateCustomers() {
+        CustomerHandler ch = new CustomerHandler();
+        cbxCustomer.removeAllItems();        
+        ch.getCustomers().forEach((cust) -> {
+            cbxCustomer.addItem(cust);
+        });
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnMakeSale;
     private javax.swing.JComboBox<Car> cbxCar;
+    private javax.swing.JComboBox<Customer> cbxCustomer;
     private javax.swing.JComboBox<Salesperson> cbxSalesperson;
     private javax.swing.JCheckBox chbFinancing;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
