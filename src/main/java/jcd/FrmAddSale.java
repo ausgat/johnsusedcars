@@ -246,13 +246,13 @@ public class FrmAddSale extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnMakeSaleActionPerformed
 
     private void populateSalespeople() {
-        SalespersonHandler sh = new SalespersonHandler();
+        SalespersonHandler sph = new SalespersonHandler();
         cbxSalesperson.removeAllItems();
-        sh.getSalespeople().forEach((sp) -> {
+        sph.getSalespeople().forEach((sp) -> {
             cbxSalesperson.addItem(sp);
         });
     }
-    
+
     private void populateCars() {
         CarHandler ch = new CarHandler();
         cbxCar.removeAllItems();        

@@ -106,25 +106,25 @@ public class FrmListSales extends javax.swing.JInternalFrame {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // Get the index of the selected row
-        /*int selectedRow = tblCars.getSelectedRow();
+        int selectedRow = tblSales.getSelectedRow();
 
         // If a row is actually selected (that is, not -1)
         if (selectedRow != -1) {
 
-            // Get the VIN number from the first column (0) of the selected row
-            int vin = (int)tblCars.getValueAt(selectedRow, 0);
+            // Get the ID number from the first column (0) of the selected row
+            int id = (int)tblSales.getValueAt(selectedRow, 0);
 
             Sale sale = sh.findSale(id);
 
             if (sale != null) {
-                DlgUpdateCar dlg = new DlgUpdateCar(null, true);
-                dlg.setCar(car);
+                DlgUpdateSale dlg = new DlgUpdateSale(null, true);
+                dlg.setSale(sale);
                 dlg.setVisible(true);
-                if (dlg.getReturnStatus() == DlgUpdateCar.RET_OK) {
-                    this.populateCars();
+                if (dlg.getReturnStatus() == DlgUpdateSale.RET_OK) {
+                    this.populateSales();
                 }
             }
-        }*/
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed

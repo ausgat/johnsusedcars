@@ -92,7 +92,7 @@ public class SaleHandler {
      * @return Number of rows affected
      */
     public int updateSale(int id, LocalDate date, int price, int salespersonId, int vin) {
-        String cmdTemplate = "UPDATE Sale SET sDate=%tyyyy-MM-dd, sPrice=%d, SalespersonID=%d, VIN=%d WHERE sID=%d;";
+        String cmdTemplate = "UPDATE Sale SET sDate='%s', sPrice=%d, SalespersonID=%d, VIN=%d WHERE sID=%d;";
         String cmd = String.format(cmdTemplate, date, price, salespersonId, vin, id);
         return sqlUtil.executeUpdate(cmd);
     }
