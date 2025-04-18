@@ -3,7 +3,6 @@ package dao;
 import bo.Sale;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +52,7 @@ public class SaleHandler {
      * @return Number of rows affected
      */
     public int deleteSale(int id) {
-        String cmdTemplate = "DELETE FROM Sale WHERE id = %d";
+        String cmdTemplate = "DELETE FROM Sale WHERE sID = %d";
         String cmd = String.format(cmdTemplate, id);
 
         return sqlUtil.executeUpdate(cmd);

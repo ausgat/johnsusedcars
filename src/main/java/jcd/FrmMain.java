@@ -55,6 +55,9 @@ public class FrmMain extends javax.swing.JFrame {
         forms.values().forEach((frm)->{
             jdpContainer.add(frm);
         });
+        
+        // Show a login window when the main form loads
+        showForm("frmLogin");
     }
     
     /**
