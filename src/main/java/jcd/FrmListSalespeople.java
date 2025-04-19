@@ -47,7 +47,7 @@ public class FrmListSalespeople extends javax.swing.JInternalFrame {
         setClosable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Cars");
+        setTitle("Staff List");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -125,7 +125,7 @@ public class FrmListSalespeople extends javax.swing.JInternalFrame {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // Get the index of the selected row
-        /*int selectedRow = tblSalespeople.getSelectedRow();
+        int selectedRow = tblSalespeople.getSelectedRow();
 
         // If a row is actually selected (that is, not -1)
         if (selectedRow != -1) {
@@ -143,7 +143,7 @@ public class FrmListSalespeople extends javax.swing.JInternalFrame {
                     this.populateSalespeople();
                 }
             }
-        }*/
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -196,7 +196,7 @@ public class FrmListSalespeople extends javax.swing.JInternalFrame {
 
         // Magic DefaultTableModel code for working with Swing JTable objects
         // (no need to understand; just copy and paste)
-        String[] columns = new String[] { "ID", "Name", "Phone", "Email" };
+        String[] columns = new String[] { "ID", "Username", "Name", "Phone", "Email" };
         DefaultTableModel tblModel = new DefaultTableModel(columns, 0) {
             // Make sure none of the cells is editable
             @Override

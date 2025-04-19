@@ -66,6 +66,43 @@ public class SalespersonHandler {
     }
 
     /**
+     * Add a new Salesperson relation to the database
+     * 
+     * @param username  Username
+     * @param password  Password
+     * @param name      Full name
+     * @param phone     Phone number
+     * @param email     Email
+     * @return Number of rows affected
+     */
+    public int addSalesperson(String username, String password, String name,
+            String phone, String email) {
+        
+        String cmdTemplate = "INSERT INTO Salesperson (sUsername, sPassword, sName, sPhone, sEmail) VALUES('%s', '%s', '%s', '%s', '%s')";
+        String cmd = String.format(cmdTemplate, username, password, name, phone, email);
+        return sqlUtil.executeUpdate(cmd);
+    }
+
+    /**
+     * Add a new Salesperson relation to the database
+     * 
+     * @param id        SalespersonID of the relation
+     * @param username  Username
+     * @param password  Password
+     * @param name      Full name
+     * @param phone     Phone number
+     * @param email     Email
+     * @return Number of rows affected
+     */
+    public int updateSalesperson(int id, String username, String password, String name,
+            String phone, String email) {
+        
+        String cmdTemplate = "UPDATE Salesperson SET sUsername='%s', sPassword='%s', sName='%s', sPhone='%s', sEmail='%s' WHERE SalespersonID=%d";
+        String cmd = String.format(cmdTemplate, username, password, name, phone, email, id);
+        return sqlUtil.executeUpdate(cmd);
+    }
+
+    /**
      * Get a list of all the Salesperson relations in the database
      * 
      * @return List of all the Salesperson relations
@@ -87,13 +124,13 @@ public class SalespersonHandler {
             while (rs.next()) {
                 // Get each relevant attribute from the relation
                 int id = rs.getInt("SalespersonID");
-                String name =  rs.getString("sName");
                 String username = rs.getString("sUsername");
+                String name =  rs.getString("sName");
                 String phone = rs.getString("sPhone");
                 String email = rs.getString("sEmail");
 
                 // Create a new Salesperson object from the relation data
-                Salesperson sp = new Salesperson(id, name, username, phone, email);
+                Salesperson sp = new Salesperson(id, username, name, phone, email);
 
                 // Add the newly-created Salesperson object to the list
                 results.add(sp);
@@ -106,6 +143,39 @@ public class SalespersonHandler {
         return results;
     }
 
+    /**
+     * Find a salesperson by their ID
+     * 
+     * @param id The ID of the desired salesperson
+     * @return A Salesperson object if found, null otherwise
+     */
+    public Salesperson findSalesperson(int id) {
+        Salesperson foundSp = null;
+        
+        String cmdTemplate =
+                "SELECT SalespersonID, sUsername, sName, sPhone, sEmail FROM Salesperson WHERE SalespersonID = %d";
+        String cmd = String.format(cmdTemplate, id);
+        
+        ResultSet rs = sqlUtil.executeQuery(cmd);
+        
+        try {
+            if (rs.next()) {
+                // Get each relevant attribute from the relation
+                String username =  rs.getString("sUsername");
+                String name = rs.getString("sName");
+                String phone = rs.getString("sPhone");
+                String email = rs.getString("sEmail");
+                
+                foundSp = new Salesperson(id, username, name, phone, email);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SalespersonHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return foundSp;
+    }
+
+    
     /**
      * Delete a salesperson from the database using the given ID
      * 

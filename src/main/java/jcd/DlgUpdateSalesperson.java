@@ -1,21 +1,59 @@
 package jcd;
 
-import dao.CarHandler;
+import bo.Salesperson;
 import dao.SalespersonHandler;
 import javax.swing.JOptionPane;
 
 /**
- * Swing form for adding new cars to the database
+ * Dialog for updating a sale
  */
-public class FrmAddSalesperson extends javax.swing.JInternalFrame {
+public class DlgUpdateSalesperson extends javax.swing.JDialog {
+
+    public static final int RET_OK = 1;
+    public static final int RET_CANCEL = 0;
+
+    private int returnStatus = 0;
 
     /**
-     * Creates new form FrmAddCar
+     * Creates new form DlgUpdateSalesperson
      */
-    public FrmAddSalesperson() {
+    public DlgUpdateSalesperson(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
     }
 
+    public int getReturnStatus() {
+        return returnStatus;
+    }
+
+    public void setReturnStatus(int returnStatus) {
+        this.returnStatus = returnStatus;
+    }
+    
+    private Salesperson sp = null;
+
+    public Salesperson getSalesperson() {
+        return sp;
+    }
+
+    public void setSalesperson(Salesperson sp) {
+        this.sp = sp;
+
+        if (sp != null) {
+            // Set the fields to contain the saleperson's values
+            txtUsername.setText(sp.getUsername());
+            txtFullname.setText(sp.getName());
+            txtEmail.setText(sp.getEmail());
+            txtPhone.setText(sp.getPhone());
+        }
+    }
+    
+    private void doClose(int retStatus) {
+        returnStatus = retStatus;
+        setVisible(false);
+        dispose();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,7 +66,7 @@ public class FrmAddSalesperson extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
-        btnAdd = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtFullname = new javax.swing.JTextField();
@@ -37,12 +75,20 @@ public class FrmAddSalesperson extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JPasswordField();
+        txtOldPassword = new javax.swing.JPasswordField();
         txtUsername = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
 
-        setClosable(true);
-        setTitle("Add New Salesperson");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        setSize(new java.awt.Dimension(588, 252));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -57,13 +103,13 @@ public class FrmAddSalesperson extends javax.swing.JInternalFrame {
         });
         jPanel5.add(btnCancel);
 
-        btnAdd.setText("Add");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnUpdateActionPerformed(evt);
             }
         });
-        jPanel5.add(btnAdd);
+        jPanel5.add(btnUpdate);
 
         jPanel1.add(jPanel5, java.awt.BorderLayout.SOUTH);
 
@@ -74,10 +120,13 @@ public class FrmAddSalesperson extends javax.swing.JInternalFrame {
         jLabel3.setText("Email:");
         jLabel3.setToolTipText("");
 
-        jLabel4.setText("Password:");
+        jLabel4.setText("Old password:");
         jLabel4.setToolTipText("");
 
         jLabel5.setText("Username:");
+
+        jLabel6.setText("Password:");
+        jLabel6.setToolTipText("");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -90,14 +139,16 @@ public class FrmAddSalesperson extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPassword)
                     .addComponent(txtUsername)
                     .addComponent(txtPhone)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
                     .addComponent(txtFullname)
-                    .addComponent(txtPassword))
+                    .addComponent(txtOldPassword))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -121,8 +172,12 @@ public class FrmAddSalesperson extends javax.swing.JInternalFrame {
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtOldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
                 .addContainerGap())
         );
 
@@ -133,56 +188,51 @@ public class FrmAddSalesperson extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // Called when the "Add" button is pressed
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // Get all the user input from the relevant textboxes and put them in
-        // variables
-        String name = txtFullname.getText();
-        String username = txtUsername.getText();
-        String password = new String(txtPassword.getPassword());
-        String phone = txtPhone.getText();
-        String email = txtEmail.getText();
-
-        // Use SalespersonHandler to add a new salesperson to the database using
-        // the data gathered above and store the return value (-1 on failure,
-        // anything else on success)
-        int ret = new SalespersonHandler().addSalesperson(username,
-                password, name, phone, email);
-
-        if (ret == -1) {
-            // Pop up a message letting the user know a salesperson failed to be added
-            JOptionPane.showMessageDialog(this, "Failed to add salesperson");
-        } else {
-            // Clear the form
-            txtFullname.setText(null);
-            txtUsername.setText(null);
-            txtPhone.setText(null);
-            txtEmail.setText(null);
-            txtPassword.setText(null);
-            
-            // Close the form window
-            this.dispose();
-        }
-    }//GEN-LAST:event_btnAddActionPerformed
-
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // Get all the user input from the relevant textboxes and put them in
+        // variables
+        String username = txtUsername.getText();
+        String password = new String(txtPassword.getPassword());
+        String name = txtFullname.getText();
+        String email = txtEmail.getText();
+        String phone = txtPhone.getText();
+
+        // Use SaleHandler to update a sale in the database using the data
+        // gathered above and store the return value (-1 on failure, anything
+        // else on success)
+        int ret = new SalespersonHandler().updateSalesperson(sp.getId(), username, password, name, phone, email);
+
+        if (ret == -1) {
+            // Pop up a message letting the user know a car failed to be added
+            JOptionPane.showMessageDialog(this, "Failed to update salesperson");
+        } else {
+            // Close the dialog successfully
+            doClose(RET_OK);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+    }//GEN-LAST:event_formWindowOpened
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFullname;
+    private javax.swing.JPasswordField txtOldPassword;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPhone;
     private javax.swing.JTextField txtUsername;

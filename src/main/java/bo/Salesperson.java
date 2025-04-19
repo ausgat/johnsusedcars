@@ -73,6 +73,7 @@ public class Salesperson {
     public Vector getRow() {
         Vector vec = new Vector();
         vec.add(this.id);
+        vec.add(this.username);
         vec.add(this.name);
         vec.add(this.phone);
         vec.add(this.email);
