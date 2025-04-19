@@ -57,6 +57,6 @@ public class Customer {
      */
     @Override
     public String toString() {
-        return String.format("%s, %s, %s", name, phone, email);
+        return String.format(" %d, %s, %s, %s", id, name, phone, email);
     }
 }

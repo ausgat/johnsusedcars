@@ -64,15 +64,28 @@ primary key (cID, sID)
 
 INSERT INTO Customer (cID, cName, cPhone, cEmail) VALUES
     (1, 'Daniel Driver', 5552849, 'danieldriver@googlymail.con'),
-    (2, 'Victoria Vroom', 5553030, 'vicvroom@coldmail.con');
+    (2, 'Victoria Vroom', 5553030, 'vicvroom@coldmail.con'),
+    (3, 'Dwight Tower', 6779999, 'dwight73@email.com');
 
-INSERT INTO Car (Vin, Make, Model, Year, MSRP) VALUES
-    (1234, 'Toyoda', 'ForceRunner', 1977, 2000),
-    (2345, 'Hondi', 'Fat', 2019, 12000),
-    (0987, 'Fort', 'F-360', 2015, 20000);
+
+INSERT INTO Car (Vin, Make, Model, Year, MSRP, cID) VALUES
+    (1001, 'Toyoda', 'ForceRunner', 1977, 2000, 1),
+    (1002, 'Hondi', 'Fat', 2019, 12000, 2),
+    (1003, 'Fort', 'F-360', 2015, 20000, 3);
 
 INSERT INTO Salesperson (SalespersonID, sUsername, sPassword, sName, sPhone, sEmail) VALUES
     (123, 'EarlGreyTea', 'password123', 'Earl E. Crook', 5552002, 'earl@juc.con'),
     (321, 'GreatestSalesman', 'password1234', 'Bob Carguy', 5554120, 'bob@juc.con');
 
-    
+INSERT INTO Inventory (Vin, StockStatus, ParkingSpot, ParkingLot) VALUES
+    (1001, TRUE, 'A1', 'Lot A'),
+    (1002, FALSE, 'B2', 'Lot B'),
+    (1003, TRUE, 'C3', 'Lot A');
+
+INSERT INTO Sale (sID, sDate, sPrice, SalespersonID, Vin) VALUES
+    (2001, '2024-12-15', 24000, 123, 1001),
+    (2002, '2025-01-20', 21500, 321, 1002);
+
+INSERT INTO Financing (cID, sID, InterestRate, MonthlyPayment) VALUES
+    (1, 2001, 5, 450),
+    (2, 2002, 4, 420);
