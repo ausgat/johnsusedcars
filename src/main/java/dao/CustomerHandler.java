@@ -26,7 +26,7 @@ public class CustomerHandler {
         sqlUtil = new SQLUtil();
     }
     public int addCustomer(int id, String name, String phone, String email){
-        String cmdTemplate = "insert into Customer(cID, cName, cPhone, cEmail) values ('%d', '%s', %s, %s)";
+        String cmdTemplate = "insert into Customer(cID, cName, cPhone, cEmail) values ('%d', '%s', '%s', '%s')";
         String ctmStr = String.format(cmdTemplate, id, name, phone, email);
         return sqlUtil.executeUpdate(ctmStr);
     }

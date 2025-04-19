@@ -33,7 +33,7 @@ public class DlgUpdateCar extends javax.swing.JDialog {
 
         if (car != null) {
             // Set the fields to contain the car's values
-            this.txtVin.setText(Integer.toString(car.getVin()));
+            this.txtVin.setText(car.getVin());
             this.txtMake.setText(car.getMake());
             this.txtModel.setText(car.getModel());
             this.txtYear.setText(Integer.toString(car.getYear()));
@@ -201,7 +201,7 @@ public class DlgUpdateCar extends javax.swing.JDialog {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // Get all the user input from the relevant textboxes and put them in
         // variables
-        int vin = Integer.parseInt(txtVin.getText());
+        String vin = txtVin.getText();
         String make = txtMake.getText();
         String model = txtModel.getText();
         int year = Integer.parseInt(txtYear.getText());

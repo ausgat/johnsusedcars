@@ -8,13 +8,13 @@ import java.util.Vector;
  */
 public class Car {
     
-    private int vin;
+    private String vin;
     private String make;
     private String model;
     private int year;
     private int msrp;
 
-    public Car(int vin, String make, String model, int year, int msrp) {
+    public Car(String vin, String make, String model, int year, int msrp) {
         this.vin = vin;
         this.make = make;
         this.model = model;
@@ -39,11 +39,11 @@ public class Car {
         return vec;
     }
 
-    public int getVin() {
+    public String getVin() {
         return vin;
     }
 
-    public void setVin(int vin) {
+    public void setVin(String vin) {
         this.vin = vin;
     }
 

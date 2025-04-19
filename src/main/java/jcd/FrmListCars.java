@@ -2,10 +2,7 @@ package jcd;
 
 import bo.Car;
 import dao.CarHandler;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -132,7 +129,7 @@ public class FrmListCars extends javax.swing.JInternalFrame {
         if (selectedRow != -1) {
 
             // Get the VIN number from the first column (0) of the selected row
-            int vin = (int)tblCars.getValueAt(selectedRow, 0);
+            String vin = (String)tblCars.getValueAt(selectedRow, 0);
 
             Car car = ch.findCar(vin);
 
@@ -155,11 +152,11 @@ public class FrmListCars extends javax.swing.JInternalFrame {
         if (selectedRow != -1) {
 
             // Get the VIN number from the first column (0) of the selected row
-            int vin = (int)tblCars.getValueAt(selectedRow, 0);
+            String vin = (String)tblCars.getValueAt(selectedRow, 0);
 
             // Show a dialog and put the result in res
             int res = JOptionPane.showConfirmDialog(this,
-                String.format("Are you sure you want to delete the car with VIN %d?", vin));
+                String.format("Are you sure you want to delete the car with VIN %s?", vin));
 
             // If the user clicked OK
             if (res == JOptionPane.OK_OPTION) {

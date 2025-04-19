@@ -35,8 +35,8 @@ public class SaleHandler {
      * @param vin   The car's VIN number
      * @return Number of rows affected
      */
-    public int addSale(LocalDate date, int price, int salespersonId, int vin) {
-        String cmdTemplate = "INSERT INTO Sale (sDate, sPrice, SalespersonID, Vin) VALUES('%s', %d, %d, %d);";
+    public int addSale(LocalDate date, int price, int salespersonId, String vin) {
+        String cmdTemplate = "INSERT INTO Sale (sDate, sPrice, SalespersonID, Vin) VALUES('%s', %d, %d, '%s');";
         
         // Add the values to the string template with String.format (this will
         // fill the template with the given data for each of the %d's and %s's,
@@ -59,8 +59,8 @@ public class SaleHandler {
      * @return The ID of the new sale
      */
     public int addSaleAndGetKey(LocalDate date, int price, int salespersonId,
-            int vin) {
-        String cmdTemplate = "INSERT INTO Sale (sDate, sPrice, SalespersonID, Vin) VALUES('%s', %d, %d, %d);";
+            String vin) {
+        String cmdTemplate = "INSERT INTO Sale (sDate, sPrice, SalespersonID, Vin) VALUES('%s', %d, %d, '%s');";
         String cmd = String.format(cmdTemplate, date.toString(), price,
                 salespersonId, vin);
 
@@ -91,8 +91,8 @@ public class SaleHandler {
      * @param vin VIN of car
      * @return Number of rows affected
      */
-    public int updateSale(int id, LocalDate date, int price, int salespersonId, int vin) {
-        String cmdTemplate = "UPDATE Sale SET sDate='%s', sPrice=%d, SalespersonID=%d, VIN=%d WHERE sID=%d;";
+    public int updateSale(int id, LocalDate date, int price, int salespersonId, String vin) {
+        String cmdTemplate = "UPDATE Sale SET sDate='%s', sPrice=%d, SalespersonID=%d, VIN='%s' WHERE sID=%d;";
         String cmd = String.format(cmdTemplate, date, price, salespersonId, vin, id);
         return sqlUtil.executeUpdate(cmd);
     }
@@ -118,7 +118,7 @@ public class SaleHandler {
                 LocalDate date = rs.getDate("sDate").toLocalDate();
                 int price = rs.getInt("sPrice");
                 int spid = rs.getInt("SalespersonID");
-                int vin = rs.getInt("VIN");
+                String vin = rs.getString("VIN");
                 
                 foundSale = new Sale(id, date, price, spid, vin);
             }
@@ -145,7 +145,7 @@ public class SaleHandler {
                 LocalDate date = rs.getDate("sDate").toLocalDate();
                 int price = rs.getInt("sPrice");
                 int spid = rs.getInt("SalespersonID");
-                int vin = rs.getInt("VIN");
+                String vin = rs.getString("VIN");
 
                 results.add(new Sale(id, date, price, spid, vin));
             }

@@ -27,9 +27,6 @@ public class DlgUpdateSale extends javax.swing.JDialog {
     public DlgUpdateSale(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        populateCars();
-        populateCustomers();
-        populateSalespeople();
     }
 
     public int getReturnStatus() {
@@ -54,7 +51,7 @@ public class DlgUpdateSale extends javax.swing.JDialog {
             txtPrice.setText(Integer.toString(sale.getPrice()));
             txtDate.setText(sale.getDate().toString());
             for (int i = 0; i < cbxCustomer.getModel().getSize(); ++i) {
-                if (cbxCar.getModel().getElementAt(i).getVin() == sale.getVin()) {
+                if (cbxCar.getModel().getElementAt(i).getVin().equals(sale.getVin())) {
                     cbxCar.setSelectedIndex(i);
                     break;
                 }
@@ -127,6 +124,11 @@ public class DlgUpdateSale extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         setSize(new java.awt.Dimension(588, 252));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -256,6 +258,12 @@ public class DlgUpdateSale extends javax.swing.JDialog {
             doClose(RET_OK);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        populateSalespeople();
+        populateCars();
+        populateCustomers();
+    }//GEN-LAST:event_formWindowOpened
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;

@@ -28,11 +28,6 @@ public class FrmAddSale extends javax.swing.JInternalFrame {
      */
     public FrmAddSale() {
         initComponents();
-        
-        txtDate.setText(LocalDate.now().toString());
-        populateSalespeople();
-        populateCars();
-        populateCustomers();
     }
 
     /**
@@ -64,6 +59,23 @@ public class FrmAddSale extends javax.swing.JInternalFrame {
         cbxCustomer = new javax.swing.JComboBox<>();
 
         setTitle("Make Sale");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Sale price:");
@@ -140,6 +152,11 @@ public class FrmAddSale extends javax.swing.JInternalFrame {
         });
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Customer:");
@@ -221,7 +238,7 @@ public class FrmAddSale extends javax.swing.JInternalFrame {
         int salespersonId = ((Salesperson)cbxSalesperson.getSelectedItem()).getId();
         Car selectedCar = (Car)cbxCar.getSelectedItem();
         Customer selectedCustomer = (Customer)cbxCustomer.getSelectedItem();
-        int vin = selectedCar.getVin();
+        String vin = selectedCar.getVin();
         
         // Create the sale in the database and get the return value
         int key = sh.addSaleAndGetKey(date, price, salespersonId, vin);
@@ -236,7 +253,7 @@ public class FrmAddSale extends javax.swing.JInternalFrame {
                 int rate = Integer.parseInt(txtInterestRate.getText());
                 int moPayment = Integer.parseInt(txtMonthlyPayment.getText());
                 
-                new FinancingHandler().addFinancing(selectedCustomer.getId(), key,
+                new FinancingHandler().addFinancing(selectedCustomer.getId(),
                         rate, moPayment);
             }
                     
@@ -244,6 +261,17 @@ public class FrmAddSale extends javax.swing.JInternalFrame {
             this.dispose();
         }
     }//GEN-LAST:event_btnMakeSaleActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        txtDate.setText(LocalDate.now().toString());
+        populateSalespeople();
+        populateCars();
+        populateCustomers();
+    }//GEN-LAST:event_formInternalFrameOpened
 
     private void populateSalespeople() {
         SalespersonHandler sph = new SalespersonHandler();

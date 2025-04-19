@@ -31,6 +31,7 @@ public class FrmMain extends javax.swing.JFrame {
     FrmAddSale frmMakeSale = new FrmAddSale();
     FrmListFinancing frmListFinancing = new FrmListFinancing();
     FrmListSalespeople frmListSalespeople = new FrmListSalespeople();
+    FrmAddSalesperson frmAddSalesperson = new FrmAddSalesperson();
 
     /**
      * Hashmap containing all the forms we'll be using. Key is a string
@@ -56,7 +57,8 @@ public class FrmMain extends javax.swing.JFrame {
         forms.put("frmMakeSale", frmMakeSale);
         forms.put("frmListFinancing", frmListFinancing);
         forms.put("frmListSalespeople", frmListSalespeople);
-        
+        forms.put("frmAddSalesperson", frmAddSalesperson);
+
         // For each form we created, add it to the form container in the main
         // window (NOTE: This still won't show the forms yet)
         forms.values().forEach((frm)->{
@@ -379,7 +381,7 @@ public class FrmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_mniListStaffActionPerformed
 
     private void mniAddStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddStaffActionPerformed
-        // TODO add your handling code here:
+        showForm("frmAddSalesperson", true);
     }//GEN-LAST:event_mniAddStaffActionPerformed
 
     private void mniListLoansActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListLoansActionPerformed

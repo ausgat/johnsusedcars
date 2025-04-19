@@ -26,14 +26,13 @@ public class FinancingHandler {
      * Create a new Financing relation in the database
      * 
      * @param cid ID of the customer
-     * @param sid ID of the sale of the car
      * @param rate The monthly interest rate
      * @param moPayment The monthly payment
      * @return Number of rows affected
      */
-    public int addFinancing(int cid, int sid, int rate, int moPayment) {
-        String cmdTemplate = "INSERT INTO Financing (cID, sID, InterestRate, MonthlyPayment) VALUES(%d, %d, %d, %d);";
-        String cmd = String.format(cmdTemplate, cid, sid, rate, moPayment);
+    public int addFinancing(int cid, int rate, int moPayment) {
+        String cmdTemplate = "INSERT INTO Financing (cID, InterestRate, MonthlyPayment) VALUES(%d, %d, %d);";
+        String cmd = String.format(cmdTemplate, cid, rate, moPayment);
         return sqlUtil.executeUpdate(cmd);
     }
 
@@ -41,43 +40,39 @@ public class FinancingHandler {
      * Delete a Financing from the database using the given primary keys
      * 
      * @param cid ID of customer
-     * @param sid ID of the sale of the car
      * @return Number of rows affected
      */
-    public int deleteFinancing(int cid, int sid) {
-        String cmdTemplate = "DELETE FROM Financing WHERE cID=%d AND sID=%d";
-        String cmd = String.format(cmdTemplate, cid, sid);
+    public int deleteFinancing(int cid) {
+        String cmdTemplate = "DELETE FROM Financing WHERE cID=%d";
+        String cmd = String.format(cmdTemplate, cid);
         return sqlUtil.executeUpdate(cmd);
     }
 
     /**
-     * Update a Financing by cID and sID with the given values
+     * Update a Financing by cID with the given values
      *
      * @param cid ID of customer
-     * @param sid ID of sale of car
      * @param rate Interest rate
      * @param moPayment Monthly payment
      * @return Number of rows affected
      */
-    public int updateFinancing(int cid, int sid, int rate, int moPayment) {
-        String cmdTemplate = "UPDATE Financing SET InterestRate=%d, MonthlyPayment=%d WHERE cID=%d AND sID=%d;";
-        String cmd = String.format(cmdTemplate, rate, moPayment, cid, sid);
+    public int updateFinancing(int cid, int rate, int moPayment) {
+        String cmdTemplate = "UPDATE Financing SET InterestRate=%d, MonthlyPayment=%d WHERE cID=%d";
+        String cmd = String.format(cmdTemplate, rate, moPayment, cid);
         return sqlUtil.executeUpdate(cmd);
     }
     
     /**
-     * Find a Financing by its cID and sID
+     * Find a Financing by its cID
      * 
      * @param cid ID of customer
-     * @param sid ID of sale of car
      * @return A Car object if found, null otherwise
      */
-    public Financing findFinancing(int cid, int sid) {
+    public Financing findFinancing(int cid) {
         Financing foundFin = null;
         
-        String cmdTemplate =
-                "SELECT cID, sID, InterestRate, MonthlyPayment FROM Financing WHERE cID=%d AND sID=%d";
-        String cmd = String.format(cmdTemplate, cid, sid);
+        String cmdTemplate = "SELECT cID, InterestRate, MonthlyPayment FROM Financing WHERE cID=%d";
+        String cmd = String.format(cmdTemplate, cid);
         
         ResultSet rs = sqlUtil.executeQuery(cmd);
         
@@ -87,7 +82,7 @@ public class FinancingHandler {
                 int rate = rs.getInt("InterestRate");
                 int moPayment = rs.getInt("MonthlyPayment");
                 
-                foundFin = new Financing(cid, sid, rate, moPayment);
+                foundFin = new Financing(cid, rate, moPayment);
             }
         } catch (SQLException ex) {
             Logger.getLogger(FinancingHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -111,12 +106,11 @@ public class FinancingHandler {
             while (rs.next()) {
                 // Get each relevant attribute from the relation
                 int cid = rs.getInt("cID");
-                int sid = rs.getInt("sID");
                 int rate = rs.getInt("InterestRate");
                 int moPayment = rs.getInt("MonthlyPayment");
 
                 // Create a new Financing object from the relation data
-                Financing fin = new Financing(cid, sid, rate, moPayment);
+                Financing fin = new Financing(cid, rate, moPayment);
                 results.add(fin);
             }
         } catch (SQLException ex) {

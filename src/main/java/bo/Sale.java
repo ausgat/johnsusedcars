@@ -10,12 +10,12 @@ import java.util.Vector;
 public class Sale {
     
     private int id;
-    private int price;
     private LocalDate date;
+    private int price;
     private int spid;
-    private int vin;
+    private String vin;
 
-    public Sale(int id, LocalDate date, int price, int spid, int vin) {
+    public Sale(int id, LocalDate date, int price, int spid, String vin) {
         this.id = id;
         this.price = price;
         this.date = date;
@@ -72,11 +72,11 @@ public class Sale {
         this.spid = spid;
     }
 
-    public int getVin() {
+    public String getVin() {
         return vin;
     }
 
-    public void setVin(int vin) {
+    public void setVin(String vin) {
         this.vin = vin;
     }
 }

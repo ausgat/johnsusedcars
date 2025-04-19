@@ -2,10 +2,7 @@ package jcd;
 
 import bo.Financing;
 import dao.FinancingHandler;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -128,11 +125,10 @@ public class FrmListFinancing extends javax.swing.JInternalFrame {
         // If a row is actually selected (that is, not -1)
         if (selectedRow != -1) {
 
-            // Get the keys from the first two columns of the selected row
+            // Get the keys from the first column of the selected row
             int cid = (int)tblFinancing.getValueAt(selectedRow, 0);
-            int sid = (int)tblFinancing.getValueAt(selectedRow, 1);
 
-            Financing fin = fh.findFinancing(cid, sid);
+            Financing fin = fh.findFinancing(cid);
 
             if (fin != null) {
                 DlgUpdateFinancing dlg = new DlgUpdateFinancing(null, true);
@@ -152,10 +148,8 @@ public class FrmListFinancing extends javax.swing.JInternalFrame {
         // If a row is actually selected (that is, not -1)
         if (selectedRow != -1) {
 
-            // Get the customer ID from the first column (0) and the sale ID
-            // from the second column (1) of the selected row
+            // Get the customer ID from the first column (0) of the selected row
             int cid = (int)tblFinancing.getValueAt(selectedRow, 0);
-            int sid = (int)tblFinancing.getValueAt(selectedRow, 1);
 
             // Show a dialog and put the result in res
             int res = JOptionPane.showConfirmDialog(this,
@@ -163,14 +157,14 @@ public class FrmListFinancing extends javax.swing.JInternalFrame {
 
             // If the user clicked OK
             if (res == JOptionPane.OK_OPTION) {
-                fh.deleteFinancing(cid, sid);
+                fh.deleteFinancing(cid);
 
                 // Reload the list
                 populateFinancing();
             }
         } else {
             JOptionPane.showMessageDialog(this,
-                "Please select a financing to delete.");
+                "Please select a loan to delete.");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 

@@ -9,13 +9,16 @@ import java.util.Vector;
 public class Salesperson {
     
     private int id;
+    private String username;
     private String name;
     private String phone;
     private String email;
 
-    public Salesperson(int id, String name, String phone, String email) {
+    public Salesperson(int id, String username, String name, String phone,
+            String email) {
         this.id = id;
         this.name = name;
+        this.username = username;
         this.phone = phone;
         this.email = email;
     }
@@ -34,6 +37,14 @@ public class Salesperson {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String name) {
+        this.username = name;
     }
 
     public String getPhone() {

@@ -9,13 +9,11 @@ import java.util.Vector;
 public class Financing {
     
     private int cid;
-    private int sid;
     private int monthlyPayment;
     private int interestRate;
 
-    public Financing(int cid, int sid, int interestRate, int monthlyPayment) {
+    public Financing(int cid, int interestRate, int monthlyPayment) {
         this.cid = cid;
-        this.sid = sid;
         this.monthlyPayment = monthlyPayment;
         this.interestRate = interestRate;
     }
@@ -26,14 +24,6 @@ public class Financing {
 
     public void setCid(int cid) {
         this.cid = cid;
-    }
-
-    public int getSid() {
-        return sid;
-    }
-
-    public void setSid(int sid) {
-        this.sid = sid;
     }
 
     public Financing(int monthlyPayment, int interestRate) {
@@ -67,7 +57,6 @@ public class Financing {
     public Vector getRow() {
         Vector vec = new Vector();
         vec.add(this.cid);
-        vec.add(this.sid);
         vec.add(this.interestRate);
         vec.add(this.monthlyPayment);
         return vec;

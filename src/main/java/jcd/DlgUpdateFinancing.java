@@ -154,15 +154,13 @@ public class DlgUpdateFinancing extends javax.swing.JDialog {
         // Get all the user input from the relevant textboxes and put them in
         // variables
         int cid = getFinancing().getCid();
-        int sid = getFinancing().getSid();
         int rate = Integer.parseInt(txtInterestRate.getText());
         int moPayment = Integer.parseInt(txtMonthlyPayment.getText());
 
         // Use FinancingHandler to update a load in the database using the data
         // gathered above and store the return value (-1 on failure, anything
         // else on success)
-        int ret = new FinancingHandler().updateFinancing(cid, sid, rate,
-                moPayment);
+        int ret = new FinancingHandler().updateFinancing(cid, rate, moPayment);
 
         if (ret == -1) {
             // Pop up a message letting the user know a car failed to be added

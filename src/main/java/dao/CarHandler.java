@@ -31,10 +31,10 @@ public class CarHandler {
      * @param msrp  The car's MSRP
      * @return Number of rows affected
      */
-    public int addCar(int vin, String make, String model, int year, int msrp) {
+    public int addCar(String vin, String make, String model, int year, int msrp) {
         // We're creating a pretty long SQL query with lots of data, so let's
         // use a string template to make things a little easier
-        String cmdTemplate = "INSERT INTO Car VALUES(%d, '%s', '%s', %d, %d, NULL);";
+        String cmdTemplate = "INSERT INTO Car VALUES('%s', '%s', '%s', %d, %d, NULL);";
 
         // Add the values to the string template with String.format (this will
         // fill the template with the given data for each of the %d's and %s's,
@@ -51,8 +51,8 @@ public class CarHandler {
      * @param vin   The VIN number of the car
      * @return Number of rows affected
      */
-    public int deleteCar(int vin) {
-        String cmdTemplate = "DELETE FROM Car WHERE vin = %d";
+    public int deleteCar(String vin) {
+        String cmdTemplate = "DELETE FROM Car WHERE vin = '%s'";
         String cmd = String.format(cmdTemplate, vin);
 
         return sqlUtil.executeUpdate(cmd);
@@ -68,8 +68,8 @@ public class CarHandler {
      * @param msrp  Car's MSRP
      * @return Number of rows affected
      */
-    public int updateCar(int vin, String make, String model, int year, int msrp) {
-        String cmdTemplate = "UPDATE Car SET Make='%s', Model='%s', Year=%d, MSRP=%d WHERE VIN=%d;";
+    public int updateCar(String vin, String make, String model, int year, int msrp) {
+        String cmdTemplate = "UPDATE Car SET Make='%s', Model='%s', Year=%d, MSRP=%d WHERE VIN='%s';";
         String cmd = String.format(cmdTemplate, make, model, year, msrp, vin);
         return sqlUtil.executeUpdate(cmd);
     }
@@ -80,11 +80,11 @@ public class CarHandler {
      * @param vin The VIN of the desired car
      * @return A Car object if found, null otherwise
      */
-    public Car findCar(int vin) {
+    public Car findCar(String vin) {
         Car foundCar = null;
         
         String cmdTemplate =
-                "SELECT Vin, Make, Model, Year, MSRP FROM Car WHERE Vin = %d";
+                "SELECT Vin, Make, Model, Year, MSRP FROM Car WHERE Vin = '%s'";
         String cmd = String.format(cmdTemplate, vin);
         
         ResultSet rs = sqlUtil.executeQuery(cmd);
@@ -127,7 +127,7 @@ public class CarHandler {
             // and rs.next() returns false)
             while (rs.next()) {
                 // Get each relevant attribute from the relation
-                int vin = rs.getInt("Vin");
+                String vin = rs.getString("Vin");
                 String make =  rs.getString("Make");
                 String model = rs.getString("Model");
                 int year = rs.getInt("Year");

@@ -1,17 +1,18 @@
 package jcd;
 
 import dao.CarHandler;
+import dao.SalespersonHandler;
 import javax.swing.JOptionPane;
 
 /**
  * Swing form for adding new cars to the database
  */
-public class FrmAddCar extends javax.swing.JInternalFrame {
+public class FrmAddSalesperson extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form FrmAddCar
      */
-    public FrmAddCar() {
+    public FrmAddSalesperson() {
         initComponents();
     }
 
@@ -30,19 +31,18 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
         btnAdd = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtVin = new javax.swing.JTextField();
+        txtFullname = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtMake = new javax.swing.JTextField();
+        txtPhone = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtModel = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtYear = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JPasswordField();
+        txtUsername = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtMsrp = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        cboStatus = new javax.swing.JComboBox<>();
 
         setClosable(true);
+        setTitle("Add New Salesperson");
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -67,20 +67,17 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
 
         jPanel1.add(jPanel5, java.awt.BorderLayout.SOUTH);
 
-        jLabel1.setText("VIN:");
+        jLabel1.setText("Full name:");
 
-        jLabel2.setText("Make:");
+        jLabel2.setText("Phone:");
 
-        jLabel3.setText("Model:");
+        jLabel3.setText("Email:");
         jLabel3.setToolTipText("");
 
-        jLabel4.setText("Year:");
+        jLabel4.setText("Password:");
+        jLabel4.setToolTipText("");
 
-        jLabel5.setText("MSRP:");
-
-        jLabel6.setText("Status:");
-
-        cboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Sold" }));
+        jLabel5.setText("Username:");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -89,27 +86,18 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1))
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtYear)
-                            .addComponent(txtModel)
-                            .addComponent(txtMsrp)
-                            .addComponent(cboStatus, 0, 376, Short.MAX_VALUE)
-                            .addComponent(txtVin)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(41, 41, 41)
-                        .addComponent(txtMake)))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtUsername)
+                    .addComponent(txtPhone)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                    .addComponent(txtFullname)
+                    .addComponent(txtPassword))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -118,27 +106,23 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
                 .addGap(8, 8, 8)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtVin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
+                    .addComponent(txtFullname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtMake, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtModel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtMsrp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(cboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addContainerGap())
         );
 
@@ -153,27 +137,28 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // Get all the user input from the relevant textboxes and put them in
         // variables
-        String vin = txtVin.getText();
-        String make = txtMake.getText();
-        String model = txtModel.getText();
-        int year = Integer.parseInt(txtYear.getText());
-        int msrp = Integer.parseInt(txtMsrp.getText());
+        String fullname = txtFullname.getText();
+        String username = txtUsername.getText();
+        String phone = txtPhone.getText();
+        String email = txtEmail.getText();
+        char[] password = txtPassword.getPassword();
 
-        // Use CarHandler to add a new car to the database using the data
-        // gathered above and store the return value (-1 on failure, anything
-        // else on success)
-        int ret = new CarHandler().addCar(vin, make, model, year, msrp);
+        // Use SalespersonHandler to add a new salesperson to the database using
+        // the data gathered above and store the return value (-1 on failure,
+        // anything else on success)
+        int ret = 1; //new SalespersonHandler().addSalesperson(fullname, username,
+                //phone, email, password);
 
         if (ret == -1) {
             // Pop up a message letting the user know a car failed to be added
             JOptionPane.showMessageDialog(this, "Failed to add car");
         } else {
             // Clear the form
-            txtVin.setText(null);
-            txtMake.setText(null);
-            txtModel.setText(null);
-            txtYear.setText(null);
-            txtMsrp.setText(null);
+            txtFullname.setText(null);
+            txtUsername.setText(null);
+            txtPhone.setText(null);
+            txtEmail.setText(null);
+            txtPassword.setText(null);
             
             // Close the form window
             this.dispose();
@@ -188,20 +173,18 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
-    private javax.swing.JComboBox<String> cboStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JTextField txtMake;
-    private javax.swing.JTextField txtModel;
-    private javax.swing.JTextField txtMsrp;
-    private javax.swing.JTextField txtVin;
-    private javax.swing.JTextField txtYear;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtFullname;
+    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtPhone;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

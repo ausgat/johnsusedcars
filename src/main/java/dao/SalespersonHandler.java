@@ -50,11 +50,12 @@ public class SalespersonHandler {
                 // variables
                 int spId = rs.getInt("SalespersonID");
                 String spName = rs.getString("sName");
+                String spUsername = rs.getString("sUsername");
                 String spPhone = rs.getString("sPhone");
                 String spEmail = rs.getString("sEmail");
 
                 // Create a new Salesperson object from the relation attributes
-                sp = new Salesperson(spId, spName, spPhone, spEmail);
+                sp = new Salesperson(spId, spName, spUsername, spPhone, spEmail);
             }
         } catch (SQLException ex) {
             Logger.getLogger(SalespersonHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,11 +88,12 @@ public class SalespersonHandler {
                 // Get each relevant attribute from the relation
                 int id = rs.getInt("SalespersonID");
                 String name =  rs.getString("sName");
+                String username = rs.getString("sUsername");
                 String phone = rs.getString("sPhone");
                 String email = rs.getString("sEmail");
 
                 // Create a new Salesperson object from the relation data
-                Salesperson sp = new Salesperson(id, name, phone, email);
+                Salesperson sp = new Salesperson(id, name, username, phone, email);
 
                 // Add the newly-created Salesperson object to the list
                 results.add(sp);
