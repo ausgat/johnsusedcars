@@ -54,6 +54,7 @@ cID int,
 InterestRate int,
 MonthlyPayment int,
 foreign key (cID) references Customer(cID)
+	ON DELETE CASCADE
 );
 
 INSERT INTO Customer (cID, cName, cPhone, cEmail)
