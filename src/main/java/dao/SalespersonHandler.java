@@ -24,11 +24,24 @@ public class SalespersonHandler {
     }
     
     /**
+     * Take a plain text password and return a hashed (encrypted) password
+     * 
+     * @param password Plain text password
+     * @return A hashed password as a string
+     */
+    public static String hashPassword(String password) {
+        // TODO: This method currently only returns the plain text password
+        // without any modifications whatsoever! Add code that hashes the
+        // password and returns the password hash.
+        return password;
+    }
+    
+    /**
      * Take the given username and password and check to see if it matches any
      * Salesperson relations in the database
      * 
      * @param username  Username of the salesperson (currently uses email)
-     * @param password  Password of the salesperson
+     * @param password  Plain text password of the salesperson
      * @return Returns a Salesperson object if the username and password match
      *         and null otherwise
      */
@@ -38,7 +51,8 @@ public class SalespersonHandler {
         // The query string, made using String.format() to insert the given
         // username into the string
         String query = String.format(
-            "SELECT * FROM Salesperson WHERE sUsername='%s' and sPassword = '%s' ",username, password);
+            "SELECT * FROM Salesperson WHERE sUsername='%s' and sPassword = '%s' ",
+                username, hashPassword(password));
 
         // The results from the database
         ResultSet rs = sqlUtil.executeQuery(query);
@@ -79,12 +93,13 @@ public class SalespersonHandler {
             String phone, String email) {
         
         String cmdTemplate = "INSERT INTO Salesperson (sUsername, sPassword, sName, sPhone, sEmail) VALUES('%s', '%s', '%s', '%s', '%s')";
-        String cmd = String.format(cmdTemplate, username, password, name, phone, email);
+        String cmd = String.format(cmdTemplate, username,
+                hashPassword(password), name, phone, email);
         return sqlUtil.executeUpdate(cmd);
     }
 
     /**
-     * Add a new Salesperson relation to the database
+     * Update a Salesperson relation in the database
      * 
      * @param id        SalespersonID of the relation
      * @param username  Username
@@ -175,7 +190,6 @@ public class SalespersonHandler {
         return foundSp;
     }
 
-    
     /**
      * Delete a salesperson from the database using the given ID
      * 

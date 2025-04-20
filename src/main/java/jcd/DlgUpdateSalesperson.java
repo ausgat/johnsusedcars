@@ -74,8 +74,6 @@ public class DlgUpdateSalesperson extends javax.swing.JDialog {
         txtPhone = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        txtOldPassword = new javax.swing.JPasswordField();
         txtUsername = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -120,9 +118,6 @@ public class DlgUpdateSalesperson extends javax.swing.JDialog {
         jLabel3.setText("Email:");
         jLabel3.setToolTipText("");
 
-        jLabel4.setText("Old password:");
-        jLabel4.setToolTipText("");
-
         jLabel5.setText("Username:");
 
         jLabel6.setText("Password:");
@@ -138,17 +133,15 @@ public class DlgUpdateSalesperson extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel4)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6))
-                .addGap(35, 35, 35)
+                .addGap(59, 59, 59)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtPassword)
                     .addComponent(txtUsername)
                     .addComponent(txtPhone)
                     .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
-                    .addComponent(txtFullname)
-                    .addComponent(txtOldPassword))
+                    .addComponent(txtFullname))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -170,10 +163,6 @@ public class DlgUpdateSalesperson extends javax.swing.JDialog {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtOldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -204,7 +193,9 @@ public class DlgUpdateSalesperson extends javax.swing.JDialog {
         // Use SaleHandler to update a sale in the database using the data
         // gathered above and store the return value (-1 on failure, anything
         // else on success)
-        int ret = new SalespersonHandler().updateSalesperson(sp.getId(), username, password, name, phone, email);
+        int ret = new SalespersonHandler().updateSalesperson(sp.getId(),
+                username, SalespersonHandler.hashPassword(password), name,
+                phone, email);
 
         if (ret == -1) {
             // Pop up a message letting the user know a car failed to be added
@@ -224,7 +215,6 @@ public class DlgUpdateSalesperson extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
@@ -232,7 +222,6 @@ public class DlgUpdateSalesperson extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFullname;
-    private javax.swing.JPasswordField txtOldPassword;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPhone;
     private javax.swing.JTextField txtUsername;
