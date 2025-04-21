@@ -3,6 +3,7 @@ package utils;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.logging.Level;
@@ -47,12 +48,18 @@ public class SQLUtil {
             Logger.getLogger(SQLUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public PreparedStatement prepareStatement(String cmd) throws SQLException {
+        PreparedStatement pst = con.prepareStatement(cmd);
+        return pst;
+    }
     
     /**
      * Executes a SQL command given as a string (modifies the database).
      * 
      * @param cmd The SQL query string
      * @return An integer of how many rows were affected
+     * @Deprecated Use SQLUtil.prepareStatement for safer SQL updates
      */
     public int executeUpdate(String cmd) {
         try {
@@ -69,6 +76,7 @@ public class SQLUtil {
      * 
      * @param cmd The SQL query string
      * @return The key generated
+     * @Deprecated Use SQLUtil.prepareStatement for safer SQL updates
      */
     public int executeUpdateWithGenKey(String cmd) {
         try {
@@ -88,6 +96,7 @@ public class SQLUtil {
      * 
      * @param cmd The SQL query string
      * @return A ResultSet containing the relevant rows
+     * @Deprecated Use SQLUtil.prepareStatement for safer SQL updates
      */
     public ResultSet executeQuery(String cmd) {
         try {
