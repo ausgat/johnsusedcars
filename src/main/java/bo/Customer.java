@@ -1,5 +1,7 @@
 package bo;
 
+import java.util.Vector;
+
 /**
  * Class representing the Customer relation in the database
  *
@@ -58,5 +60,15 @@ public class Customer {
     @Override
     public String toString() {
         return String.format(" %d, %s, %s, %s", id, name, phone, email);
+    }
+
+    public Vector getRow() {
+        Vector vec = new Vector();
+        vec.add(this.id);
+        vec.add(this.name);
+        vec.add(this.phone);
+        vec.add(this.email);
+        return vec;
+    
     }
 }

@@ -25,23 +25,23 @@ public class CustomerHandler {
         // Create a new SQLUtil to maintain a connection to the database
         sqlUtil = new SQLUtil();
     }
-    public int addCustomer(int id, String name, String phone, String email){
-        String cmdTemplate = "insert into Customer(cID, cName, cPhone, cEmail) values ('%d', '%s', '%s', '%s')";
-        String ctmStr = String.format(cmdTemplate, id, name, phone, email);
-        return sqlUtil.executeUpdate(ctmStr);
+    public int addCustomer(String name, String phone, String email){
+        String cmdTemplate = "INSERT INTO Customer (cName, cPhone, cEmail) VALUES ('%s', '%s', '%s')";
+        String cmd = String.format(cmdTemplate, name, phone, email);
+        return sqlUtil.executeUpdateWithGenKey(cmd);
     }
     public int deleteCustomer(int id){
-        String ctm = String.format("delete from Customer where cID = %d", id);
-        return sqlUtil.executeUpdate(ctm);
+        String cmd = String.format("DELETE FROM Customer where cID = %d", id);
+        return sqlUtil.executeUpdate(cmd);
     }
     public int updateStudent(int id, String name, String phone, String email){
-        String cmdTemplate = "update Customer set cName = '%s', cPhone = '%s', cEmail = '%s' where cID = %d";
-        String ctmStr = String.format(cmdTemplate, id, name, phone, email);
-        return sqlUtil.executeUpdate(ctmStr);
+        String cmdTemplate = "UPDATE Customer set cName = '%s', cPhone = '%s', cEmail = '%s' WHERE cID = %d";
+        String cmd = String.format(cmdTemplate, id, name, phone, email);
+        return sqlUtil.executeUpdate(cmd);
     }
     public List<Customer>getCustomers(){
         List<Customer> results = new ArrayList<>();
-        String cmd = "select * from Customer";
+        String cmd = "SELECT * FROM Customer";
         ResultSet rsCustomer = sqlUtil.executeQuery(cmd);
         try {
             while(rsCustomer.next()){
