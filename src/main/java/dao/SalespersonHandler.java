@@ -1,6 +1,7 @@
 package dao;
 
 import bo.Salesperson;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -48,16 +49,20 @@ public class SalespersonHandler {
     public Salesperson login(String username, String password) {
         Salesperson sp = null;
 
-        // The query string, made using String.format() to insert the given
-        // username into the string
-        String query = String.format(
-            "SELECT * FROM Salesperson WHERE sUsername='%s' and sPassword = '%s' ",
-                username, hashPassword(password));
-
-        // The results from the database
-        ResultSet rs = sqlUtil.executeQuery(query);
-
         try {
+            // The query string, made using SQLUtil.prepareStatement to safely
+            // insert the given username and password into the statement
+            PreparedStatement pst = sqlUtil.prepareStatement(
+                "SELECT * FROM Salesperson WHERE sUsername=? and sPassword=? "
+            );
+
+            // Replace the ?s in the statement with the values given
+            pst.setString(1, username);
+            pst.setString(2, hashPassword(password));
+
+            // The results from the database
+            ResultSet rs = pst.executeQuery();
+
             // Get the next row while there are rows (rs.next() returns true)
             while (rs.next()) {
                 // Put the relevant data from the Salesperson relation into
@@ -74,7 +79,7 @@ public class SalespersonHandler {
         } catch (SQLException ex) {
             Logger.getLogger(SalespersonHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         // Return the relation, if found
         return sp;
     }
