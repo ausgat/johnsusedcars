@@ -1,8 +1,10 @@
 package jcd;
 
 import bo.Financing;
+import dao.CustomerHandler;
 import dao.FinancingHandler;
 import java.util.List;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -12,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 public class FrmListFinancing extends javax.swing.JInternalFrame {
 
     FinancingHandler fh = new FinancingHandler();
+    CustomerHandler ch = new CustomerHandler();
     
     /** Creates new form FrmListFinancing */
     public FrmListFinancing() {
@@ -180,8 +183,8 @@ public class FrmListFinancing extends javax.swing.JInternalFrame {
 
         List<Financing> fins = fh.getFinancings();
 
-        String[] columns = new String[] { "Customer ID", "Sale ID",
-            "Interest Rate", "Monthly Payment" };
+        String[] columns = new String[] { "Customer", "Interest Rate",
+            "Monthly Payment" };
         DefaultTableModel tblModel = new DefaultTableModel(columns, 0) {
             // Make sure none of the cells is editable
             @Override
@@ -190,7 +193,14 @@ public class FrmListFinancing extends javax.swing.JInternalFrame {
             }
         };
         fins.forEach((f)->{
-            tblModel.addRow(f.getRow());
+            Vector row = f.getRow();
+
+            // Remove the customer ID
+            row.removeElementAt(0);
+
+            // Add customer info
+            row.insertElementAt(ch.findCustomer(f.getCid()).toString(), 0);
+            tblModel.addRow(row);
         });
         tblFinancing.setModel(tblModel);
     }

@@ -4,6 +4,7 @@
  */
 package dao;
 import bo.Customer;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import utils.SQLUtil;
@@ -61,6 +62,28 @@ public class CustomerHandler {
         }
         return results;
     }
+
+    public Customer findCustomer(int cid) {
+        Customer customer = null;
+        try {
+            PreparedStatement pst = sqlUtil.prepareStatement(
+                    "SELECT * FROM Customer WHERE cID=?"
+            );
+            pst.setInt(1, cid);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                String name = rs.getString("cName");
+                String phone = rs.getString("cPhone");
+                String email = rs.getString("cEmail");
+                customer = new Customer(cid, name, phone, email);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return customer;
     }
+}
     
 
