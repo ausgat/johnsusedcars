@@ -182,7 +182,8 @@ public class FrmListSales extends javax.swing.JInternalFrame {
 
         List<Sale> sales = sh.getSales();
 
-        String[] columns = new String[] { "ID", "Date", "Price", "Salesperson", "Car" };
+        String[] columns = new String[] { "ID", "Date", "Price", "Salesperson",
+            "Car", "Sold To" };
         DefaultTableModel tblModel = new DefaultTableModel(columns, 0) {
             // Make sure none of the cells is editable
             @Override

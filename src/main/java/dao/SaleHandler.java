@@ -136,18 +136,29 @@ public class SaleHandler {
      */
     public List<Sale> getSales() {
         List<Sale> results = new ArrayList<Sale>();
-        String cmd = "SELECT * FROM Sale;";
-        ResultSet rs = sqlUtil.executeQuery(cmd);
-            
         try {
+            PreparedStatement pst = sqlUtil.prepareStatement(
+                "SELECT sID, sDate, sPrice, SalespersonID, Sale.Vin, Car.cID " +
+                "FROM Sale " +
+                "JOIN Car ON Sale.Vin = Car.Vin " +
+                "JOIN Customer ON Car.cID = Customer.cID ");
+            ResultSet rs = pst.executeQuery();
+            
             while (rs.next()) {
                 int id = rs.getInt("sID");
                 LocalDate date = rs.getDate("sDate").toLocalDate();
                 int price = rs.getInt("sPrice");
                 int spid = rs.getInt("SalespersonID");
-                String vin = rs.getString("VIN");
+                String vin = rs.getString("Sale.Vin");
+                int cid = rs.getInt("Car.cID");
 
-                results.add(new Sale(id, date, price, spid, vin));
+                Sale sale = new Sale(id, date, price, spid, vin);
+
+                // If the car has been sold, include the customer sold to
+                if (cid > 0)
+                    sale.setCid(cid);
+                
+                results.add(sale);
             }
         } catch (SQLException ex) {
             Logger.getLogger(SaleHandler.class.getName()).log(Level.SEVERE, null, ex);

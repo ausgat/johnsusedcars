@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 public class FrmAddSale extends javax.swing.JInternalFrame {
 
     SaleHandler sh = new SaleHandler();
+    CarHandler ch = new CarHandler();
     
     /**
      * Creates new form FrmMakeSale
@@ -246,6 +247,9 @@ public class FrmAddSale extends javax.swing.JInternalFrame {
         if (key == -1) {
             JOptionPane.showMessageDialog(this, "Failed to make sale");
         } else {
+            // Set the car's customer ID to the customer's cID and mark it sold
+            ch.updateCar(vin, selectedCustomer.getId(), false);
+
             // If financing was selected, add a financing relation referencing
             // the car and sale
             if (chbFinancing.isSelected()) {

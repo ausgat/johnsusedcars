@@ -162,6 +162,45 @@ public class CarHandler {
     }
     
     /**
+     * Update a car's cID and inventory status by VIN
+     * 
+     * @param vin           VIN number of the car to update
+     * @param cid           Customer's ID number
+     * @param stockStatus   Inventory stock status
+     * @return Number of rows affected
+     */
+    public int updateCar(String vin, int cid, boolean stockStatus) {
+        PreparedStatement pst1, pst2;
+        try {
+            // Add the car
+            pst1 = sqlUtil.prepareStatement(
+                "UPDATE Car SET cID=? WHERE Vin=?"
+            );
+            pst1.setString(2, vin);
+            pst1.setInt(1, cid);
+
+            int ret = pst1.executeUpdate();
+            Inventory inv = new InventoryHandler().findInventories(vin)
+                    .getFirst();
+
+            if (inv != null) {
+                pst2 = sqlUtil.prepareStatement(
+                    "UPDATE Inventory SET StockStatus=? WHERE Vin=?"
+                );
+                pst2.setString(2, vin);
+                pst2.setBoolean(1, stockStatus);
+                ret += pst2.executeUpdate();
+            }
+
+            return ret;
+        } catch (SQLException ex) {
+            Logger.getLogger(CarHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return -1;
+    }
+    
+    /**
      * Find a car by its VIN
      * 
      * @param vin The VIN of the desired car

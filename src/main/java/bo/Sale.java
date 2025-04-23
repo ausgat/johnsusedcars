@@ -14,6 +14,7 @@ public class Sale {
     private int price;
     private int spid;
     private String vin;
+    private int cid;
 
     public Sale(int id, LocalDate date, int price, int spid, String vin) {
         this.id = id;
@@ -37,6 +38,8 @@ public class Sale {
         vec.add(this.price);
         vec.add(this.spid);
         vec.add(this.vin);
+        if (cid > 0)
+            vec.add(this.cid);
         return vec;
     }
     
@@ -78,5 +81,13 @@ public class Sale {
 
     public void setVin(String vin) {
         this.vin = vin;
+    }
+
+    public int getCid() {
+        return cid;
+    }
+
+    public void setCid(int cid) {
+        this.cid = cid;
     }
 }
