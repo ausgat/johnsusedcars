@@ -91,7 +91,7 @@ public class DlgUpdateSale extends javax.swing.JDialog {
     private void populateCustomers() {
         CustomerHandler ch = new CustomerHandler();
         cbxCustomer.removeAllItems();        
-        ch.getCustomers().forEach((cust) -> {
+        ch.getCustomers("").forEach((cust) -> {
             cbxCustomer.addItem(cust);
         });
     }

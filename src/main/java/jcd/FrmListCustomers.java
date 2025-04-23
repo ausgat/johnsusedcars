@@ -24,21 +24,21 @@ public class FrmListCustomers extends javax.swing.JInternalFrame {
      * Creates new form FrmListCustomers
      *
      */
-    List<Customer> results;
-    
+    private void refreshTableCustomers(){
+        populateCustomers();
+    }
+    CustomerHandler customerHandler = new CustomerHandler();
     private void populateCustomers(){
+        String keyword = txtKeyword.getText();
+        List<Customer> customers = customerHandler.getCustomers(keyword);
         String [] colNames = new String[]{"Customer ID", "Customer Name", "Customer Phone", "Customer Email"};
-        DefaultTableModel tm = new DefaultTableModel(colNames, 0){
-            @Override
-            public boolean isCellEditable(int i, int i1){
-                return false;
-            }
-        };
-        results = new CustomerHandler().getCustomers();
-        results.forEach((sc) -> {
-            tm.addRow(sc.getRow());
-        });
-        tblCustomers.setModel(tm);
+        DefaultTableModel tblModel = new DefaultTableModel(colNames, 0);
+            
+            customers.forEach((cust)->{
+               tblModel.addRow(cust.getRow());
+            });
+        tblCustomers.setModel(tblModel);
+        
     }
     public FrmListCustomers() {
         initComponents();
@@ -63,6 +63,8 @@ public class FrmListCustomers extends javax.swing.JInternalFrame {
         btnSearch = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
 
+        setClosable(true);
+
         jLabel1.setText("Search");
 
         tblCustomers.setModel(new javax.swing.table.DefaultTableModel(
@@ -86,6 +88,11 @@ public class FrmListCustomers extends javax.swing.JInternalFrame {
         });
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -129,6 +136,21 @@ public class FrmListCustomers extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         populateCustomers();
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = tblCustomers.getSelectedRow();
+        if(selectedRow!= -1){
+            int id = (int)tblCustomers.getValueAt(selectedRow, 0);
+            int ret = JOptionPane.showConfirmDialog(this, String.format("Deleting Customer ID %d", id));
+            if(ret == JOptionPane.OK_OPTION){
+                customerHandler.deleteCustomer(id);
+                refreshTableCustomers();
+            }
+        }else{
+            JOptionPane.showMessageDialog(this,"Please select a customer to delete");
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -31,7 +31,8 @@ public class CustomerHandler {
         return sqlUtil.executeUpdateWithGenKey(cmd);
     }
     public int deleteCustomer(int id){
-        String cmd = String.format("DELETE FROM Customer where cID = %d", id);
+        String cmdTemplate = "DELETE FROM CUSTOMER where cID = %d";
+        String cmd = String.format(cmdTemplate, id);
         return sqlUtil.executeUpdate(cmd);
     }
     public int updateStudent(int id, String name, String phone, String email){
@@ -39,9 +40,10 @@ public class CustomerHandler {
         String cmd = String.format(cmdTemplate, id, name, phone, email);
         return sqlUtil.executeUpdate(cmd);
     }
-    public List<Customer>getCustomers(){
+    public List<Customer>getCustomers(String keyword){
+        String cmd = String.format("SELECT * FROM Customer where cName like '%s'", "%"+keyword+"%");
         List<Customer> results = new ArrayList<>();
-        String cmd = "SELECT * FROM Customer";
+        
         ResultSet rsCustomer = sqlUtil.executeQuery(cmd);
         try {
             while(rsCustomer.next()){

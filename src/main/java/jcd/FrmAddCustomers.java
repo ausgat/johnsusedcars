@@ -37,6 +37,8 @@ public class FrmAddCustomers extends javax.swing.JInternalFrame {
         txtPhone = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
 
+        setClosable(true);
+
         jLabel1.setText("Name");
 
         jLabel2.setText("Phone");
