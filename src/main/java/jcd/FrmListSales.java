@@ -1,7 +1,13 @@
 package jcd;
 
+import bo.Car;
+import bo.Customer;
 import bo.Sale;
+import bo.Salesperson;
+import dao.CarHandler;
+import dao.CustomerHandler;
 import dao.SaleHandler;
+import dao.SalespersonHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +21,9 @@ import javax.swing.table.DefaultTableModel;
 public class FrmListSales extends javax.swing.JInternalFrame {
 
     SaleHandler sh = new SaleHandler();
+    SalespersonHandler sph = new SalespersonHandler();
+    CarHandler ch = new CarHandler();
+    CustomerHandler csh = new CustomerHandler();
     
     /** Creates new form FrmListSales */
     public FrmListSales() {
@@ -192,7 +201,24 @@ public class FrmListSales extends javax.swing.JInternalFrame {
             }
         };
         sales.forEach((sale)->{
-            tblModel.addRow(sale.getRow());
+            Vector row = sale.getRow();
+
+            // Replace salesperson ID with salesperson info
+            Salesperson sp = sph.findSalesperson(sale.getSpid());
+            if (sp != null)
+                row.setElementAt(sp.toString(), 3);
+
+            // Replace car ID with car info
+            Car car = ch.findCar(sale.getVin());
+            if (car != null)
+                row.setElementAt(car.toString(), 4);
+
+            // Replace customer ID with customer info
+            Customer cust = csh.findCustomer(sale.getCid());
+            if (cust != null)
+                row.setElementAt(cust.toString(), 5);
+
+            tblModel.addRow(row);
         });
         tblSales.setModel(tblModel);
     }

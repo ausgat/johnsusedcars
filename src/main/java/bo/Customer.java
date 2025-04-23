@@ -59,7 +59,7 @@ public class Customer {
      */
     @Override
     public String toString() {
-        return String.format(" %d, %s, %s, %s", id, name, phone, email);
+        return String.format("%s (ID: %d), %s, %s", name, id, phone, email);
     }
 
     public Vector getRow() {
