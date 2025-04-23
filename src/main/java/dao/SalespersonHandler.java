@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.PasswordEncryptor;
 import utils.SQLUtil;
 
 /**
@@ -24,6 +25,8 @@ public class SalespersonHandler {
         sqlUtil = new SQLUtil();
     }
     
+    
+    
     /**
      * Take a plain text password and return a hashed (encrypted) password
      * 
@@ -31,9 +34,7 @@ public class SalespersonHandler {
      * @return A hashed password as a string
      */
     public static String hashPassword(String password) {
-        // TODO: This method currently only returns the plain text password
-        // without any modifications whatsoever! Add code that hashes the
-        // password and returns the password hash.
+        password= PasswordEncryptor.encryptPassword(password);
         return password;
     }
     
@@ -53,12 +54,11 @@ public class SalespersonHandler {
             // The query string, made using SQLUtil.prepareStatement to safely
             // insert the given username and password into the statement
             PreparedStatement pst = sqlUtil.prepareStatement(
-                "SELECT * FROM Salesperson WHERE sUsername=? and sPassword=? "
+                "SELECT * FROM Salesperson WHERE sUsername=?"
             );
 
             // Replace the ?s in the statement with the values given
             pst.setString(1, username);
-            pst.setString(2, hashPassword(password));
 
             // The results from the database
             ResultSet rs = pst.executeQuery();
@@ -72,9 +72,13 @@ public class SalespersonHandler {
                 String spUsername = rs.getString("sUsername");
                 String spPhone = rs.getString("sPhone");
                 String spEmail = rs.getString("sEmail");
+                String passwordHash = rs.getString("sPassword");
 
-                // Create a new Salesperson object from the relation attributes
-                sp = new Salesperson(spId, spName, spUsername, spPhone, spEmail);
+                // Make sure the hashed password matches the one stored
+                if (passwordHash.equals(hashPassword(password))) {
+                    // Create a new Salesperson object from the relation attributes
+                    sp = new Salesperson(spId, spName, spUsername, spPhone, spEmail);
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(SalespersonHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -117,9 +121,16 @@ public class SalespersonHandler {
     public int updateSalesperson(int id, String username, String password, String name,
             String phone, String email) {
         
-        String cmdTemplate = "UPDATE Salesperson SET sUsername='%s', sPassword='%s', sName='%s', sPhone='%s', sEmail='%s' WHERE SalespersonID=%d";
-        String cmd = String.format(cmdTemplate, username, password, name, phone, email, id);
-        return sqlUtil.executeUpdate(cmd);
+        if (password.isEmpty()) {
+            String cmdTemplate = "UPDATE Salesperson SET sUsername='%s', sName='%s', sPhone='%s', sEmail='%s' WHERE SalespersonID=%d";
+            String cmd = String.format(cmdTemplate, username, name, phone, email, id);
+            return sqlUtil.executeUpdate(cmd);
+
+        } else {
+            String cmdTemplate = "UPDATE Salesperson SET sUsername='%s', sPassword='%s', sName='%s', sPhone='%s', sEmail='%s' WHERE SalespersonID=%d";
+            String cmd = String.format(cmdTemplate, username, hashPassword(password), name, phone, email, id);
+            return sqlUtil.executeUpdate(cmd);
+        }
     }
 
     /**

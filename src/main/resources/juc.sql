@@ -75,10 +75,11 @@ VALUES
 (1002, FALSE, 'B2', 'Lot B'),
 (1003, TRUE, 'C3', 'Lot A');
 
+# Passwords: password1, password2
 INSERT INTO Salesperson (SalespersonID, sUsername, sPassword, sName, sPhone, sEmail)
 VALUES
-(501, 'Danny', 'password1', 'Daniel Rivera', '456-789-0123', 'daniel.rivera@dealership.com'),
-(502, 'Emmy', 'password2', 'Emily Chen', '567-890-1234', 'emily.chen@dealership.com');
+(501, 'Danny', 'CxTVAaWURCoBxoWVQbyz6BZNGD0yk3uFGDVEL2nVyU4=', 'Daniel Rivera', '456-789-0123', 'daniel.rivera@dealership.com'),
+(502, 'Emmy', 'bPYV1byqx3g1Ko8fM2DSPwLzTsGC4lmJf9bOSF14cNQ=', 'Emily Chen', '567-890-1234', 'emily.chen@dealership.com');
  
 INSERT INTO Sale (sID, sDate, sPrice, SalespersonID, Vin)
 VALUES
