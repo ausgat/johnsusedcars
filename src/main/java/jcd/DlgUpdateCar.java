@@ -1,7 +1,11 @@
 package jcd;
 
 import bo.Car;
+import bo.Inventory;
+import bo.InventoryStock;
 import dao.CarHandler;
+import dao.InventoryHandler;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,6 +27,7 @@ public class DlgUpdateCar extends javax.swing.JDialog {
     }
     
     private Car car = null;
+    private Inventory inv = null;
 
     public Car getCar() {
         return car;
@@ -41,6 +46,20 @@ public class DlgUpdateCar extends javax.swing.JDialog {
         }
     }
     
+    public Inventory getInventory() {
+        return inv;
+    }
+
+    public void setInventory(Inventory inv) {
+        this.inv = inv;
+        
+        if (inv != null) {
+            this.cboStatus.setSelectedIndex(inv.isStockStatus() ? 0 : 1);
+            this.cboParkingLot.setSelectedItem(inv.getParkingLot());
+            this.txtParkingSpot.setText(inv.getParkingSpot());
+        }
+    }
+    
     private void doClose(int retStatus) {
         returnStatus = retStatus;
         setVisible(false);
@@ -53,8 +72,17 @@ public class DlgUpdateCar extends javax.swing.JDialog {
     public DlgUpdateCar(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        populateParkingSpots();
     }
 
+    private void populateParkingSpots() {
+        ArrayList<InventoryStock> iss = new InventoryHandler().getInventoryStock();
+        cboParkingLot.removeAllItems();
+        for (InventoryStock is : iss) {
+            cboParkingLot.addItem(is.getParkingLot());
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,9 +109,12 @@ public class DlgUpdateCar extends javax.swing.JDialog {
         txtMsrp = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         cboStatus = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        cboParkingLot = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        txtParkingSpot = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(null);
         setResizable(false);
         setSize(new java.awt.Dimension(588, 252));
 
@@ -127,6 +158,12 @@ public class DlgUpdateCar extends javax.swing.JDialog {
 
         cboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Sold" }));
 
+        jLabel8.setText("Parking lot:");
+
+        cboParkingLot.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Sold" }));
+
+        jLabel7.setText("Parking spot:");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -134,12 +171,6 @@ public class DlgUpdateCar extends javax.swing.JDialog {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -154,7 +185,21 @@ public class DlgUpdateCar extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(41, 41, 41)
-                        .addComponent(txtMake)))
+                        .addComponent(txtMake))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addComponent(txtParkingSpot))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cboParkingLot, 0, 388, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel7))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -184,6 +229,14 @@ public class DlgUpdateCar extends javax.swing.JDialog {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(cboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboParkingLot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtParkingSpot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -206,11 +259,16 @@ public class DlgUpdateCar extends javax.swing.JDialog {
         String model = txtModel.getText();
         int year = Integer.parseInt(txtYear.getText());
         int msrp = Integer.parseInt(txtMsrp.getText());
+        boolean stockStatus =
+            cboStatus.getSelectedItem().toString().equals("Available");
+        String parkingSpot = txtParkingSpot.getText();
+        String parkingLot = cboParkingLot.getSelectedItem().toString();
 
         // Use CarHandler to add a new car to the database using the data
         // gathered above and store the return value (-1 on failure, anything
         // else on success)
-        int ret = new CarHandler().updateCar(vin, make, model, year, msrp);
+        int ret = new CarHandler().updateCar(vin, make, model, year, msrp,
+                stockStatus, parkingSpot, parkingLot);
 
         if (ret == -1) {
             // Pop up a message letting the user know a car failed to be added
@@ -224,6 +282,7 @@ public class DlgUpdateCar extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cboParkingLot;
     private javax.swing.JComboBox<String> cboStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -231,12 +290,15 @@ public class DlgUpdateCar extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField txtMake;
     private javax.swing.JTextField txtModel;
     private javax.swing.JTextField txtMsrp;
+    private javax.swing.JTextField txtParkingSpot;
     private javax.swing.JTextField txtVin;
     private javax.swing.JTextField txtYear;
     // End of variables declaration//GEN-END:variables

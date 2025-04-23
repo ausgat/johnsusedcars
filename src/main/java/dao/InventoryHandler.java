@@ -1,6 +1,7 @@
 package dao;
 
 import bo.Inventory;
+import bo.InventoryStock;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -124,7 +125,7 @@ public class InventoryHandler {
         try {
             // Create a SQL injection-safe statement
             PreparedStatement pst = sqlUtil.prepareStatement(
-                "SELECT (Vin, StockStatus, ParkingSpot, ParkingLot) " +
+                "SELECT Vin, StockStatus, ParkingSpot, ParkingLot " +
                 "FROM Inventory WHERE Vin=?"
             );
             
@@ -146,6 +147,38 @@ public class InventoryHandler {
                 // the array
                 inventories.add(new Inventory(vin, stockStatus, parkingSpot,
                         parkingLot));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(InventoryHandler.class.getName()).log(Level.SEVERE,
+                null, ex);
+        }
+        
+        // Return value when there was an error
+        return inventories;
+    }
+
+    public ArrayList<InventoryStock> getInventoryStock() {
+        ArrayList<InventoryStock> inventories = new ArrayList<>();
+
+        try {
+            // Create a SQL statement
+            String cmd = "SELECT COUNT(Vin) AS CarCount, ParkingLot " +
+                         "FROM Inventory GROUP BY ParkingLot";
+
+            // Execute the statement and get the result set
+            ResultSet rs = sqlUtil.executeQuery(cmd);
+
+            // Iterate through the result set, and add each row as an Inventory
+            // to the array
+            while (rs.next()) {
+                // Get the relevant attributes from the relation
+                int carCount = rs.getInt("CarCount");
+                String parkingLot = rs.getString("ParkingLot");
+                
+                // Create an InventoryStock object from the attributes and add
+                // it to the array
+                inventories.add(new InventoryStock(carCount, parkingLot));
             }
             
         } catch (SQLException ex) {

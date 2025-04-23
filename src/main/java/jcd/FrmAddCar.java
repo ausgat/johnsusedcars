@@ -1,6 +1,9 @@
 package jcd;
 
+import bo.InventoryStock;
 import dao.CarHandler;
+import dao.InventoryHandler;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,6 +16,7 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
      */
     public FrmAddCar() {
         initComponents();
+        populateParkingSpots();
     }
 
     /**
@@ -41,6 +45,10 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
         txtMsrp = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         cboStatus = new javax.swing.JComboBox<>();
+        txtParkingSpot = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        cboParkingLot = new javax.swing.JComboBox<>();
 
         setClosable(true);
 
@@ -82,6 +90,12 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
 
         cboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Sold" }));
 
+        jLabel7.setText("Parking spot:");
+
+        jLabel8.setText("Parking lot:");
+
+        cboParkingLot.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Sold" }));
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -89,12 +103,6 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -109,7 +117,21 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(41, 41, 41)
-                        .addComponent(txtMake)))
+                        .addComponent(txtMake))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addComponent(txtParkingSpot))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel7))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cboParkingLot, 0, 376, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -139,6 +161,14 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(cboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboParkingLot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtParkingSpot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -149,6 +179,14 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void populateParkingSpots() {
+        ArrayList<InventoryStock> iss = new InventoryHandler().getInventoryStock();
+        cboParkingLot.removeAllItems();
+        for (InventoryStock is : iss) {
+            cboParkingLot.addItem(is.getParkingLot());
+        }
+    }
+    
     // Called when the "Add" button is pressed
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // Get all the user input from the relevant textboxes and put them in
@@ -158,11 +196,16 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
         String model = txtModel.getText();
         int year = Integer.parseInt(txtYear.getText());
         int msrp = Integer.parseInt(txtMsrp.getText());
+        boolean stockStatus =
+            cboStatus.getSelectedItem().toString().equals("Available");
+        String parkingSpot = txtParkingSpot.getText();
+        String parkingLot = cboParkingLot.getSelectedItem().toString();
 
         // Use CarHandler to add a new car to the database using the data
         // gathered above and store the return value (-1 on failure, anything
         // else on success)
-        int ret = new CarHandler().addCar(vin, make, model, year, msrp);
+        int ret = new CarHandler().addCar(vin, make, model, year, msrp,
+                stockStatus, parkingSpot, parkingLot);
 
         if (ret == -1) {
             // Pop up a message letting the user know a car failed to be added
@@ -174,6 +217,7 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
             txtModel.setText(null);
             txtYear.setText(null);
             txtMsrp.setText(null);
+            txtParkingSpot.setText(null);
             
             // Close the form window
             this.dispose();
@@ -188,6 +232,7 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JComboBox<String> cboParkingLot;
     private javax.swing.JComboBox<String> cboStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -195,12 +240,15 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField txtMake;
     private javax.swing.JTextField txtModel;
     private javax.swing.JTextField txtMsrp;
+    private javax.swing.JTextField txtParkingSpot;
     private javax.swing.JTextField txtVin;
     private javax.swing.JTextField txtYear;
     // End of variables declaration//GEN-END:variables

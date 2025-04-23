@@ -1,5 +1,7 @@
 package bo;
 
+import java.util.Vector;
+
 /**
  * Class representing the Inventory relation in the database
  *
@@ -18,6 +20,15 @@ public class Inventory {
         this.parkingLot = parkingLot;
     }
 
+    public Vector getRow() {
+        Vector vec = new Vector();
+        vec.add(this.vin);
+        vec.add(this.stockStatus);
+        vec.add(this.parkingSpot);
+        vec.add(this.parkingLot);
+        return vec;
+    }
+    
     public String getVin() {
         return vin;
     }

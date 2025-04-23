@@ -1,6 +1,8 @@
 package dao;
 
 import bo.Car;
+import bo.Inventory;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,10 +17,14 @@ import utils.SQLUtil;
  */
 public class CarHandler {
     private SQLUtil sqlUtil;
+    private InventoryHandler ih;
     
     public CarHandler() {
         // Create a new SQLUtil to maintain a connection to the database
         sqlUtil = new SQLUtil();
+
+        // Also create an InventoryHandler
+        ih = new InventoryHandler();
     }
     
     /**
@@ -46,6 +52,50 @@ public class CarHandler {
     }
 
     /**
+     * Create new Car and Inventory relations to the database
+     * 
+     * @param vin           The car's VIN number (primary key)
+     * @param make          The car's make
+     * @param model         The car's model
+     * @param year          The car's year
+     * @param msrp          The car's MSRP
+     * @param stockStatus   The car's availability
+     * @param parkingSpot   The car's parking spot
+     * @param parkingLot    The car's parking lot
+     * @return Number of rows affected
+     */
+    public int addCar(String vin, String make, String model, int year, int msrp,
+            boolean stockStatus, String parkingSpot, String parkingLot) {
+        PreparedStatement pst1, pst2;
+        try {
+            // Add the car
+            pst1 = sqlUtil.prepareStatement(
+                "INSERT INTO Car VALUES(?, ?, ?, ?, ?, NULL)"
+            );
+            pst1.setString(1, vin);
+            pst1.setString(2, make);
+            pst1.setString(3, model);
+            pst1.setInt(4, year);
+            pst1.setInt(5, msrp);
+            int ret1 = pst1.executeUpdate();
+
+            pst2 = sqlUtil.prepareStatement(
+                "INSERT INTO Inventory VALUES(?, ?, ?, ?)"
+            );
+            pst2.setString(1, vin);
+            pst2.setBoolean(2, stockStatus);
+            pst2.setString(3, parkingSpot);
+            pst2.setString(4, parkingLot);
+
+            return ret1 + pst2.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CarHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return -1;
+    }
+
+    /**
      * Delete a car from the database using the given VIN
      * 
      * @param vin   The VIN number of the car
@@ -68,10 +118,47 @@ public class CarHandler {
      * @param msrp  Car's MSRP
      * @return Number of rows affected
      */
-    public int updateCar(String vin, String make, String model, int year, int msrp) {
-        String cmdTemplate = "UPDATE Car SET Make='%s', Model='%s', Year=%d, MSRP=%d WHERE VIN='%s';";
-        String cmd = String.format(cmdTemplate, make, model, year, msrp, vin);
-        return sqlUtil.executeUpdate(cmd);
+    public int updateCar(String vin, String make, String model, int year,
+            int msrp, boolean stockStatus, String parkingSpot,
+            String parkingLot) {
+        PreparedStatement pst1, pst2;
+        try {
+            // Add the car
+            pst1 = sqlUtil.prepareStatement(
+                "UPDATE Car SET Vin=?, Make=?, Model=?, Year=?, Msrp=? " +
+                "WHERE Vin=?"
+            );
+            pst1.setString(1, vin);
+            pst1.setString(2, make);
+            pst1.setString(3, model);
+            pst1.setInt(4, year);
+            pst1.setInt(5, msrp);
+            pst1.setString(6, vin);
+            int ret = pst1.executeUpdate();
+
+            Inventory inv = new InventoryHandler().findInventories(vin)
+                    .getFirst();
+
+            if (inv != null) {
+                pst2 = sqlUtil.prepareStatement(
+                    "UPDATE Inventory " +
+                    "SET Vin=?, StockStatus=?, ParkingSpot=?, ParkingLot=? " +
+                    "WHERE Vin=?"
+                );
+                pst2.setString(1, vin);
+                pst2.setBoolean(2, stockStatus);
+                pst2.setString(3, parkingSpot);
+                pst2.setString(4, parkingLot);
+                pst2.setString(5, vin);
+                ret += pst2.executeUpdate();
+            }
+
+            return ret;
+        } catch (SQLException ex) {
+            Logger.getLogger(CarHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return -1;
     }
     
     /**
