@@ -49,9 +49,15 @@ public class SQLUtil {
         }
     }
 
+    public PreparedStatement prepareStatement(String cmd, boolean withGenKeys) throws SQLException {
+        if (withGenKeys)
+            return con.prepareStatement(cmd, Statement.RETURN_GENERATED_KEYS);
+        else
+            return con.prepareStatement(cmd);
+    }
+    
     public PreparedStatement prepareStatement(String cmd) throws SQLException {
-        PreparedStatement pst = con.prepareStatement(cmd);
-        return pst;
+        return prepareStatement(cmd, false);
     }
     
     /**
@@ -90,7 +96,20 @@ public class SQLUtil {
         
         return -1;
     }
-    
+
+    public int executeUpdateWithGenKey(PreparedStatement pst) {
+        try {
+            pst.execute();
+            ResultSet rs = pst.getGeneratedKeys();
+            if (rs.next())
+                return rs.getInt(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return -1;
+    }    
+
     /**
      * Executes a SQL query given as a string (gets rows from the database).
      * 
