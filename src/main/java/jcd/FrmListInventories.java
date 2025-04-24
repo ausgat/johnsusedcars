@@ -1,7 +1,6 @@
 package jcd;
 
 import bo.Inventory;
-import bo.InventoryStock;
 import dao.InventoryHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -127,12 +126,12 @@ public class FrmListInventories extends javax.swing.JInternalFrame {
         int selectedRow = tblInventories.getSelectedRow();
 
         // If a row is actually selected (that is, not -1)
-        /*if (selectedRow != -1) {
+        if (selectedRow != -1) {
 
             // Get the ID number from the first column (0) of the selected row
-            int id = (int)tblInventories.getValueAt(selectedRow, 0);
+            int iid = (int)tblInventories.getValueAt(selectedRow, 0);
 
-            Inventory inventory = sh.findInventory(id);
+            Inventory inventory = ih.findInventory(iid);
 
             if (inventory != null) {
                 DlgUpdateInventory dlg = new DlgUpdateInventory(null, true);
@@ -142,7 +141,7 @@ public class FrmListInventories extends javax.swing.JInternalFrame {
                     this.populateInventories();
                 }
             }
-        }*/
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -156,8 +155,9 @@ public class FrmListInventories extends javax.swing.JInternalFrame {
             int id = (int)tblInventories.getValueAt(selectedRow, 0);
 
             // Show a dialog and put the result in res
-            /*int res = JOptionPane.showConfirmDialog(this,
-                String.format("Are you sure you want to delete the inventory with ID %d?", id));
+            int res = JOptionPane.showConfirmDialog(this,
+                String.format("Are you sure you want to delete the inventory " +
+                        "with ID %d?", id));
 
             // If the user clicked OK
             if (res == JOptionPane.OK_OPTION) {
@@ -165,7 +165,7 @@ public class FrmListInventories extends javax.swing.JInternalFrame {
 
                 // Reload the list
                 populateInventories();
-            }*/
+            }
         } else {
             JOptionPane.showMessageDialog(this,
                 "Please select an inventory to delete.");
@@ -181,9 +181,9 @@ public class FrmListInventories extends javax.swing.JInternalFrame {
      */
     public void populateInventories() {
 
-        List<InventoryStock> inventories = ih.getInventoryStock();
+        List<Inventory> inventories = ih.getInventories();
 
-        String[] columns = new String[] { "Cars", "Parking Lot" };
+        String[] columns = new String[] { "Inventory ID", "Parking Lot" };
         DefaultTableModel tblModel = new DefaultTableModel(columns, 0) {
             // Make sure none of the cells is editable
             @Override

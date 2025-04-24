@@ -85,10 +85,18 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="mniListInventories">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="List inventories&#x2026;"/>
+                    <Property name="text" type="java.lang.String" value="List Inventories&#x2026;"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniListInventoriesActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mniAddInventory">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Add Inventory..."/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mniAddInventoryActionPerformed"/>
                   </Events>
                 </MenuItem>
               </SubComponents>

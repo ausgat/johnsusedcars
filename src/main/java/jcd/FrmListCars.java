@@ -4,7 +4,6 @@ import bo.Car;
 import bo.Inventory;
 import dao.CarHandler;
 import dao.InventoryHandler;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JOptionPane;
@@ -140,12 +139,6 @@ public class FrmListCars extends javax.swing.JInternalFrame {
             if (car != null) {
                 DlgUpdateCar dlg = new DlgUpdateCar(null, true);
                 dlg.setCar(car);
-
-                Inventory inv = new InventoryHandler().findInventories(vin)
-                        .getFirst();
-                if (inv != null)
-                    dlg.setInventory(inv);
-                
                 dlg.setVisible(true);
                 if (dlg.getReturnStatus() == DlgUpdateCar.RET_OK) {
                     this.populateCars();
@@ -208,12 +201,11 @@ public class FrmListCars extends javax.swing.JInternalFrame {
         };
         // For each row from the database, add it to the car table
         cars.forEach((car)->{
-            Inventory inv = new InventoryHandler().findInventories(car.getVin())
-                    .getFirst();
+            Inventory inv = new InventoryHandler().findInventory(car.getIid());
 
             if (inv != null) {
                 Vector rows = car.getRow();
-                rows.addAll(inv.getRow().subList(1, 4));
+                rows.add(inv.getParkingLot());
                 tblModel.addRow(rows);
             } else {
                 tblModel.addRow(car.getRow());

@@ -2,7 +2,6 @@ package jcd;
 
 import bo.Car;
 import bo.Inventory;
-import bo.InventoryStock;
 import dao.CarHandler;
 import dao.InventoryHandler;
 import java.util.ArrayList;
@@ -25,7 +24,8 @@ public class DlgUpdateCar extends javax.swing.JDialog {
     public void setReturnStatus(int returnStatus) {
         this.returnStatus = returnStatus;
     }
-    
+
+    private InventoryHandler ih = new InventoryHandler();
     private Car car = null;
     private Inventory inv = null;
 
@@ -43,20 +43,8 @@ public class DlgUpdateCar extends javax.swing.JDialog {
             this.txtModel.setText(car.getModel());
             this.txtYear.setText(Integer.toString(car.getYear()));
             this.txtMsrp.setText(Integer.toString(car.getMsrp()));
-        }
-    }
-    
-    public Inventory getInventory() {
-        return inv;
-    }
-
-    public void setInventory(Inventory inv) {
-        this.inv = inv;
-        
-        if (inv != null) {
-            this.cboStatus.setSelectedIndex(inv.isStockStatus() ? 0 : 1);
-            this.cboParkingLot.setSelectedItem(inv.getParkingLot());
-            this.txtParkingSpot.setText(inv.getParkingSpot());
+            this.txtParkingSpot.setText(car.getParkingSpot());
+            this.cboStatus.setSelectedIndex(car.isStockStatus() ? 0 : 1);
         }
     }
     
@@ -76,10 +64,10 @@ public class DlgUpdateCar extends javax.swing.JDialog {
     }
 
     private void populateParkingSpots() {
-        ArrayList<InventoryStock> iss = new InventoryHandler().getInventoryStock();
+        ArrayList<Inventory> is = new InventoryHandler().getInventories();
         cboParkingLot.removeAllItems();
-        for (InventoryStock is : iss) {
-            cboParkingLot.addItem(is.getParkingLot());
+        for (Inventory i : is) {
+            cboParkingLot.addItem(i);
         }
     }
     
@@ -159,8 +147,6 @@ public class DlgUpdateCar extends javax.swing.JDialog {
         cboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Sold" }));
 
         jLabel8.setText("Parking lot:");
-
-        cboParkingLot.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Sold" }));
 
         jLabel7.setText("Parking spot:");
 
@@ -262,13 +248,13 @@ public class DlgUpdateCar extends javax.swing.JDialog {
         boolean stockStatus =
             cboStatus.getSelectedItem().toString().equals("Available");
         String parkingSpot = txtParkingSpot.getText();
-        String parkingLot = cboParkingLot.getSelectedItem().toString();
+        int iid =((Inventory)cboParkingLot.getSelectedItem()).getId();
 
         // Use CarHandler to add a new car to the database using the data
         // gathered above and store the return value (-1 on failure, anything
         // else on success)
         int ret = new CarHandler().updateCar(vin, make, model, year, msrp,
-                stockStatus, parkingSpot, parkingLot);
+                stockStatus, parkingSpot, iid);
 
         if (ret == -1) {
             // Pop up a message letting the user know a car failed to be added
@@ -282,7 +268,7 @@ public class DlgUpdateCar extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cboParkingLot;
+    private javax.swing.JComboBox<Inventory> cboParkingLot;
     private javax.swing.JComboBox<String> cboStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

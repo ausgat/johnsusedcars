@@ -1,6 +1,6 @@
 package jcd;
 
-import bo.InventoryStock;
+import bo.Inventory;
 import dao.CarHandler;
 import dao.InventoryHandler;
 import java.util.ArrayList;
@@ -94,8 +94,6 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Parking lot:");
 
-        cboParkingLot.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Sold" }));
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -180,10 +178,10 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void populateParkingSpots() {
-        ArrayList<InventoryStock> iss = new InventoryHandler().getInventoryStock();
+        ArrayList<Inventory> is = new InventoryHandler().getInventories();
         cboParkingLot.removeAllItems();
-        for (InventoryStock is : iss) {
-            cboParkingLot.addItem(is.getParkingLot());
+        for (Inventory i : is) {
+            cboParkingLot.addItem(i);
         }
     }
     
@@ -199,13 +197,13 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
         boolean stockStatus =
             cboStatus.getSelectedItem().toString().equals("Available");
         String parkingSpot = txtParkingSpot.getText();
-        String parkingLot = cboParkingLot.getSelectedItem().toString();
+        int iid = ((Inventory)cboParkingLot.getSelectedItem()).getId();
 
         // Use CarHandler to add a new car to the database using the data
         // gathered above and store the return value (-1 on failure, anything
         // else on success)
         int ret = new CarHandler().addCar(vin, make, model, year, msrp,
-                stockStatus, parkingSpot, parkingLot);
+                stockStatus, parkingSpot, iid);
 
         if (ret == -1) {
             // Pop up a message letting the user know a car failed to be added
@@ -232,7 +230,7 @@ public class FrmAddCar extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
-    private javax.swing.JComboBox<String> cboParkingLot;
+    private javax.swing.JComboBox<Inventory> cboParkingLot;
     private javax.swing.JComboBox<String> cboStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

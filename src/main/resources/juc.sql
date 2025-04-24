@@ -9,23 +9,25 @@ cPhone varchar(50),
 cEmail varchar(250)
 );
 
+create table Inventory(
+iID int primary key,
+ParkingLot varchar(25)
+);
+
 create table Car(
 Vin varchar(50) primary key,
 Make varchar(50),
 Model varchar(50),
 Year int,
 MSRP int,
-cID int null,
-foreign key (cID) references Customer(cID)
-);
-
-create table Inventory(
-Vin varchar(50),
 StockStatus bool,
 ParkingSpot varchar(25),
-ParkingLot varchar(25),
-foreign key (Vin) references Car(Vin)
-    ON DELETE CASCADE
+iID int null,
+cID int null,
+foreign key (iID) references Inventory(iID)
+    ON DELETE SET NULL,
+foreign key (cID) references Customer(cID)
+    ON DELETE SET NULL
 );
 
 create table Salesperson(
@@ -63,17 +65,16 @@ VALUES
 (2, 'Bob Smith', '234-567-8901', 'bob.smith@example.com'),
 (3, 'Clara Lee', '345-678-9012', 'clara.lee@example.com');
 
-INSERT INTO Car (Vin, Make, Model, Year, MSRP, cID)
+INSERT INTO Inventory (iID, ParkingLot)
 VALUES
-(1001, 'Toyota', 'Camry', 2022, 25000, 1),
-(1002, 'Honda', 'Civic', 2021, 22000, 2),
-(1003, 'Ford', 'Mustang', 2023, 35000, 3);
+(101, 'Lot A'),
+(102, 'Lot B');
 
-INSERT INTO Inventory (Vin, StockStatus, ParkingSpot, ParkingLot)
+INSERT INTO Car (Vin, Make, Model, Year, MSRP, StockStatus, ParkingSpot, cID, iID)
 VALUES
-(1001, TRUE, 'A1', 'Lot A'),
-(1002, FALSE, 'B2', 'Lot B'),
-(1003, TRUE, 'C3', 'Lot A');
+(1001, 'Toyota', 'Camry', 2022, 25000, false, 'A1', 1, 101),
+(1002, 'Honda', 'Civic', 2021, 22000, false, 'B2', 2, 101),
+(1003, 'Ford', 'Mustang', 2023, 35000, false, 'C3', 3, 102);
 
 # Passwords: password1, password2
 INSERT INTO Salesperson (SalespersonID, sUsername, sPassword, sName, sPhone, sEmail)

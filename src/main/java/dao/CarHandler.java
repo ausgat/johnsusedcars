@@ -1,7 +1,6 @@
 package dao;
 
 import bo.Car;
-import bo.Inventory;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,33 +25,9 @@ public class CarHandler {
         // Also create an InventoryHandler
         ih = new InventoryHandler();
     }
-    
-    /**
-     * Create a new Car relation in the database
-     * 
-     * @param vin   The car's VIN number (primary key)
-     * @param make  The car's make
-     * @param model The car's model
-     * @param year  The car's year
-     * @param msrp  The car's MSRP
-     * @return Number of rows affected
-     */
-    public int addCar(String vin, String make, String model, int year, int msrp) {
-        // We're creating a pretty long SQL query with lots of data, so let's
-        // use a string template to make things a little easier
-        String cmdTemplate = "INSERT INTO Car VALUES('%s', '%s', '%s', %d, %d, NULL);";
-
-        // Add the values to the string template with String.format (this will
-        // fill the template with the given data for each of the %d's and %s's,
-        // in order)
-        String cmd = String.format(cmdTemplate, vin, make, model, year, msrp);
-
-        // Run the SQL command and return its value
-        return sqlUtil.executeUpdate(cmd);
-    }
 
     /**
-     * Create new Car and Inventory relations to the database
+     * Create new Car relation in the database
      * 
      * @param vin           The car's VIN number (primary key)
      * @param make          The car's make
@@ -61,33 +36,27 @@ public class CarHandler {
      * @param msrp          The car's MSRP
      * @param stockStatus   The car's availability
      * @param parkingSpot   The car's parking spot
-     * @param parkingLot    The car's parking lot
+     * @param iid           Inventory ID number
      * @return Number of rows affected
      */
     public int addCar(String vin, String make, String model, int year, int msrp,
-            boolean stockStatus, String parkingSpot, String parkingLot) {
-        PreparedStatement pst1, pst2;
+            boolean stockStatus, String parkingSpot, int iid) {
         try {
-            // Add the car
-            pst1 = sqlUtil.prepareStatement(
-                "INSERT INTO Car VALUES(?, ?, ?, ?, ?, NULL)"
-            );
-            pst1.setString(1, vin);
-            pst1.setString(2, make);
-            pst1.setString(3, model);
-            pst1.setInt(4, year);
-            pst1.setInt(5, msrp);
-            int ret1 = pst1.executeUpdate();
+            PreparedStatement pst;
 
-            pst2 = sqlUtil.prepareStatement(
-                "INSERT INTO Inventory VALUES(?, ?, ?, ?)"
+            pst = sqlUtil.prepareStatement(
+                "INSERT INTO Car VALUES(?, ?, ?, ?, ?, ?, ?, ?)"
             );
-            pst2.setString(1, vin);
-            pst2.setBoolean(2, stockStatus);
-            pst2.setString(3, parkingSpot);
-            pst2.setString(4, parkingLot);
+            pst.setString(1, vin);
+            pst.setString(2, make);
+            pst.setString(3, model);
+            pst.setInt(4, year);
+            pst.setInt(5, msrp);
+            pst.setBoolean(6, stockStatus);
+            pst.setString(7, parkingSpot);
+            pst.setInt(8, iid);
 
-            return ret1 + pst2.executeUpdate();
+            return pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(CarHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -119,41 +88,24 @@ public class CarHandler {
      * @return Number of rows affected
      */
     public int updateCar(String vin, String make, String model, int year,
-            int msrp, boolean stockStatus, String parkingSpot,
-            String parkingLot) {
-        PreparedStatement pst1, pst2;
+            int msrp, boolean stockStatus, String parkingSpot, int iid) {
         try {
             // Add the car
-            pst1 = sqlUtil.prepareStatement(
-                "UPDATE Car SET Vin=?, Make=?, Model=?, Year=?, Msrp=? " +
+            PreparedStatement pst = sqlUtil.prepareStatement(
+                "UPDATE Car SET Vin=?, Make=?, Model=?, Year=?, Msrp=?, " +
+                "StockStatus=?, ParkingSpot=?, iID=? " +
                 "WHERE Vin=?"
             );
-            pst1.setString(1, vin);
-            pst1.setString(2, make);
-            pst1.setString(3, model);
-            pst1.setInt(4, year);
-            pst1.setInt(5, msrp);
-            pst1.setString(6, vin);
-            int ret = pst1.executeUpdate();
-
-            Inventory inv = new InventoryHandler().findInventories(vin)
-                    .getFirst();
-
-            if (inv != null) {
-                pst2 = sqlUtil.prepareStatement(
-                    "UPDATE Inventory " +
-                    "SET Vin=?, StockStatus=?, ParkingSpot=?, ParkingLot=? " +
-                    "WHERE Vin=?"
-                );
-                pst2.setString(1, vin);
-                pst2.setBoolean(2, stockStatus);
-                pst2.setString(3, parkingSpot);
-                pst2.setString(4, parkingLot);
-                pst2.setString(5, vin);
-                ret += pst2.executeUpdate();
-            }
-
-            return ret;
+            pst.setString(1, vin);
+            pst.setString(2, make);
+            pst.setString(3, model);
+            pst.setInt(4, year);
+            pst.setInt(5, msrp);
+            pst.setBoolean(6, stockStatus);
+            pst.setString(7, parkingSpot);
+            pst.setInt(8, iid);
+            pst.setString(9, vin);
+            return pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(CarHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -170,29 +122,15 @@ public class CarHandler {
      * @return Number of rows affected
      */
     public int updateCar(String vin, int cid, boolean stockStatus) {
-        PreparedStatement pst1, pst2;
         try {
-            // Add the car
-            pst1 = sqlUtil.prepareStatement(
-                "UPDATE Car SET cID=? WHERE Vin=?"
+            PreparedStatement pst = sqlUtil.prepareStatement(
+                "UPDATE Car SET cID=?, StockStatus=? WHERE Vin=?"
             );
-            pst1.setString(2, vin);
-            pst1.setInt(1, cid);
+            pst.setString(3, vin);
+            pst.setInt(1, cid);
+            pst.setBoolean(2, stockStatus);
 
-            int ret = pst1.executeUpdate();
-            Inventory inv = new InventoryHandler().findInventories(vin)
-                    .getFirst();
-
-            if (inv != null) {
-                pst2 = sqlUtil.prepareStatement(
-                    "UPDATE Inventory SET StockStatus=? WHERE Vin=?"
-                );
-                pst2.setString(2, vin);
-                pst2.setBoolean(1, stockStatus);
-                ret += pst2.executeUpdate();
-            }
-
-            return ret;
+            return pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(CarHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -210,9 +148,8 @@ public class CarHandler {
         Car foundCar = null;
         
         String cmdTemplate =
-                "SELECT Vin, Make, Model, Year, MSRP FROM Car WHERE Vin = '%s'";
+                "SELECT * FROM Car JOIN Inventory WHERE Vin = '%s'";
         String cmd = String.format(cmdTemplate, vin);
-        
         ResultSet rs = sqlUtil.executeQuery(cmd);
         
         try {
@@ -222,8 +159,13 @@ public class CarHandler {
                 String model = rs.getString("Model");
                 int year = rs.getInt("Year");
                 int msrp = rs.getInt("MSRP");
+                boolean stockStatus = rs.getBoolean("StockStatus");
+                String parkingSpot = rs.getString("ParkingSpot");
+                int iid = rs.getInt("iID");
+                int cid = rs.getInt("cID");
                 
-                foundCar = new Car(vin, make, model, year, msrp);
+                foundCar = new Car(vin, make, model, year, msrp, stockStatus,
+                        parkingSpot, iid, cid);
             }
         } catch (SQLException ex) {
             Logger.getLogger(CarHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -258,9 +200,14 @@ public class CarHandler {
                 String model = rs.getString("Model");
                 int year = rs.getInt("Year");
                 int msrp = rs.getInt("MSRP");
+                boolean stockStatus = rs.getBoolean("StockStatus");
+                String parkingSpot = rs.getString("ParkingSpot");
+                int iid = rs.getInt("iID");
+                int cid = rs.getInt("cID");
 
                 // Create a new Car object from the relation data
-                Car c = new Car(vin, make, model, year, msrp);
+                Car c = new Car(vin, make, model, year, msrp, stockStatus,
+                        parkingSpot, iid, cid);
 
                 // Add the newly-created Car object to the list
                 results.add(c);

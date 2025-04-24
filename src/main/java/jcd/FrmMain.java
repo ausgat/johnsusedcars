@@ -34,6 +34,7 @@ public class FrmMain extends javax.swing.JFrame {
     FrmAddSalesperson frmAddSalesperson = new FrmAddSalesperson();
     FrmListCustomers frmListCustomers = new FrmListCustomers();
     FrmListInventories frmListInventories = new FrmListInventories();
+    FrmAddInventory frmAddInventory = new FrmAddInventory();
 
     /**
      * Hashmap containing all the forms we'll be using. Key is a string
@@ -62,6 +63,7 @@ public class FrmMain extends javax.swing.JFrame {
         forms.put("frmAddSalesperson", frmAddSalesperson);
         forms.put("frmListCustomers", frmListCustomers);
         forms.put("frmListInventories", frmListInventories);
+        forms.put("frmAddInventory", frmAddInventory);
 
         // For each form we created, add it to the form container in the main
         // window (NOTE: This still won't show the forms yet)
@@ -160,6 +162,7 @@ public class FrmMain extends javax.swing.JFrame {
         mniAddCustomer = new javax.swing.JMenuItem();
         mnuInventory = new javax.swing.JMenu();
         mniListInventories = new javax.swing.JMenuItem();
+        mniAddInventory = new javax.swing.JMenuItem();
         mnuSales = new javax.swing.JMenu();
         mniListSales = new javax.swing.JMenuItem();
         mniListLoans = new javax.swing.JMenuItem();
@@ -257,13 +260,21 @@ public class FrmMain extends javax.swing.JFrame {
 
         mnuInventory.setText("Inventory");
 
-        mniListInventories.setText("List inventories…");
+        mniListInventories.setText("List Inventories…");
         mniListInventories.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniListInventoriesActionPerformed(evt);
             }
         });
         mnuInventory.add(mniListInventories);
+
+        mniAddInventory.setText("Add Inventory...");
+        mniAddInventory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniAddInventoryActionPerformed(evt);
+            }
+        });
+        mnuInventory.add(mniAddInventory);
 
         mnuManage.add(mnuInventory);
 
@@ -379,6 +390,10 @@ public class FrmMain extends javax.swing.JFrame {
         showForm("frmListFinancing", true);
     }//GEN-LAST:event_mniListLoansActionPerformed
 
+    private void mniAddInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniAddInventoryActionPerformed
+        showForm("frmAddInventory", true);
+    }//GEN-LAST:event_mniAddInventoryActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -423,6 +438,7 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JLabel lblLogin;
     private javax.swing.JMenuItem mniAddCar;
     private javax.swing.JMenuItem mniAddCustomer;
+    private javax.swing.JMenuItem mniAddInventory;
     private javax.swing.JMenuItem mniAddSale;
     private javax.swing.JMenuItem mniAddStaff;
     private javax.swing.JMenuItem mniListCars;

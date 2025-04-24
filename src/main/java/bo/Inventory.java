@@ -8,49 +8,20 @@ import java.util.Vector;
  */
 public class Inventory {
     
-    private String vin;
-    private boolean stockStatus;
-    private String parkingSpot;
+    private int id;
     private String parkingLot;
 
-    public Inventory(String vin, boolean stockStatus, String parkingSpot, String parkingLot) {
-        this.vin = vin;
-        this.stockStatus = stockStatus;
-        this.parkingSpot = parkingSpot;
+    public Inventory(int id, String parkingLot) {
+        this.id = id;
         this.parkingLot = parkingLot;
     }
 
-    public Vector getRow() {
-        Vector vec = new Vector();
-        vec.add(this.vin);
-        vec.add(this.stockStatus);
-        vec.add(this.parkingSpot);
-        vec.add(this.parkingLot);
-        return vec;
-    }
-    
-    public String getVin() {
-        return vin;
+    public int getId() {
+        return id;
     }
 
-    public void setVin(String vin) {
-        this.vin = vin;
-    }
-
-    public boolean isStockStatus() {
-        return stockStatus;
-    }
-
-    public void setStockStatus(boolean stockStatus) {
-        this.stockStatus = stockStatus;
-    }
-
-    public String getParkingSpot() {
-        return parkingSpot;
-    }
-
-    public void setParkingSpot(String parkingSpot) {
-        this.parkingSpot = parkingSpot;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getParkingLot() {
@@ -59,5 +30,17 @@ public class Inventory {
 
     public void setParkingLot(String parkingLot) {
         this.parkingLot = parkingLot;
+    }
+    
+    public Vector getRow() {
+        Vector vec = new Vector();
+        vec.add(this.id);
+        vec.add(this.parkingLot);
+        return vec;
+    }
+
+    @Override
+    public String toString() {
+        return this.parkingLot;
     }
 }

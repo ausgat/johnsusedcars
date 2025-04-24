@@ -13,13 +13,22 @@ public class Car {
     private String model;
     private int year;
     private int msrp;
+    private boolean stockStatus;
+    private String parkingSpot;
+    private int iid;
+    private int cid;
 
-    public Car(String vin, String make, String model, int year, int msrp) {
+    public Car(String vin, String make, String model, int year, int msrp,
+            boolean stockStatus, String parkingSpot, int iid, int cid) {
         this.vin = vin;
         this.make = make;
         this.model = model;
         this.year = year;
         this.msrp = msrp;
+        this.stockStatus = stockStatus;
+        this.parkingSpot = parkingSpot;
+        this.iid = iid;
+        this.cid = cid;
     }
 
     /**
@@ -36,6 +45,8 @@ public class Car {
         vec.add(this.model);
         vec.add(this.year);
         vec.add(this.msrp);
+        vec.add(this.stockStatus);
+        vec.add(this.parkingSpot);
         return vec;
     }
 
@@ -77,6 +88,38 @@ public class Car {
 
     public void setMsrp(int msrp) {
         this.msrp = msrp;
+    }
+
+    public boolean isStockStatus() {
+        return stockStatus;
+    }
+
+    public void setStockStatus(boolean stockStatus) {
+        this.stockStatus = stockStatus;
+    }
+
+    public String getParkingSpot() {
+        return parkingSpot;
+    }
+
+    public void setParkingSpot(String parkingSpot) {
+        this.parkingSpot = parkingSpot;
+    }
+
+    public int getCid() {
+        return cid;
+    }
+
+    public void setCid(int cid) {
+        this.cid = cid;
+    }
+
+    public int getIid() {
+        return iid;
+    }
+
+    public void setIid(int iid) {
+        this.iid = iid;
     }
     
     /**
