@@ -194,8 +194,7 @@ public class DlgUpdateSalesperson extends javax.swing.JDialog {
         // gathered above and store the return value (-1 on failure, anything
         // else on success)
         int ret = new SalespersonHandler().updateSalesperson(sp.getId(),
-                username, SalespersonHandler.hashPassword(password), name,
-                phone, email);
+                username, password, name, phone, email);
 
         if (ret == -1) {
             // Pop up a message letting the user know a car failed to be added
