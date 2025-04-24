@@ -171,14 +171,13 @@ public class SalespersonHandler {
      */
     public Salesperson findSalesperson(int id) {
         Salesperson foundSp = null;
-        
-        String cmdTemplate =
-                "SELECT SalespersonID, sUsername, sName, sPhone, sEmail FROM Salesperson WHERE SalespersonID = %d";
-        String cmd = String.format(cmdTemplate, id);
-        
-        ResultSet rs = sqlUtil.executeQuery(cmd);
-        
         try {
+        PreparedStatement cmdTemplate =
+                sqlUtil.prepareStatement("SELECT SalespersonID, sUsername, sName, sPhone, sEmail FROM Salesperson WHERE SalespersonID = ?");
+       cmdTemplate.setInt(1, id);
+        ResultSet rs = cmdTemplate.executeQuery();
+        
+        
             if (rs.next()) {
                 // Get each relevant attribute from the relation
                 String username =  rs.getString("sUsername");

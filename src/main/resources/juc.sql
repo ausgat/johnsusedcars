@@ -16,7 +16,8 @@ Model varchar(50),
 Year int,
 MSRP int,
 cID int null,
-foreign key (cID) references Customer(cID)
+foreign key (cID) references Customer(cID) 
+ON DELETE SET NULL
 );
 
 create table Inventory(
