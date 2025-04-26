@@ -27,19 +27,33 @@ public class CustomerHandler {
         sqlUtil = new SQLUtil();
     }
     public int addCustomer(String name, String phone, String email){
-        String cmdTemplate = "INSERT INTO Customer (cName, cPhone, cEmail) VALUES ('%s', '%s', '%s')";
-        String cmd = String.format(cmdTemplate, name, phone, email);
-        return sqlUtil.executeUpdateWithGenKey(cmd);
+        try{
+        PreparedStatement pst = sqlUtil.prepareStatement("INSERT INTO Customer (cName, cPhone, cEmail) " + " VALUES (?, ?, ?)", true);
+        pst.setString(1, name);
+        pst.setString(2, phone);
+        pst.setString(3, email);
+        return sqlUtil.executeUpdateWithGenKey(pst);
+        }catch(SQLException ex){
+            Logger.getLogger(CustomerHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
     }
     public int deleteCustomer(int id){
         String cmdTemplate = "DELETE FROM CUSTOMER where cID = %d";
         String cmd = String.format(cmdTemplate, id);
         return sqlUtil.executeUpdate(cmd);
     }
-    public int updateStudent(int id, String name, String phone, String email){
-        String cmdTemplate = "UPDATE Customer set cName = '%s', cPhone = '%s', cEmail = '%s' WHERE cID = %d";
-        String cmd = String.format(cmdTemplate, id, name, phone, email);
-        return sqlUtil.executeUpdate(cmd);
+    public int updateCustomer(int id, String name, String phone, String email){
+        try{
+        PreparedStatement pst = sqlUtil.prepareStatement("INSERT INTO Customer (cName, cPhone, cEmail) " + " VALUES (?, ?, ?)", true);
+        pst.setString(1, name);
+        pst.setString(2, phone);
+        pst.setString(3, email);
+        return sqlUtil.executeUpdateWithGenKey(pst);
+        }catch(SQLException ex){
+            Logger.getLogger(CustomerHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
     }
     public List<Customer>getCustomers(String keyword){
         String cmd = String.format("SELECT * FROM Customer where cName like '%s'", "%"+keyword+"%");

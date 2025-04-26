@@ -19,18 +19,22 @@ import javax.swing.table.TableModel;
  * @author jsmit
  */
 public class FrmListCustomers extends javax.swing.JInternalFrame {
-
+    
+    //The CustomerHandler to use
+ CustomerHandler sc = new CustomerHandler();
     /**
      * Creates new form FrmListCustomers
      *
      */
+ CustomerHandler customerHandler = new CustomerHandler();
     private void refreshTableCustomers(){
         populateCustomers();
     }
-    CustomerHandler customerHandler = new CustomerHandler();
+   
+    List<Customer> customers;
     private void populateCustomers(){
         String keyword = txtKeyword.getText();
-        List<Customer> customers = customerHandler.getCustomers(keyword);
+        customers = customerHandler.getCustomers(keyword);
         String [] colNames = new String[]{"Customer ID", "Customer Name", "Customer Phone", "Customer Email"};
         DefaultTableModel tblModel = new DefaultTableModel(colNames, 0);
             
@@ -82,6 +86,11 @@ public class FrmListCustomers extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblCustomers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCustomersMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblCustomers);
 
         btnSearch.setText("Search");
@@ -131,10 +140,10 @@ public class FrmListCustomers extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDelete)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEdit)
-                .addGap(12, 12, 12))
+                .addGap(78, 78, 78)
+                .addComponent(btnDelete)
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,11 +187,42 @@ public class FrmListCustomers extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-       populateCustomers(); // TODO add your handling code here:
+        refreshTableCustomers(); // TODO add your handling code here:
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+    private void tblCustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCustomersMouseClicked
+        // Know if table row is double clicked
+        if(evt.getClickCount() == 2){
+            //get the selected customers
+            Customer customer = customers.get(tblCustomers.getSelectedRow());
+            DlgUpdateCustomers dlgUpdateCustomers = new DlgUpdateCustomers(null, true);
+            dlgUpdateCustomers.setVisible(true);
+        }
+    }//GEN-LAST:event_tblCustomersMouseClicked
+
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
+                                       
+        // Get the index of the selected row
+        int selectedRow = tblCustomers.getSelectedRow();
+
+        // If a row is actually selected (that is, not -1)
+        if (selectedRow != -1) {
+
+            // Get the VIN number from the first column (0) of the selected row
+            int id = (int)tblCustomers.getValueAt(selectedRow, 0);
+
+            Customer customer = customerHandler.findCustomer(id);
+
+            if (customer != null) {
+                DlgUpdateCustomers dlg = new DlgUpdateCustomers(null, true);
+                dlg.setCustomer(customer);
+
+                dlg.setVisible(true);
+                if (dlg.getReturnStatus() == DlgUpdateCar.RET_OK) {
+                    this.populateCustomers();
+                }
+            }  
+        }// TODO add your handling code here:
     }//GEN-LAST:event_btnEditActionPerformed
 
 
