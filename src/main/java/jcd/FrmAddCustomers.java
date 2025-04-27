@@ -36,8 +36,10 @@ public class FrmAddCustomers extends javax.swing.JInternalFrame {
         txtEmail = new javax.swing.JTextField();
         txtPhone = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
+        btnCancel = new javax.swing.JButton();
 
         setClosable(true);
+        setMaximizable(true);
         setResizable(true);
         setTitle("Add Customer");
 
@@ -60,6 +62,13 @@ public class FrmAddCustomers extends javax.swing.JInternalFrame {
             }
         });
 
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -67,7 +76,10 @@ public class FrmAddCustomers extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnAdd)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCancel)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAdd))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -96,7 +108,9 @@ public class FrmAddCustomers extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnAdd)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnCancel))
                 .addContainerGap(73, Short.MAX_VALUE))
         );
 
@@ -104,7 +118,7 @@ public class FrmAddCustomers extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:
+       //NEED TO DELETE THIS**********
     }//GEN-LAST:event_txtEmailActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
@@ -117,7 +131,7 @@ public class FrmAddCustomers extends javax.swing.JInternalFrame {
         int ret = new CustomerHandler().addCustomer(name, phone, email);
 
         if (ret == 0) {
-            // Pop up a message letting the user know a car failed to be added
+            // Pop up a message letting the user know a customer failed to be added
             JOptionPane.showMessageDialog(this, "Failed to add customer");
         } else {
             // Clear the form
@@ -127,12 +141,17 @@ public class FrmAddCustomers extends javax.swing.JInternalFrame {
           
             // Close the form window
             this.dispose();
-        }        // TODO add your handling code here:
+        }       
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+            this.dispose();        //close the add customer window
+    }//GEN-LAST:event_btnCancelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

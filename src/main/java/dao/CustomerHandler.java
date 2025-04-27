@@ -45,11 +45,13 @@ public class CustomerHandler {
     }
     public int updateCustomer(int id, String name, String phone, String email){
         try{
-        PreparedStatement pst = sqlUtil.prepareStatement("INSERT INTO Customer (cName, cPhone, cEmail) " + " VALUES (?, ?, ?)", true);
+        PreparedStatement pst = sqlUtil.prepareStatement("UPDATE Customer SET cName = ?, cPhone = ?, cEmail = ? WHERE cId = ?", 
+            true);
         pst.setString(1, name);
         pst.setString(2, phone);
         pst.setString(3, email);
-        return sqlUtil.executeUpdateWithGenKey(pst);
+        pst.setInt(4, id);
+        return sqlUtil.executeUpdate(pst);
         }catch(SQLException ex){
             Logger.getLogger(CustomerHandler.class.getName()).log(Level.SEVERE, null, ex);
         }

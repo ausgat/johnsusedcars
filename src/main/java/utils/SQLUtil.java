@@ -125,4 +125,11 @@ public class SQLUtil {
         }
         return null;
     }
+    public int executeUpdate(PreparedStatement pst) {
+    try {
+        return pst.executeUpdate();
+    } catch (SQLException e) {
+        return 0;
+    }
+}
 }

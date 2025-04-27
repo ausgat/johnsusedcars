@@ -21,19 +21,17 @@ import javax.swing.table.TableModel;
 public class FrmListCustomers extends javax.swing.JInternalFrame {
     
     //The CustomerHandler to use
- CustomerHandler sc = new CustomerHandler();
+
     /**
      * Creates new form FrmListCustomers
      *
      */
  CustomerHandler customerHandler = new CustomerHandler();
-    private void refreshTableCustomers(){
-        populateCustomers();
-    }
+   
    
     List<Customer> customers;
-    private void populateCustomers(){
-        String keyword = txtKeyword.getText();
+    private void populateCustomers(String keyword){  //String keyword here is declared this way to use in btnSearch action
+        keyword = txtKeyword.getText();
         customers = customerHandler.getCustomers(keyword);
         String [] colNames = new String[]{"Customer ID", "Customer Name", "Customer Phone", "Customer Email"};
         DefaultTableModel tblModel = new DefaultTableModel(colNames, 0);
@@ -46,10 +44,12 @@ public class FrmListCustomers extends javax.swing.JInternalFrame {
     }
     public FrmListCustomers() {
         initComponents();
-        populateCustomers();
+        populateCustomers("");
     }
     
-   
+    public void refreshTableCustomers(){
+        populateCustomers("");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,6 +70,7 @@ public class FrmListCustomers extends javax.swing.JInternalFrame {
         btnEdit = new javax.swing.JButton();
 
         setClosable(true);
+        setMaximizable(true);
         setResizable(true);
         setTitle("Customers");
 
@@ -168,14 +169,14 @@ public class FrmListCustomers extends javax.swing.JInternalFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        populateCustomers();
+        populateCustomers(txtKeyword.getText());   //Searches the list of customers for the customer requested
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        int selectedRow = tblCustomers.getSelectedRow();
+        int selectedRow = tblCustomers.getSelectedRow();  //selecting row to delete
         if(selectedRow!= -1){
-            int id = (int)tblCustomers.getValueAt(selectedRow, 0);
+            int id = (int)tblCustomers.getValueAt(selectedRow, 0);  //using id to delete the requested customer
             int ret = JOptionPane.showConfirmDialog(this, String.format("Deleting Customer ID %d", id));
             if(ret == JOptionPane.OK_OPTION){
                 customerHandler.deleteCustomer(id);
@@ -191,19 +192,13 @@ public class FrmListCustomers extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void tblCustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCustomersMouseClicked
-        // Know if table row is double clicked
-        if(evt.getClickCount() == 2){
-            //get the selected customers
-            Customer customer = customers.get(tblCustomers.getSelectedRow());
-            DlgUpdateCustomers dlgUpdateCustomers = new DlgUpdateCustomers(null, true);
-            dlgUpdateCustomers.setVisible(true);
-        }
+       
     }//GEN-LAST:event_tblCustomersMouseClicked
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
                                        
         // Get the index of the selected row
-        int selectedRow = tblCustomers.getSelectedRow();
+        int selectedRow = tblCustomers.getSelectedRow(); //Selecting row to edit
 
         // If a row is actually selected (that is, not -1)
         if (selectedRow != -1) {
@@ -218,11 +213,11 @@ public class FrmListCustomers extends javax.swing.JInternalFrame {
                 dlg.setCustomer(customer);
 
                 dlg.setVisible(true);
-                if (dlg.getReturnStatus() == DlgUpdateCar.RET_OK) {
-                    this.populateCustomers();
+                if (dlg.getReturnStatus() == DlgUpdateCustomers.RET_OK) {
+                    this.populateCustomers("");
                 }
             }  
-        }// TODO add your handling code here:
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
 

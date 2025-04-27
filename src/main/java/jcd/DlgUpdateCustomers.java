@@ -25,7 +25,8 @@ public class DlgUpdateCustomers extends javax.swing.JDialog {
     }
     private Customer sc = null;
     
-    public Customer getCustomers(){
+ 
+    public Customer getCustomer(){
         return sc;
     }
     public void setCustomer(Customer sc){
@@ -59,6 +60,7 @@ public class DlgUpdateCustomers extends javax.swing.JDialog {
         txtEmail = new javax.swing.JTextField();
         txtPhone = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -81,6 +83,13 @@ public class DlgUpdateCustomers extends javax.swing.JDialog {
             }
         });
 
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -99,6 +108,8 @@ public class DlgUpdateCustomers extends javax.swing.JDialog {
                 .addContainerGap(93, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancel)
+                .addGap(29, 29, 29)
                 .addComponent(btnUpdate)
                 .addGap(66, 66, 66))
         );
@@ -118,7 +129,9 @@ public class DlgUpdateCustomers extends javax.swing.JDialog {
                     .addComponent(jLabel6)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnUpdate)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnCancel))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -137,60 +150,24 @@ public class DlgUpdateCustomers extends javax.swing.JDialog {
 
         int ret = new CustomerHandler().updateCustomer(sc.getId(), name, phone, email);
 
-        if (ret == -1) {
-            // Pop up a message letting the user know a customer failed to be added
-            JOptionPane.showMessageDialog(this, "Failed to add customer");
-        } else {
-            // Clear the form
-            doClose(RET_OK);
+        if (ret == 1) {
+            doClose(RET_OK); // Pop up a message letting the user know a customer failed to be added
+            }else{
+            JOptionPane.showMessageDialog(this, "Failed to update a customer");
+        
 
             // Close the form window
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DlgUpdateCustomers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DlgUpdateCustomers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DlgUpdateCustomers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DlgUpdateCustomers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelActionPerformed
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DlgUpdateCustomers dialog = new DlgUpdateCustomers(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
