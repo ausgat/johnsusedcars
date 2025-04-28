@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.SQLUtil;
+import java.sql.PreparedStatement;
 
 /**
  * Handles interactions between the Java code and the database relations for
@@ -31,9 +32,18 @@ public class FinancingHandler {
      * @return Number of rows affected
      */
     public int addFinancing(int cid, int rate, int moPayment) {
-        String cmdTemplate = "INSERT INTO Financing (cID, InterestRate, MonthlyPayment) VALUES(%d, %d, %d);";
-        String cmd = String.format(cmdTemplate, cid, rate, moPayment);
-        return sqlUtil.executeUpdate(cmd);
+        try{
+        PreparedStatement pst = sqlUtil.prepareStatement("INSERT INTO Financing" + "(cID, InterestRate, MonthlyPayment)" + "VALUES(?, ?, ?);");
+            pst.setInt(1, cid);
+            pst.setInt(2, rate);
+            pst.setInt(3, moPayment);
+        
+         return pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleHandler.class.getName()).log(Level.SEVERE,
+                null, ex);
+        }
+        return -1;
     }
 
     /**
@@ -43,9 +53,15 @@ public class FinancingHandler {
      * @return Number of rows affected
      */
     public int deleteFinancing(int cid) {
-        String cmdTemplate = "DELETE FROM Financing WHERE cID=%d";
-        String cmd = String.format(cmdTemplate, cid);
-        return sqlUtil.executeUpdate(cmd);
+        try{
+        PreparedStatement pst = sqlUtil.prepareStatement("DELETE FROM Financing WHERE cID= ?");
+        pst.setInt(1, cid);
+        return pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleHandler.class.getName()).log(Level.SEVERE,
+                null, ex);
+        }
+        return -1;
     }
 
     /**

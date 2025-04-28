@@ -233,37 +233,42 @@ public class FrmAddSale extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMakeSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMakeSaleActionPerformed
-        // Get attributes from the UI elements
-        LocalDate date = LocalDate.parse(txtDate.getText());
-        int price = Integer.parseInt(txtPrice.getText());
-        int salespersonId = ((Salesperson)cbxSalesperson.getSelectedItem()).getId();
-        Car selectedCar = (Car)cbxCar.getSelectedItem();
-        Customer selectedCustomer = (Customer)cbxCustomer.getSelectedItem();
-        String vin = selectedCar.getVin();
-        
-        // Create the sale in the database and get the return value
-        int key = sh.addSaleAndGetKey(date, price, salespersonId, vin);
 
-        if (key == -1) {
-            JOptionPane.showMessageDialog(this, "Failed to make sale");
-        } else {
-            // Set the car's customer ID to the customer's cID and mark it sold
-            ch.updateCar(vin, selectedCustomer.getId(), false);
+    // Get attributes from the UI elements
+    LocalDate date = LocalDate.parse(txtDate.getText());
+    int price = Integer.parseInt(txtPrice.getText());
+    int salespersonId = ((Salesperson)cbxSalesperson.getSelectedItem()).getId();
+    Car selectedCar = (Car)cbxCar.getSelectedItem();
+    Customer selectedCustomer = (Customer)cbxCustomer.getSelectedItem();
+    String vin = selectedCar.getVin();
 
-            // If financing was selected, add a financing relation referencing
-            // the car and sale
-            if (chbFinancing.isSelected()) {
-                // Get attributes from financing UI
-                int rate = Integer.parseInt(txtInterestRate.getText());
-                int moPayment = Integer.parseInt(txtMonthlyPayment.getText());
-                
-                new FinancingHandler().addFinancing(selectedCustomer.getId(),
-                        rate, moPayment);
-            }
-                    
-            txtPrice.setText(null);
-            this.dispose();
+    // 🛑 Check if the car is still available
+    if (!sh.isCarAvailable(vin)) {
+        JOptionPane.showMessageDialog(this, "This car has already been sold and cannot be sold again.", "Error", JOptionPane.ERROR_MESSAGE);
+        return; // Stop here
+    }
+
+    // Create the sale in the database and get the return value
+    int key = sh.addSaleAndGetKey(date, price, salespersonId, vin);
+
+    if (key == -1) {
+        JOptionPane.showMessageDialog(this, "Failed to make sale");
+    } else {
+        // Set the car's customer ID to the customer's cID and mark it sold
+        ch.updateCar(vin, selectedCustomer.getId(), false);
+
+        // If financing was selected, add a financing relation referencing
+        // the car and sale
+        if (chbFinancing.isSelected()) {
+            int rate = Integer.parseInt(txtInterestRate.getText());
+            int moPayment = Integer.parseInt(txtMonthlyPayment.getText());
+            
+            new FinancingHandler().addFinancing(selectedCustomer.getId(), rate, moPayment);
         }
+                populateCars();
+        txtPrice.setText(null);
+        this.dispose();
+    }
     }//GEN-LAST:event_btnMakeSaleActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed

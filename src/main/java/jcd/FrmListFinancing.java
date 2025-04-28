@@ -180,29 +180,30 @@ public class FrmListFinancing extends javax.swing.JInternalFrame {
      * the database
      */
     public void populateFinancing() {
+    List<Financing> fins = fh.getFinancings();
 
-        List<Financing> fins = fh.getFinancings();
+    String[] columns = new String[] { "cID", "Customer", "Interest Rate", "Monthly Payment" };
+    DefaultTableModel tblModel = new DefaultTableModel(columns, 0) {
+        @Override
+        public boolean isCellEditable(int row, int col) {
+            return false;
+        }
+    };
+    fins.forEach((f)->{
+        Vector row = f.getRow();
 
-        String[] columns = new String[] { "Customer", "Interest Rate",
-            "Monthly Payment" };
-        DefaultTableModel tblModel = new DefaultTableModel(columns, 0) {
-            // Make sure none of the cells is editable
-            @Override
-            public boolean isCellEditable(int row, int col) {
-                return false;
-            }
-        };
-        fins.forEach((f)->{
-            Vector row = f.getRow();
+        // Insert customer info after cID (index 1)
+        row.insertElementAt(ch.findCustomer(f.getCid()).toString(), 1);
 
-            // Remove the customer ID
-            row.removeElementAt(0);
+        tblModel.addRow(row);
+    });
+    tblFinancing.setModel(tblModel);
 
-            // Add customer info
-            row.insertElementAt(ch.findCustomer(f.getCid()).toString(), 0);
-            tblModel.addRow(row);
-        });
-        tblFinancing.setModel(tblModel);
+    // Hide the cID column
+    tblFinancing.getColumnModel().getColumn(0).setMinWidth(0);
+    tblFinancing.getColumnModel().getColumn(0).setMaxWidth(0);
+    tblFinancing.getColumnModel().getColumn(0).setWidth(0);
+        
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

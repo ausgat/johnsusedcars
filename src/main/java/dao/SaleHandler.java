@@ -2,7 +2,6 @@ package dao;
 
 import bo.Sale;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.SQLUtil;
+import java.sql.PreparedStatement;
 
 /**
  * Handles interactions between the Java code and the database relations for
@@ -35,17 +35,38 @@ public class SaleHandler {
      * @param vin   The car's VIN number
      * @return Number of rows affected
      */
+    public boolean isCarAvailable(String vin) {
+    try (PreparedStatement pst = sqlUtil.prepareStatement(
+            "SELECT COUNT(*) AS sale_count FROM Sale WHERE Vin = ?")) {
+        pst.setString(1, vin);
+        ResultSet rs = pst.executeQuery();
+        if (rs.next()) {
+            int saleCount = rs.getInt("sale_count");
+            return saleCount == 0; // Available if no sale yet
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(SaleHandler.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return false; // If error, assume not available
+}
     public int addSale(LocalDate date, int price, int salespersonId, String vin) {
-        String cmdTemplate = "INSERT INTO Sale (sDate, sPrice, SalespersonID, Vin) VALUES('%s', %d, %d, '%s');";
+        try{
+        PreparedStatement pst = sqlUtil.prepareStatement("INSERT INTO Sale" + "(sDate, sPrice, SalespersonID, Vin)" +"VALUES(?, ?, ?, ?);");
         
         // Add the values to the string template with String.format (this will
         // fill the template with the given data for each of the %d's and %s's,
         // in order)
-        String cmd = String.format(cmdTemplate, date.toString(), price,
-                salespersonId, vin);
+            pst.setDate(1, java.sql.Date.valueOf(date));
+            pst.setInt(2, price);
+            pst.setInt(3, salespersonId);
+            pst.setString(4, vin);
 
-        // Run the SQL command and return its value
-        return sqlUtil.executeUpdate(cmd);
+            return pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleHandler.class.getName()).log(Level.SEVERE,
+                null, ex);
+        }
+        return -1;
     }
 
     /**
@@ -60,12 +81,20 @@ public class SaleHandler {
      */
     public int addSaleAndGetKey(LocalDate date, int price, int salespersonId,
             String vin) {
-        String cmdTemplate = "INSERT INTO Sale (sDate, sPrice, SalespersonID, Vin) VALUES('%s', %d, %d, '%s');";
-        String cmd = String.format(cmdTemplate, date.toString(), price,
-                salespersonId, vin);
-
-        // Run the SQL command and return its generated key
-        return sqlUtil.executeUpdateWithGenKey(cmd);
+        try{     
+        PreparedStatement pst = sqlUtil.prepareStatement("INSERT INTO Sale" + "(sDate, sPrice, SalespersonID, Vin)" + "VALUES(?, ?, ?, ?)");
+       
+        pst.setDate(1, java.sql.Date.valueOf(date));
+            pst.setInt(2, price);
+            pst.setInt(3, salespersonId);
+            pst.setString(4, vin);
+        
+         return pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleHandler.class.getName()).log(Level.SEVERE,
+                null, ex);
+        }
+        return -1;
     }
 
     /**
@@ -75,10 +104,16 @@ public class SaleHandler {
      * @return Number of rows affected
      */
     public int deleteSale(int id) {
-        String cmdTemplate = "DELETE FROM Sale WHERE sID = %d";
-        String cmd = String.format(cmdTemplate, id);
+    try{
+        PreparedStatement pst = sqlUtil.prepareStatement("DELETE FROM Sale" + " WHERE sID = ?");
+           pst.setInt(1, id);
 
-        return sqlUtil.executeUpdate(cmd);
+            return pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleHandler.class.getName()).log(Level.SEVERE,
+                null, ex);
+        }
+        return -1;
     }
 
     /**
@@ -92,9 +127,20 @@ public class SaleHandler {
      * @return Number of rows affected
      */
     public int updateSale(int id, LocalDate date, int price, int salespersonId, String vin) {
-        String cmdTemplate = "UPDATE Sale SET sDate='%s', sPrice=%d, SalespersonID=%d, VIN='%s' WHERE sID=%d;";
-        String cmd = String.format(cmdTemplate, date, price, salespersonId, vin, id);
-        return sqlUtil.executeUpdate(cmd);
+try{
+        PreparedStatement pst = sqlUtil.prepareStatement("UPDATE Sale" + "SET sDate= ?, sPrice= ?, SalespersonID= ?, VIN= ?" +"WHERE sID= ?");
+            pst.setInt(1, id);
+            pst.setDate(1, java.sql.Date.valueOf(date));
+            pst.setInt(2, price);
+            pst.setInt(3, salespersonId);
+            pst.setString(4, vin);
+        
+         return pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleHandler.class.getName()).log(Level.SEVERE,
+                null, ex);
+        }
+        return -1;
     }
     
     /**
@@ -105,14 +151,13 @@ public class SaleHandler {
      */
     public Sale findSale(int id) {
         Sale foundSale = null;
+        try{
+          PreparedStatement pst = sqlUtil.prepareStatement(
+                "SELECT sDate, sPrice, SalespersonID, VIN" + "FROM Sale" + "WHERE sID = ?");
+       
+        ResultSet rs = pst.executeQuery();
         
-        String cmdTemplate =
-                "SELECT sDate, sPrice, SalespersonID, VIN FROM Sale WHERE sID = %d";
-        String cmd = String.format(cmdTemplate, id);
-        
-        ResultSet rs = sqlUtil.executeQuery(cmd);
-        
-        try {
+    
             if (rs.next()) {
                 // Get each relevant attribute from the relation
                 LocalDate date = rs.getDate("sDate").toLocalDate();

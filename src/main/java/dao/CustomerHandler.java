@@ -58,11 +58,13 @@ public class CustomerHandler {
         return -1;
     }
     public List<Customer>getCustomers(String keyword){
-        String cmd = String.format("SELECT * FROM Customer where cName like '%s'", "%"+keyword+"%");
         List<Customer> results = new ArrayList<>();
+        try{
+        PreparedStatement pst = sqlUtil.prepareStatement("SELECT * FROM Customer WHERE cName LIKE ?");
+       
+         pst.setString(1, "%" + keyword + "%");
+        ResultSet rsCustomer = pst.executeQuery();
         
-        ResultSet rsCustomer = sqlUtil.executeQuery(cmd);
-        try {
             while(rsCustomer.next()){
                 int id = rsCustomer.getInt("cID");
                 String name = rsCustomer.getString("cName");
