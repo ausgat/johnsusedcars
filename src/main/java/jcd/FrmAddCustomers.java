@@ -13,13 +13,12 @@ import javax.swing.JOptionPane;
  */
 public class FrmAddCustomers extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form FrmAddCustomers
-     */
-    public FrmAddCustomers() {
-        initComponents();
-    }
-
+    
+    private FrmListCustomers listCustomers;
+    public FrmAddCustomers(FrmListCustomers listCustomers) {
+    initComponents();
+    this.listCustomers = listCustomers;
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -139,8 +138,8 @@ public class FrmAddCustomers extends javax.swing.JInternalFrame {
             txtPhone.setText(null);
             txtEmail.setText(null);
           
-            // Close the form window
-            this.dispose();
+           listCustomers.refreshTableCustomers();  // <-- this updates the table
+           this.dispose();
         }       
     }//GEN-LAST:event_btnAddActionPerformed
 

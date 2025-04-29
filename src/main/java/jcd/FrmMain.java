@@ -26,13 +26,13 @@ public class FrmMain extends javax.swing.JFrame {
     FrmListCars frmListCars = new FrmListCars();
     FrmAddSale frmSellCar = new FrmAddSale();
     FrmAddCar frmAddCar = new FrmAddCar();
-    FrmAddCustomers frmAddCustomer = new FrmAddCustomers();
+    FrmListCustomers frmListCustomers = new FrmListCustomers();
+    FrmAddCustomers frmAddCustomers = new FrmAddCustomers(frmListCustomers);
     FrmListSales frmListSales = new FrmListSales();
     FrmAddSale frmMakeSale = new FrmAddSale();
     FrmListFinancing frmListFinancing = new FrmListFinancing();
     FrmListSalespeople frmListSalespeople = new FrmListSalespeople();
-    FrmAddSalesperson frmAddSalesperson = new FrmAddSalesperson();
-    FrmListCustomers frmListCustomers = new FrmListCustomers();
+    FrmAddSalesperson frmAddSalesperson = new FrmAddSalesperson(); 
     FrmListInventories frmListInventories = new FrmListInventories();
 
     /**
@@ -54,7 +54,7 @@ public class FrmMain extends javax.swing.JFrame {
         forms.put("frmListCars", frmListCars);
         forms.put("frmSellCar", frmSellCar);
         forms.put("frmAddCar", frmAddCar);
-        forms.put("frmAddCustomer", frmAddCustomer);
+        forms.put("frmAddCustomer", frmAddCustomers);
         forms.put("frmListSales", frmListSales);
         forms.put("frmMakeSale", frmMakeSale);
         forms.put("frmListFinancing", frmListFinancing);

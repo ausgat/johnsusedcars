@@ -99,13 +99,24 @@ public class SalespersonHandler {
      * @return Number of rows affected
      */
     public int addSalesperson(String username, String password, String name,
-            String phone, String email) {
-        
-        String cmdTemplate = "INSERT INTO Salesperson (sUsername, sPassword, sName, sPhone, sEmail) VALUES('%s', '%s', '%s', '%s', '%s')";
-        String cmd = String.format(cmdTemplate, username,
-                hashPassword(password), name, phone, email);
-        return sqlUtil.executeUpdate(cmd);
+        String phone, String email) {
+    try {
+        PreparedStatement pst = sqlUtil.prepareStatement(
+            "INSERT INTO Salesperson (sUsername, sPassword, sName, sPhone, sEmail) VALUES (?, ?, ?, ?, ?)"
+        );
+
+        pst.setString(1, username);
+        pst.setString(2, hashPassword(password));
+        pst.setString(3, name);
+        pst.setString(4, phone);
+        pst.setString(5, email);
+
+        return pst.executeUpdate();
+    } catch (SQLException ex) {
+        Logger.getLogger(SalespersonHandler.class.getName()).log(Level.SEVERE, null, ex);
+        return -1;
     }
+}
 
     /**
      * Update a Salesperson relation in the database
@@ -118,62 +129,67 @@ public class SalespersonHandler {
      * @param email     Email
      * @return Number of rows affected
      */
-    public int updateSalesperson(int id, String username, String password, String name,
-            String phone, String email) {
-        
+  public int updateSalesperson(int id, String username, String password, String name,
+        String phone, String email) {
+    try {
         if (password.isEmpty()) {
-            String cmdTemplate = "UPDATE Salesperson SET sUsername='%s', sName='%s', sPhone='%s', sEmail='%s' WHERE SalespersonID=%d";
-            String cmd = String.format(cmdTemplate, username, name, phone, email, id);
-            return sqlUtil.executeUpdate(cmd);
+            PreparedStatement pst = sqlUtil.prepareStatement(
+                "UPDATE Salesperson SET sUsername=?, sName=?, sPhone=?, sEmail=? WHERE SalespersonID=?"
+            );
+            pst.setString(1, username);
+            pst.setString(2, name);
+            pst.setString(3, phone);
+            pst.setString(4, email);
+            pst.setInt(5, id);
 
+            return pst.executeUpdate();
         } else {
-            String cmdTemplate = "UPDATE Salesperson SET sUsername='%s', sPassword='%s', sName='%s', sPhone='%s', sEmail='%s' WHERE SalespersonID=%d";
-            String cmd = String.format(cmdTemplate, username, hashPassword(password), name, phone, email, id);
-            return sqlUtil.executeUpdate(cmd);
+            PreparedStatement pst = sqlUtil.prepareStatement(
+                "UPDATE Salesperson SET sUsername=?, sPassword=?, sName=?, sPhone=?, sEmail=? WHERE SalespersonID=?"
+            );
+            pst.setString(1, username);
+            pst.setString(2, hashPassword(password));
+            pst.setString(3, name);
+            pst.setString(4, phone);
+            pst.setString(5, email);
+            pst.setInt(6, id);
+
+            return pst.executeUpdate();
         }
+    } catch (SQLException ex) {
+        Logger.getLogger(SalespersonHandler.class.getName()).log(Level.SEVERE, null, ex);
     }
 
+    return -1;
+}
     /**
      * Get a list of all the Salesperson relations in the database
      * 
      * @return List of all the Salesperson relations
      */
     public List<Salesperson> getSalespeople() {
-        List<Salesperson> results = new ArrayList<Salesperson>();
+    List<Salesperson> results = new ArrayList<>();
 
-        // Put the query in a string
-        String cmd = "SELECT * FROM Salesperson;";
+    try {
+        PreparedStatement pst = sqlUtil.prepareStatement("SELECT * FROM Salesperson");
+        ResultSet rs = pst.executeQuery();
 
-        // Run the query (you could also just put the string directly in the
-        // query, but putting it in a string might make things easier to expand
-        // on later)
-        ResultSet rs = sqlUtil.executeQuery(cmd);
-            
-        try {
-            // Go to the next row (will continue until there are no more rows
-            // and rs.next() returns false)
-            while (rs.next()) {
-                // Get each relevant attribute from the relation
-                int id = rs.getInt("SalespersonID");
-                String username = rs.getString("sUsername");
-                String name =  rs.getString("sName");
-                String phone = rs.getString("sPhone");
-                String email = rs.getString("sEmail");
+        while (rs.next()) {
+            int id = rs.getInt("SalespersonID");
+            String username = rs.getString("sUsername");
+            String name = rs.getString("sName");
+            String phone = rs.getString("sPhone");
+            String email = rs.getString("sEmail");
 
-                // Create a new Salesperson object from the relation data
-                Salesperson sp = new Salesperson(id, username, name, phone, email);
-
-                // Add the newly-created Salesperson object to the list
-                results.add(sp);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(SalespersonHandler.class.getName()).log(Level.SEVERE, null, ex);
+            Salesperson sp = new Salesperson(id, username, name, phone, email);
+            results.add(sp);
         }
-        
-        // Return the list of Salesperson objects
-        return results;
+    } catch (SQLException ex) {
+        Logger.getLogger(SalespersonHandler.class.getName()).log(Level.SEVERE, null, ex);
     }
 
+    return results;
+}
     /**
      * Find a salesperson by their ID
      * 
@@ -183,10 +199,10 @@ public class SalespersonHandler {
     public Salesperson findSalesperson(int id) {
         Salesperson foundSp = null;
         try {
-        PreparedStatement cmdTemplate =
+        PreparedStatement pst =
                 sqlUtil.prepareStatement("SELECT SalespersonID, sUsername, sName, sPhone, sEmail FROM Salesperson WHERE SalespersonID = ?");
-       cmdTemplate.setInt(1, id);
-        ResultSet rs = cmdTemplate.executeQuery();
+        pst.setInt(1, id);
+        ResultSet rs = pst.executeQuery();
         
         
             if (rs.next()) {
@@ -212,9 +228,15 @@ public class SalespersonHandler {
      * @return Number of rows affected
      */
     public int deleteSalesperson(int id) {
-        String cmdTemplate = "DELETE FROM Salesperson WHERE SalespersonID = %d";
-        String cmd = String.format(cmdTemplate, id);
+        try{
+        PreparedStatement pst = sqlUtil.prepareStatement("DELETE FROM Salesperson WHERE SalespersonID = ?");
+        pst.setInt(1, id);
 
-        return sqlUtil.executeUpdate(cmd);
+            return pst.executeUpdate();
+        
+    } catch (SQLException ex) {
+        Logger.getLogger(SalespersonHandler.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return -1;
     }
 }

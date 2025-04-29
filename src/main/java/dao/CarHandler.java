@@ -40,17 +40,22 @@ public class CarHandler {
     public int addCar(String vin, String make, String model, int year, int msrp) {
         // We're creating a pretty long SQL query with lots of data, so let's
         // use a string template to make things a little easier
-        String cmdTemplate = "INSERT INTO Car VALUES('%s', '%s', '%s', %d, %d, NULL);";
-
+       try{
+        PreparedStatement pst = sqlUtil.prepareStatement("INSERT INTO Car VALUES(?, ?, ?, ?, ?, NULL);");
+        pst.setString(1, vin);
+        pst.setString(2, make);
+        pst.setString(3, model);
+        pst.setInt(4, year);
+        pst.setInt(5, msrp);
         // Add the values to the string template with String.format (this will
         // fill the template with the given data for each of the %d's and %s's,
         // in order)
-        String cmd = String.format(cmdTemplate, vin, make, model, year, msrp);
-
-        // Run the SQL command and return its value
-        return sqlUtil.executeUpdate(cmd);
+        return pst.executeUpdate();
+    } catch (SQLException ex) {
+        Logger.getLogger(CarHandler.class.getName()).log(Level.SEVERE, null, ex);
     }
-
+    return -1;
+    }
     /**
      * Create new Car and Inventory relations to the database
      * 
@@ -102,11 +107,15 @@ public class CarHandler {
      * @return Number of rows affected
      */
     public int deleteCar(String vin) {
-        String cmdTemplate = "DELETE FROM Car WHERE vin = '%s'";
-        String cmd = String.format(cmdTemplate, vin);
-
-        return sqlUtil.executeUpdate(cmd);
+    try {
+        PreparedStatement pst = sqlUtil.prepareStatement("DELETE FROM Car WHERE vin = ?");
+        pst.setString(1, vin);
+        return pst.executeUpdate();
+    } catch (SQLException ex) {
+        Logger.getLogger(CarHandler.class.getName()).log(Level.SEVERE, null, ex);
     }
+    return -1;
+}
 
     /**
      * Update a car by VIN with the given values

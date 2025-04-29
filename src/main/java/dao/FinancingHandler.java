@@ -73,10 +73,18 @@ public class FinancingHandler {
      * @return Number of rows affected
      */
     public int updateFinancing(int cid, int rate, int moPayment) {
-        String cmdTemplate = "UPDATE Financing SET InterestRate=%d, MonthlyPayment=%d WHERE cID=%d";
-        String cmd = String.format(cmdTemplate, rate, moPayment, cid);
-        return sqlUtil.executeUpdate(cmd);
-    }
+        try{
+        PreparedStatement pst = sqlUtil.prepareStatement("UPDATE Financing SET InterestRate= ?, MonthlyPayment= ? WHERE cID=?");
+        pst.setInt(1, cid);
+        pst.setInt(1, rate);
+        pst.setInt(1, moPayment);
+        return pst.executeUpdate();
+        }catch (SQLException ex){
+             Logger.getLogger(SaleHandler.class.getName()).log(Level.SEVERE,
+                null, ex);
+        }
+        return -1;
+        }
     
     /**
      * Find a Financing by its cID
@@ -86,13 +94,11 @@ public class FinancingHandler {
      */
     public Financing findFinancing(int cid) {
         Financing foundFin = null;
-        
-        String cmdTemplate = "SELECT cID, InterestRate, MonthlyPayment FROM Financing WHERE cID=%d";
-        String cmd = String.format(cmdTemplate, cid);
-        
-        ResultSet rs = sqlUtil.executeQuery(cmd);
-        
-        try {
+        try{
+        PreparedStatement pst = sqlUtil.prepareStatement("SELECT cID, InterestRate, MonthlyPayment FROM Financing WHERE cID= ?");
+            
+            ResultSet rs = pst.executeQuery();
+            
             if (rs.next()) {
                 // Get each relevant attribute from the relation
                 int rate = rs.getInt("InterestRate");
@@ -114,11 +120,10 @@ public class FinancingHandler {
      */
     public List<Financing> getFinancings() {
         List<Financing> results = new ArrayList<>();
-
-        String cmd = "SELECT * FROM Financing;";
-        ResultSet rs = sqlUtil.executeQuery(cmd);
+        try{
+        PreparedStatement pst = sqlUtil.prepareStatement("SELECT * FROM Financing;");
+        ResultSet rs = pst.executeQuery();
             
-        try {
             while (rs.next()) {
                 // Get each relevant attribute from the relation
                 int cid = rs.getInt("cID");

@@ -165,10 +165,10 @@ public class InventoryHandler {
         try {
             // Create a SQL statement
             String cmd = 
-    "SELECT COUNT(c.Vin) AS CarCount, i.ParkingLot " +
-    "FROM Car c " +
-    "JOIN Inventory i ON c.ParkingSpot = i.ParkingSpot AND c.ParkingLot = i.ParkingLot " +
-    "GROUP BY i.ParkingLot";
+        "SELECT COUNT(c.Vin) AS CarCount, i.ParkingLot " +
+        "FROM Car c " +
+        "JOIN Inventory i ON c.ParkingSpot = i.ParkingSpot AND c.ParkingLot = i.ParkingLot " +
+        "GROUP BY i.ParkingLot";
             // Execute the statement and get the result set
             ResultSet rs = sqlUtil.executeQuery(cmd);
 
