@@ -35,15 +35,15 @@ public class InventoryHandler {
             // Create a SQL injection-safe statement
             PreparedStatement pst = sqlUtil.prepareStatement(
                 "INSERT INTO Inventory " +
-                "(Vin, StockStatus, ParkingSpot, ParkingLot) " +
-                "VALUES (?, ?, ?, ?)"
+                "(StockStatus, ParkingSpot, ParkingLot) " +
+                "VALUES (?, ?, ?)"
             );
 
             // Set the values where the ?s appear in the SQL statement
-            pst.setString(1, vin);
-            pst.setBoolean(2, stockStatus);
-            pst.setString(3, parkingSpot);
-            pst.setString(4, parkingLot);
+         
+            pst.setBoolean(1, stockStatus);
+            pst.setString(2, parkingSpot);
+            pst.setString(3, parkingLot);
 
             // Execute the statement and return the result
             return pst.executeUpdate();
@@ -64,7 +64,7 @@ public class InventoryHandler {
      * @param parkingLot    Car's parking lot
      * @return -1 on failure or number of rows affected on success
      */
-    public int updateInventory(String vin, boolean stockStatus,
+    public int updateInventory(boolean stockStatus,
             String parkingSpot, String parkingLot) {
         try {
             // Create a SQL injection-safe statement
@@ -80,8 +80,7 @@ public class InventoryHandler {
             pst.setString(3, parkingLot);
 
             // Vin is fourth as it has to appear in the WHERE Vin=? clause
-            pst.setString(4, vin);
-
+          
             // Execute the statement and return the result
             return pst.executeUpdate();
         } catch (SQLException ex) {
@@ -124,10 +123,12 @@ public class InventoryHandler {
 
         try {
             // Create a SQL injection-safe statement
-            PreparedStatement pst = sqlUtil.prepareStatement(
-                "SELECT Vin, StockStatus, ParkingSpot, ParkingLot " +
-                "FROM Inventory WHERE Vin=?"
-            );
+           PreparedStatement pst = sqlUtil.prepareStatement(
+    "SELECT i.StockStatus, i.ParkingSpot, i.ParkingLot " +
+    "FROM Inventory i " +
+    "JOIN Car c ON c.Vin = ? " +
+    "WHERE c.ParkingSpot = i.ParkingSpot AND c.ParkingLot = i.ParkingLot"
+);
             
             // Set the VIN by replacing ? in the statement with vin
             pst.setString(1, vin);
@@ -163,9 +164,11 @@ public class InventoryHandler {
 
         try {
             // Create a SQL statement
-            String cmd = "SELECT COUNT(Vin) AS CarCount, ParkingLot " +
-                         "FROM Inventory GROUP BY ParkingLot";
-
+            String cmd = 
+    "SELECT COUNT(c.Vin) AS CarCount, i.ParkingLot " +
+    "FROM Car c " +
+    "JOIN Inventory i ON c.ParkingSpot = i.ParkingSpot AND c.ParkingLot = i.ParkingLot " +
+    "GROUP BY i.ParkingLot";
             // Execute the statement and get the result set
             ResultSet rs = sqlUtil.executeQuery(cmd);
 
