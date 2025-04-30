@@ -18,7 +18,7 @@ create table Inventory (
 );
 
 create table Car(
-    vin varchar(50) primary key,  -- lowercased column name
+    Vin varchar(50) primary key,
     Make varchar(50),
     Model varchar(50),
     Year int,
@@ -40,11 +40,11 @@ create table Salesperson(
 );
 
 create table Sale(
-    sID int primary key,
+    sID int primary key AUTO_INCREMENT,
     sDate date,
     sPrice int,
     SalespersonID int,
-    vin varchar(50),  -- lowercased to match Car
+    Vin varchar(50),
     foreign key (SalespersonID) references Salesperson(SalespersonID),
     foreign key (vin) references Car(vin)
 );
