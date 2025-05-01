@@ -56,8 +56,9 @@ public class CarHandler {
     }
     return -1;
     }
+
     /**
-     * Create new Car and Inventory relations to the database
+     * Create new Car and Inventory relations in the database
      * 
      * @param vin           The car's VIN number (primary key)
      * @param make          The car's make
@@ -66,33 +67,36 @@ public class CarHandler {
      * @param msrp          The car's MSRP
      * @param stockStatus   The car's availability
      * @param parkingSpot   The car's parking spot
-     * @param parkingLot    The car's parking lot
+     * @param lotId    The car's parking lot
      * @return Number of rows affected
      */
     public int addCar(String vin, String make, String model, int year, int msrp,
-            boolean stockStatus, String parkingSpot, String parkingLot) {
+            boolean stockStatus, String parkingSpot, String lotId) {
         PreparedStatement pst1, pst2;
         try {
+            // Create the inventory
+            pst2 = sqlUtil.prepareStatement(
+                "INSERT INTO Inventory VALUES(?, ?, ?)"
+            );
+            pst2.setBoolean(1, stockStatus);
+            pst2.setString(2, parkingSpot);
+            pst2.setString(3, lotId);
+            pst2.executeUpdate();
+
             // Add the car
             pst1 = sqlUtil.prepareStatement(
-                "INSERT INTO Car VALUES(?, ?, ?, ?, ?, NULL)"
+                "INSERT INTO Car(Vin, Make, Model, Year, MSRP, " +
+                "lotID, ParkingSpot) VALUES(?, ?, ?, ?, ?, ?, ?)"
             );
             pst1.setString(1, vin);
             pst1.setString(2, make);
             pst1.setString(3, model);
             pst1.setInt(4, year);
             pst1.setInt(5, msrp);
-            int ret1 = pst1.executeUpdate();
+            pst1.setString(6, lotId);
+            pst1.setString(7, parkingSpot);
 
-            pst2 = sqlUtil.prepareStatement(
-                "INSERT INTO Inventory VALUES(?, ?, ?, ?)"
-            );
-            pst2.setString(1, vin);
-            pst2.setBoolean(2, stockStatus);
-            pst2.setString(3, parkingSpot);
-            pst2.setString(4, parkingLot);
-
-            return ret1 + pst2.executeUpdate();
+            return pst1.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(CarHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -125,11 +129,14 @@ public class CarHandler {
      * @param model Car's model
      * @param year  Car's year
      * @param msrp  Car's MSRP
+     * @param stockStatus Stock status of the car
+     * @param parkingSpot Parking spot location
+     * @param lotId Parking lot the car is in
      * @return Number of rows affected
      */
     public int updateCar(String vin, String make, String model, int year,
             int msrp, boolean stockStatus, String parkingSpot,
-            String parkingLot) {
+            String lotId) {
         PreparedStatement pst1, pst2;
         try {
             // Add the car
@@ -151,14 +158,14 @@ public class CarHandler {
             if (inv != null) {
                 pst2 = sqlUtil.prepareStatement(
                     "UPDATE Inventory " +
-                    "SET Vin=?, StockStatus=?, ParkingSpot=?, ParkingLot=? " +
-                    "WHERE Vin=?"
+                    "SET StockStatus=?, ParkingSpot=?, lotId=? " +
+                    "WHERE ParkingSpot=? AND lotId=?"
                 );
-                pst2.setString(1, vin);
-                pst2.setBoolean(2, stockStatus);
-                pst2.setString(3, parkingSpot);
-                pst2.setString(4, parkingLot);
-                pst2.setString(5, vin);
+                pst2.setBoolean(1, stockStatus);
+                pst2.setString(2, parkingSpot);
+                pst2.setString(3, lotId);
+                pst2.setString(4, parkingSpot);
+                pst2.setString(5, lotId);
                 ret += pst2.executeUpdate();
             }
 
@@ -194,7 +201,11 @@ public class CarHandler {
 
             if (inv != null) {
                 pst2 = sqlUtil.prepareStatement(
-                    "UPDATE Inventory SET StockStatus=? WHERE Vin=?"
+                    "UPDATE Inventory i JOIN Car c " +
+                        "ON i.ParkingSpot = c.ParkingSpot " +
+                            "AND i.lotID = c.lotID " +
+                    "SET i.StockStatus=?" +
+                    "WHERE c.Vin = ?"
                 );
                 pst2.setString(2, vin);
                 pst2.setBoolean(1, stockStatus);

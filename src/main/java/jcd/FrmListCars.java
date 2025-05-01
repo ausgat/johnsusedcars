@@ -213,7 +213,7 @@ public class FrmListCars extends javax.swing.JInternalFrame {
 
             if (inv != null) {
                 Vector rows = car.getRow();
-                rows.addAll(inv.getRow().subList(1, 4));
+                rows.addAll(inv.getRow());
                 tblModel.addRow(rows);
             } else {
                 tblModel.addRow(car.getRow());

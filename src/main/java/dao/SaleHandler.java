@@ -121,18 +121,23 @@ public class SaleHandler {
      * @param salespersonId Salesperson who made sale
      * @param price Price of sale
      * @param vin VIN of car
+     * @param cId Customer ID
      * @return Number of rows affected
      */
-public int updateSale(int id, LocalDate date, int price, int salespersonId, String vin) {
+    public int updateSale(int id, LocalDate date, int price, int salespersonId,
+        String vin, int cId) {
     try {
         PreparedStatement pst = sqlUtil.prepareStatement(
-            "UPDATE Sale SET sDate = ?, sPrice = ?, SalespersonID = ?, VIN = ? WHERE sID = ?"
+            "UPDATE Sale s JOIN Car c ON s.Vin = c.Vin "
+                + "SET s.sDate = ?, s.sPrice = ?, s.SalespersonID = ?, "
+                + "s.Vin = ?, c.cID = ? WHERE sID = ?"
         );
         pst.setDate(1, java.sql.Date.valueOf(date));
         pst.setInt(2, price);
         pst.setInt(3, salespersonId);
         pst.setString(4, vin);
-        pst.setInt(5, id);  // Use correct index for ID
+        pst.setInt(5, cId);
+        pst.setInt(6, id);  // Use correct index for ID
 
         return pst.executeUpdate();
     } catch (SQLException ex) {

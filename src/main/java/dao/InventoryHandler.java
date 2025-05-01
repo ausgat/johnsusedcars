@@ -23,19 +23,18 @@ public class InventoryHandler {
 
     /**
      * Add an Inventory relation to the database
-     * @param vin           Car's VIN
      * @param stockStatus   Stock status of the car
      * @param parkingSpot   Car's parking spot
-     * @param parkingLot    Car's parking lot
+     * @param lotId    Car's parking lot
      * @return -1 on failure or number of rows affected on success
      */
-    public int addInventory(String vin, boolean stockStatus, String parkingSpot,
-            String parkingLot) {
+    public int addInventory(boolean stockStatus, String parkingSpot,
+            String lotId) {
         try {
             // Create a SQL injection-safe statement
             PreparedStatement pst = sqlUtil.prepareStatement(
                 "INSERT INTO Inventory " +
-                "(StockStatus, ParkingSpot, ParkingLot) " +
+                "(StockStatus, ParkingSpot, lotID) " +
                 "VALUES (?, ?, ?)"
             );
 
@@ -43,7 +42,7 @@ public class InventoryHandler {
          
             pst.setBoolean(1, stockStatus);
             pst.setString(2, parkingSpot);
-            pst.setString(3, parkingLot);
+            pst.setString(3, lotId);
 
             // Execute the statement and return the result
             return pst.executeUpdate();
@@ -58,26 +57,25 @@ public class InventoryHandler {
 
     /**
      * Update an Inventory relation with the given VIN in the database
-     * @param vin           Car's VIN
      * @param stockStatus   Stock status of the car
      * @param parkingSpot   Car's parking spot
-     * @param parkingLot    Car's parking lot
+     * @param lotId    Car's parking lot
      * @return -1 on failure or number of rows affected on success
      */
     public int updateInventory(boolean stockStatus,
-            String parkingSpot, String parkingLot) {
+            String parkingSpot, String lotId) {
         try {
             // Create a SQL injection-safe statement
             PreparedStatement pst = sqlUtil.prepareStatement(
                 "UPDATE Inventory " +
-                "SET StockStatus=?, ParkingSpot=?, ParkingLot=? " +
+                "SET StockStatus=?, ParkingSpot=?, lotID=? " +
                 "WHERE Vin=?"
             );
 
             // Set the values where the ?s appear in the SQL statement
             pst.setBoolean(1, stockStatus);
             pst.setString(2, parkingSpot);
-            pst.setString(3, parkingLot);
+            pst.setString(3, lotId);
 
             // Vin is fourth as it has to appear in the WHERE Vin=? clause
           
@@ -124,10 +122,10 @@ public class InventoryHandler {
         try {
             // Create a SQL injection-safe statement
            PreparedStatement pst = sqlUtil.prepareStatement(
-    "SELECT i.StockStatus, i.ParkingSpot, i.ParkingLot " +
+    "SELECT i.StockStatus, i.ParkingSpot, i.lotID " +
     "FROM Inventory i " +
     "JOIN Car c ON c.Vin = ? " +
-    "WHERE c.ParkingSpot = i.ParkingSpot AND c.ParkingLot = i.ParkingLot"
+    "WHERE c.ParkingSpot = i.ParkingSpot AND c.lotID = i.lotID"
 );
             
             // Set the VIN by replacing ? in the statement with vin
@@ -142,12 +140,11 @@ public class InventoryHandler {
                 // Get the relevant attributes from the relation
                 boolean stockStatus = rs.getBoolean("StockStatus");
                 String parkingSpot = rs.getString("ParkingSpot");
-                String parkingLot = rs.getString("ParkingLot");
+                String lotId = rs.getString("lotID");
                 
                 // Create an Inventory object from the attributes and add it to
                 // the array
-                inventories.add(new Inventory(vin, stockStatus, parkingSpot,
-                        parkingLot));
+                inventories.add(new Inventory(stockStatus, parkingSpot, lotId));
             }
             
         } catch (SQLException ex) {
@@ -165,10 +162,10 @@ public class InventoryHandler {
         try {
             // Create a SQL statement
             String cmd = 
-        "SELECT COUNT(c.Vin) AS CarCount, i.ParkingLot " +
+        "SELECT COUNT(c.Vin) AS CarCount, i.lotID " +
         "FROM Car c " +
-        "JOIN Inventory i ON c.ParkingSpot = i.ParkingSpot AND c.ParkingLot = i.ParkingLot " +
-        "GROUP BY i.ParkingLot";
+        "JOIN Inventory i ON c.ParkingSpot = i.ParkingSpot AND c.lotID = i.lotID " +
+        "GROUP BY i.lotID";
             // Execute the statement and get the result set
             ResultSet rs = sqlUtil.executeQuery(cmd);
 
@@ -177,11 +174,11 @@ public class InventoryHandler {
             while (rs.next()) {
                 // Get the relevant attributes from the relation
                 int carCount = rs.getInt("CarCount");
-                String parkingLot = rs.getString("ParkingLot");
+                String lotId = rs.getString("lotID");
                 
                 // Create an InventoryStock object from the attributes and add
                 // it to the array
-                inventories.add(new InventoryStock(carCount, parkingLot));
+                inventories.add(new InventoryStock(carCount, lotId));
             }
             
         } catch (SQLException ex) {

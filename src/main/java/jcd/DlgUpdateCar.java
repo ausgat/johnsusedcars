@@ -55,7 +55,7 @@ public class DlgUpdateCar extends javax.swing.JDialog {
         
         if (inv != null) {
             this.cboStatus.setSelectedIndex(inv.isStockStatus() ? 0 : 1);
-            this.cboParkingLot.setSelectedItem(inv.getParkingLot());
+            this.cboParkingLot.setSelectedItem(inv.getLotId());
             this.txtParkingSpot.setText(inv.getParkingSpot());
         }
     }

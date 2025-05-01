@@ -243,12 +243,13 @@ public class DlgUpdateSale extends javax.swing.JDialog {
         LocalDate date = LocalDate.parse(txtDate.getText());
         Car car = (Car)cbxCar.getSelectedItem();
         Salesperson sp = (Salesperson)cbxSalesperson.getSelectedItem();
+        Customer cust = (Customer)cbxCustomer.getSelectedItem();
 
         // Use SaleHandler to update a sale in the database using the data
         // gathered above and store the return value (-1 on failure, anything
         // else on success)
         int ret = new SaleHandler().updateSale(id, date, price, sp.getId(),
-                car.getVin());
+                car.getVin(), cust.getId());
 
         if (ret == -1) {
             // Pop up a message letting the user know a car failed to be added

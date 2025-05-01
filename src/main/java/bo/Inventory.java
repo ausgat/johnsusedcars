@@ -8,33 +8,22 @@ import java.util.Vector;
  */
 public class Inventory {
     
-    private String vin;
     private boolean stockStatus;
     private String parkingSpot;
-    private String parkingLot;
+    private String lotId;
 
-    public Inventory(String vin, boolean stockStatus, String parkingSpot, String parkingLot) {
-        this.vin = vin;
+    public Inventory(boolean stockStatus, String parkingSpot, String lotId) {
         this.stockStatus = stockStatus;
         this.parkingSpot = parkingSpot;
-        this.parkingLot = parkingLot;
+        this.lotId = lotId;
     }
 
     public Vector getRow() {
         Vector vec = new Vector();
-        vec.add(this.vin);
         vec.add(this.stockStatus);
         vec.add(this.parkingSpot);
-        vec.add(this.parkingLot);
+        vec.add(this.lotId);
         return vec;
-    }
-    
-    public String getVin() {
-        return vin;
-    }
-
-    public void setVin(String vin) {
-        this.vin = vin;
     }
 
     public boolean isStockStatus() {
@@ -53,11 +42,11 @@ public class Inventory {
         this.parkingSpot = parkingSpot;
     }
 
-    public String getParkingLot() {
-        return parkingLot;
+    public String getLotId() {
+        return lotId;
     }
 
-    public void setParkingLot(String parkingLot) {
-        this.parkingLot = parkingLot;
+    public void setLotId(String lotId) {
+        this.lotId = lotId;
     }
 }

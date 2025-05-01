@@ -13,8 +13,8 @@ create table Customer(
 create table Inventory (
     StockStatus bool,
     ParkingSpot varchar(25),
-    ParkingLot varchar(25),
-    primary key (ParkingSpot, ParkingLot)
+    lotID varchar(25),
+    primary key (ParkingSpot, lotID)
 );
 
 create table Car(
@@ -24,10 +24,12 @@ create table Car(
     Year int,
     MSRP int,
     cID int null,
-    ParkingLot varchar(25),
-    ParkingSpot varchar(25),
-    foreign key (cID) references Customer(cID),
-    foreign key (ParkingSpot, ParkingLot) references Inventory(ParkingSpot, ParkingLot)
+    lotID varchar(25) null,
+    ParkingSpot varchar(25) null,
+    foreign key (cID) references Customer(cID)
+        ON DELETE SET NULL,
+    foreign key (ParkingSpot, lotID) references Inventory(ParkingSpot, lotID)
+        ON DELETE SET NULL
 );
 
 create table Salesperson(
@@ -45,8 +47,10 @@ create table Sale(
     sPrice int,
     SalespersonID int,
     Vin varchar(50),
-    foreign key (SalespersonID) references Salesperson(SalespersonID),
+    foreign key (SalespersonID) references Salesperson(SalespersonID)
+        ON DELETE CASCADE,
     foreign key (vin) references Car(vin)
+        ON DELETE CASCADE
 );
 
 create table Financing(
@@ -54,6 +58,7 @@ create table Financing(
     InterestRate int,
     MonthlyPayment int,
     foreign key (cID) references Customer(cID)
+        ON DELETE CASCADE
 );
 
 -- Sample data
@@ -63,14 +68,14 @@ VALUES
 (2, 'Bob Smith', '234-567-8901', 'bob.smith@example.com'),
 (3, 'Clara Lee', '345-678-9012', 'clara.lee@example.com');
 
-INSERT INTO Inventory (StockStatus, ParkingSpot, ParkingLot)
+INSERT INTO Inventory (StockStatus, ParkingSpot, lotID)
 VALUES 
   (true, 'A1', 'Lot1'),
   (true, 'B2', 'Lot2'),
   (false, 'C3', 'Lot3'); 
 
 -- VIN values are now lowercase
-INSERT INTO Car (vin, Make, Model, Year, MSRP, cID, ParkingSpot, ParkingLot)
+INSERT INTO Car (vin, Make, Model, Year, MSRP, cID, ParkingSpot, lotID)
 VALUES
 ('1001', 'Toyota', 'Camry', 2022, 25000, 1, 'A1', 'Lot1'),
 ('1002', 'Honda', 'Civic', 2021, 22000, 2, 'B2', 'Lot2'),

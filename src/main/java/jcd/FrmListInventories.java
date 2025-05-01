@@ -38,9 +38,7 @@ public class FrmListInventories extends javax.swing.JInternalFrame {
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
         btnReload = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        btnDelete = new javax.swing.JButton();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
-        btnEdit = new javax.swing.JButton();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 0), new java.awt.Dimension(5, 32767));
 
         setClosable(true);
@@ -94,23 +92,7 @@ public class FrmListInventories extends javax.swing.JInternalFrame {
         });
         jPanel5.add(btnReload);
         jPanel5.add(filler1);
-
-        btnDelete.setText("Delete...");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnDelete);
         jPanel5.add(filler2);
-
-        btnEdit.setText("Edit...");
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnEdit);
         jPanel5.add(filler3);
 
         getContentPane().add(jPanel5, java.awt.BorderLayout.SOUTH);
@@ -121,56 +103,6 @@ public class FrmListInventories extends javax.swing.JInternalFrame {
     private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
         populateInventories();
     }//GEN-LAST:event_btnReloadActionPerformed
-
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // Get the index of the selected row
-        int selectedRow = tblInventories.getSelectedRow();
-
-        // If a row is actually selected (that is, not -1)
-        /*if (selectedRow != -1) {
-
-            // Get the ID number from the first column (0) of the selected row
-            int id = (int)tblInventories.getValueAt(selectedRow, 0);
-
-            Inventory inventory = sh.findInventory(id);
-
-            if (inventory != null) {
-                DlgUpdateInventory dlg = new DlgUpdateInventory(null, true);
-                dlg.setInventory(inventory);
-                dlg.setVisible(true);
-                if (dlg.getReturnStatus() == DlgUpdateInventory.RET_OK) {
-                    this.populateInventories();
-                }
-            }
-        }*/
-    }//GEN-LAST:event_btnEditActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // Get the index of the selected row
-        int selectedRow = tblInventories.getSelectedRow();
-
-        // If a row is actually selected (that is, not -1)
-        if (selectedRow != -1) {
-
-            // Get the ID from the first column (0) of the selected row
-            int id = (int)tblInventories.getValueAt(selectedRow, 0);
-
-            // Show a dialog and put the result in res
-            /*int res = JOptionPane.showConfirmDialog(this,
-                String.format("Are you sure you want to delete the inventory with ID %d?", id));
-
-            // If the user clicked OK
-            if (res == JOptionPane.OK_OPTION) {
-                ih.deleteInventory(id);
-
-                // Reload the list
-                populateInventories();
-            }*/
-        } else {
-            JOptionPane.showMessageDialog(this,
-                "Please select an inventory to delete.");
-        }
-    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         populateInventories();
@@ -198,8 +130,6 @@ public class FrmListInventories extends javax.swing.JInternalFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnReload;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
